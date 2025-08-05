@@ -85,6 +85,47 @@ export const supportedVersionGroups = [
     }
 ];
 
+export const supportedVersions = [
+    'red',
+    'blue',
+    'yellow',
+    'gold',
+    'silver',
+    'gold',
+    'crystal',
+    'ruby',
+    'sapphire',
+    'emerald',
+    'firered',
+    'leafgreen',
+    'diamond',
+    'pearl',
+    'platinum',
+    'heartgold',
+    'soulsilver',
+    'black',
+    'white',
+    'black-2',
+    'white-2',
+    'x',
+    'y',
+    'omega-ruby',
+    'alpha-sapphire',
+    'sun',
+    'moon',
+    'ultra-sun',
+    'ultra-moon',
+    'lets-go-pikachu',
+    'lets-go-eevee',
+    'sword',
+    'shield',
+    'brilliant-diamond',
+    'shining-pearl',
+    'legends-arceus',
+    'scarlet',
+    'violet'
+]
+
 export const supportedGenerations = [
     "generation-i",
     "generation-ii",
