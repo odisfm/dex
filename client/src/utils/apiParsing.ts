@@ -130,3 +130,18 @@ export function getAbilities(currentAbilities: PokeAPI.Ability[], pastAbilities:
 
     return currentAbilities;
 }
+
+export function getLocalName(data: PokeAPI.Name[], targetLanguage: string, fallbackLanguage="en"): string {
+    let fallbackResult = null;
+    for (const nameDef of data) {
+        if (nameDef.language.name === targetLanguage) {
+            return nameDef.name
+        } else if (nameDef.language.name === fallbackLanguage) {
+            fallbackResult = nameDef.name;
+        }
+    }
+    if (fallbackResult) {
+        return fallbackResult;
+    }
+    throw new NoRelevantVersionError(`no name entry matching targetLanguage "${targetLanguage} or fallbackLanguage ${fallbackLanguage}`)
+}
