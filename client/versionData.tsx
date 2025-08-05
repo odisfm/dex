@@ -84,3 +84,15 @@ export const supportedVersionGroups = [
         api_path: "scarlet-violet"
     }
 ];
+
+export const supportedGenerations = [
+    "generation-i",
+    "generation-ii",
+    "generation-iii",
+    "generation-iv",
+    "generation-v",
+    "generation-vi",
+    "generation-vii",
+    "generation-viii",
+    "generation-ix",
+]
