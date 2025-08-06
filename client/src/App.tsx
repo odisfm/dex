@@ -1,33 +1,33 @@
-import {useState} from 'react'
+import {type FormEvent, useContext, useRef, useState} from 'react'
+import {supportedVersionGroups} from "../versionData.tsx";
+import {VersionContext} from "./contexts/VersionContext.tsx";
+import type {PokeAPI} from "pokeapi-types";
+import {Pokedex} from "pokeapi-js-wrapper";
+import VersionChooser from "./components/VersionChooser.tsx";
+import {Outlet} from "react-router-dom";
+import LanguageChooser from "./components/LanguageChooser.tsx";
+
+const dex = new Pokedex();
 
 function App() {
-    const [text, setText] = useState("...")
-
-    const testServer = async () => {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-        try {
-            const response = await fetch(`${API_BASE_URL}/test`,
-                {
-                    method: 'GET',
-                })
-            const data = await response.json()
-            setText(data.message)
-
-        } catch(e: unknown) {
-            alert(String(e))
-        }
-    }
+    const versionContext = useContext(VersionContext)
+    const [selectedMon, setSelectedMon] = useState<PokeAPI.Pokemon | null>(null);
+    const [selectedMonSpecies, setSelectedMonSpecies] = useState<PokeAPI.PokemonSpecies | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
 
     return (
-        <main className="grow-1 flex flex-col gap-3 items-center justify-center h-screen text-white bg-neutral-900">
-            <h1 className="text-5xl self-center px-12 py-3 bg-neutral-800 rounded-md">{text}</h1>
-            <button
-                className="bg-sky-600 hover:bg-sky-800 text-white font-bold p-4 rounded-lg mt-4 cursor-pointer"
-                onClick={() => testServer()}>
-                Test
-            </button>
-        </main>
+        <>
+            <header>
+                Dex
+            </header>
+            <main>
+                <VersionChooser />
+                <LanguageChooser />
+                <Outlet></Outlet>
+            </main>
+        </>
+
     )
 }
 

@@ -2,9 +2,31 @@ import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import VersionProvider from "./contexts/VersionProvider.tsx";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import MonViewer from "./components/MonViewer/MonViewer.tsx";
+import LanguageProvider from "./contexts/LanguageProvider.tsx";
 
-createRoot(document.getElementById('root')!).render(
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <App />,
+        children: [
+            { index: true, element: null},
+            { path: `/mon/:monName`, element: <MonViewer />}
+        ]
+    },
+
+]);
+
+const rootElement = document.getElementById("root") as HTMLElement;
+
+createRoot(rootElement).render(
     <StrictMode>
-        <App/>
+        <LanguageProvider>
+        <VersionProvider>
+            <RouterProvider router={router} />
+        </VersionProvider>
+        </LanguageProvider>
     </StrictMode>,
 )
