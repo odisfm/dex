@@ -145,3 +145,25 @@ export function getLocalName(data: PokeAPI.Name[], targetLanguage: string, fallb
     }
     throw new NoRelevantVersionError(`no name entry matching targetLanguage "${targetLanguage} or fallbackLanguage ${fallbackLanguage}`)
 }
+
+type versionLocationEncounter = {
+    location_area: PokeAPI.NamedAPIResource,
+    encounter_details: PokeAPI.Encounter[],
+    max_chance: number;
+}
+
+export function getEncounters(data: PokeAPI.LocationAreaEncounter[], targetVersion: string): versionLocationEncounter[] {
+    const relevantEncounters: versionLocationEncounter[] = []
+    for (const areaEncounter of data) {
+        for (const versionDetail of areaEncounter.version_details) {
+            if (versionDetail.version.name === targetVersion) {
+                relevantEncounters.push({
+                    location_area: areaEncounter.location_area,
+                    encounter_details: versionDetail.encounter_details,
+                    max_chance: versionDetail.max_chance
+                })
+            }
+        }
+    }
+    return relevantEncounters;
+}
