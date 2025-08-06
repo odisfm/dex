@@ -1,4 +1,6 @@
+import {supportedGenerations, supportedVersionGroups, supportedVersions} from "../../versionData.tsx";
 import {createContext} from "react";
+import * as React from "react";
 
 interface VersionContext {
     generation: string,
@@ -17,3 +19,14 @@ export const VersionContext = createContext<VersionContext>({
     setVersionGroup: () => {},
     setVersion: () => {},
 });
+
+export default function VersionProvider({ children }: React.PropsWithChildren): React.ReactElement {
+    const [generation, setGeneration] = React.useState(supportedGenerations[0]);
+    const [versionGroup, setVersionGroup] = React.useState(supportedVersionGroups[0].name);
+    const [version, setVersion] = React.useState(supportedVersions[0]);
+
+
+    return <VersionContext.Provider value={{generation, setGeneration, versionGroup, setVersionGroup, version, setVersion}}>
+        {children}
+    </VersionContext.Provider>
+}
