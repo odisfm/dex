@@ -167,3 +167,40 @@ export function getEncounters(data: PokeAPI.LocationAreaEncounter[], targetVersi
     }
     return relevantEncounters;
 }
+
+type PokemonSpritesVersion = {
+    front_default: string, back_default: string, front_shiny: string, back_shiny: string
+}
+
+export function getSprites(
+    data: PokeAPI.PokemonSprites,
+    generation: string,
+    versionGroup: string,
+    version: string
+): PokeAPI.PokemonSprites {
+     console.log(`fetching sprites ${generation} ${versionGroup} ${version}`);
+     console.log(data)
+
+    const versionsData = data.versions
+
+    if (versionsData) {
+        const genDef = versionsData[generation];
+        if (genDef) {
+            if (versionGroup === "omega-ruby-alpha-sapphire") {
+                versionGroup = "omegaruby-alphasapphire";
+            } else if (versionGroup === "sun-moon") {
+                versionGroup = "ultra-sun-ultra-moon";
+            }
+            const versionGroupDef = genDef[versionGroup];
+            if (versionGroupDef) {
+                return versionGroupDef as unknown as PokeAPI.PokemonSprites;
+            }
+            const versionDef = genDef[version];
+            if (versionDef) {
+                return versionDef as unknown as PokeAPI.PokemonSprites;
+            }
+        }
+    }
+
+    return data;
+}
