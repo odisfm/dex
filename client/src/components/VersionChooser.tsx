@@ -24,6 +24,7 @@ export default function VersionChooser(): React.ReactElement {
             className={"shrink-1 min-w-1"}>
             {availableVersionGroups.map((group) => {
                 return <option
+                    key={group.api_path}
                     value={group.api_path}
                 >
                     {group.name}
@@ -34,6 +35,7 @@ export default function VersionChooser(): React.ReactElement {
             {versionContext.groupVersions.length > 1 ?
                 versionContext.groupVersions.map((version) => {
                 return <button
+                    key={version}
                     className={`px-2 py-1 rounded-md
                         ${versionContext.version === version ? "bg-gray-200 text-black" : "bg-slate-700 hover:bg-slate-600 text-white"}`}
                     onClick={() => versionContext.setVersion(version)}

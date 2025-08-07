@@ -54,7 +54,7 @@ export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokem
             </div>
             <div className={"flex g-2"}>
                 {monTypes.map((type): ReactNode => {
-                    return <TypeLabel pokeType={type.type.name}></TypeLabel>
+                    return <TypeLabel pokeType={type.type.name} key={type.type.name}></TypeLabel>
                 })}
             </div>
             <p className={"flex flex-col bg-white p-3 text-black w-lg"}>
