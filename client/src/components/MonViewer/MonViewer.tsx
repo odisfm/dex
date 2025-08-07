@@ -1,6 +1,6 @@
 import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {Pokedex} from "pokeapi-js-wrapper";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
@@ -14,6 +14,7 @@ export default function MonViewer(): ReactElement {
     const [selectedMon, setSelectedMon] = useState<PokeAPI.Pokemon | null>(null)
     const [selectedSpecies, setSelectedSpecies] = useState<PokeAPI.PokemonSpecies | null>(null)
     const {monName} = useParams()
+    const [adjacentMon, setAdjacentMon] = useState<[string, string] | null>(null)
 
     const fetchPokemon = useCallback(async () => {
         if (!monName) {
@@ -49,6 +50,32 @@ export default function MonViewer(): ReactElement {
 
     }, [selectedSpecies, versionContext]);
 
+    useEffect(() => {
+        if (!selectedMon || !versionContext.nationalDex) {
+            return;
+        }
+        const speciesName = selectedMon.species.name
+        let prev, next: string;
+        let found = false;
+
+        for (const mon of versionContext.nationalDex.pokemon_entries) {
+            const name = mon.pokemon_species.name;
+
+            if (found) {
+                next = name;
+                break;
+            }
+
+            if (name === speciesName) {
+                found = true;
+            } else {
+                prev = name;
+            }
+        }
+        setAdjacentMon([prev, next])
+
+    }, [selectedMon, versionContext.nationalDex]);
+
     const monTypes = useMemo(() => {
         if (!selectedMon) return [];
         return getTypes(
@@ -65,7 +92,9 @@ export default function MonViewer(): ReactElement {
     return (
         <div className={"flex flex-col gap-5 items-center text-white"}>
             <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
-            <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonBio>
+            <div className={"flex gap-2"}>
+                <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} adjacentMon={adjacentMon}></MonBio>
+            </div>
             <div className={"text-lg text-white"}>
                 {/*{JSON.stringify(selectedMon)}*/}
             </div>
