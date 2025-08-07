@@ -21,11 +21,13 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
     const [shiny, setShiny] = useState<boolean>(false);
     const [hasGenderSprite, setHasGenderSprite] = useState<boolean>(false);
     const [gender, setGender] = useState<"male" | "female">("male");
+    const [imgIsLoading, setImgIsLoading] = useState(false);
 
     useEffect(() => {
         if (!mon || !imageRef.current) {
             return;
         }
+        setImgIsLoading(true);
         let sprites;
         try {
             sprites = getSprites(mon.sprites, versionContext.versionDetails.generation, versionContext.versionDetails.versionGroup, versionContext.versionDetails.version)
@@ -79,6 +81,7 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
         } else {
             imageRef.current.src = null as unknown as string;
         }
+        setImgIsLoading(false);
     }, [mon, monSpecies, versionContext, shiny, gender, hasGenderSprite]);
 
     const postGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
@@ -97,7 +100,7 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
             gradientEnd = typesGradientDouble[monTypes[0].type.name]
         }
 
-        borderClass = typesBorder[monTypes[0].type.name]
+        borderClass = imgIsLoading? "border-stone-300" : typesBorder[monTypes[0].type.name]
         borderHoverClass = typesBorderHover[monTypes[0].type.name]
         shadowClass = typePalettesDark[monTypes[0].type.name]
     } else {
