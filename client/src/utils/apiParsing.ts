@@ -40,7 +40,7 @@ export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: 
         if (flavorEntry.language.name !== targetLanguage) {
             continue;
         }
-        if (versionPriority > mostRelevantVersionPriority && versionPriority < targetVersionIndex) {
+        if (versionPriority > mostRelevantVersionPriority && versionPriority <= targetVersionIndex) {
             mostRelevantEntry = flavorEntry;
             mostRelevantVersionPriority = versionPriority;
         }
