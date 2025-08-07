@@ -9,8 +9,14 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
 
     const numerals = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii"]
 
+    const filteredVars = useMemo(() => {
+        return monSpecies.varieties.filter((variety) => {
+            return !variety.pokemon.name.includes("totem")
+        })
+    }, [monSpecies.varieties])
+
     let selectedForm = 0;
-    for (let i = 0; i < monSpecies.varieties.length; i++) {
+    for (let i = 0; i < filteredVars.length; i++) {
         const thisVar = monSpecies.varieties[i];
         if (thisVar.pokemon.name === mon.name) {
             selectedForm = i;
@@ -40,6 +46,10 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
         }
     }, [monSpecies, mon])
 
+    if (filteredVars.length < 2) {
+        return null;
+    }
+
     return (
         <div className={"flex flex-col gap-3 items-center"}>
             { variantName ?
@@ -48,7 +58,7 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
             }
             <div className={"flex gap-2"}>
                 {
-                    monSpecies.varieties.map((variety, index) => {
+                    filteredVars.map((variety, index) => {
                         return <Link to={`/mon/${variety.pokemon.name}`}
                                      className={`p-5 size-5 rounded-full flex items-center justify-center ${selectedForm === index ? "bg-black" : "bg-blue-500"}`}>{numerals.splice(0, 1)}</Link>
                     })
