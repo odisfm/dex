@@ -15,7 +15,6 @@ export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokem
     const versionContext = useContext(VersionContext)
     const languageContext = useContext(LanguageContext)
     const flavorText = useMemo(() => {
-        console.log(languageContext)
         try {
             return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.language).flavor_text
         } catch (e) {
