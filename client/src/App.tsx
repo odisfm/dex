@@ -23,7 +23,7 @@ function App() {
                 <VersionChooser />
                 <LanguageChooser />
             </header>
-            <main>
+            <main className={"bg-gray-100 flex flex-col gap-3 h-screen w-screen items-center py-10 px-5 text-black"}>
                 <Outlet></Outlet>
             </main>
         </>

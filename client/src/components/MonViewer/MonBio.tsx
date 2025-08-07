@@ -42,24 +42,26 @@ export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokem
     if (!mon || !monSpecies) return null;
 
     return (
-        <>
-            <div>
+        <div className={"flex flex-col gap-5 items-center text-black"}>
+            <div className={"flex flex-col py-2 px-5 bg-white"}>
+                <h1 className={"text-5xl  font-bold"}>
                 {getLocalName(monSpecies.names, languageContext.language)}
+            </h1>
+                {genus ?
+                    <span className={"italic opacity-50"}>{genus}</span>
+                    : null
+                }
             </div>
-            { genus ?
-            <span>{genus}</span>
-                : null
-            }
             <div className={"flex g-2"}>
                 {monTypes.map((type): ReactNode => {
                     return <TypeLabel pokeType={type.type.name}></TypeLabel>
                 })}
             </div>
-            <p className={"flex flex-col bg-white p-3 text-black"}>
+            <p className={"flex flex-col bg-white p-3 text-black w-lg"}>
                 <span>
                     {flavorText}
                 </span>
             </p>
-        </>
+        </div>
     )
 }

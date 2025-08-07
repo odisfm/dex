@@ -1,4 +1,7 @@
-export const typePalettesMid = {
+type PokemonTypeName = 'fire' | 'water' | 'grass' | 'normal' | 'fighting' | 'flying' | 'poison' | 'ground' | 'rock' | 'bug' | 'ghost' | 'steel' | 'electric' | 'psychic' | 'ice' | 'dragon' | 'dark' | 'fairy';
+
+
+export const typePalettesMid: Record<PokemonTypeName, string> = {
    fire: "bg-red-600",
    water: "bg-blue-600",
    grass: "bg-green-600",
@@ -19,7 +22,7 @@ export const typePalettesMid = {
    fairy: "bg-fuchsia-400"
 }
 
-export const typePalettesHover = {
+export const typePalettesHover: Record<PokemonTypeName, string> = {
    fire: "hover:bg-red-500",
    water: "hover:bg-blue-500",
    grass: "hover:bg-green-500",
@@ -40,7 +43,7 @@ export const typePalettesHover = {
    fairy: "hover:bg-pink-500"
 }
 
-export const typePalettesDark = {
+export const typePalettesDark: Record<PokemonTypeName, string> = {
    fire: "bg-red-900",
    water: "bg-blue-700",
    grass: "bg-green-700",
@@ -61,7 +64,7 @@ export const typePalettesDark = {
    fairy: "bg-pink-50"
 }
 
-export const typesGradientStart = {
+export const typesGradientStart: Record<PokemonTypeName, string> = {
   fire: "from-red-500",
   water: "from-blue-500",
   grass: "from-green-500",
@@ -82,7 +85,7 @@ export const typesGradientStart = {
   fairy: "from-fuchsia-500"
 }
 
-export const typesGradientEnd = {
+export const typesGradientEnd: Record<PokemonTypeName, string> = {
   fire: "to-red-500",
   water: "to-blue-500",
   grass: "to-green-500",
@@ -103,7 +106,7 @@ export const typesGradientEnd = {
   fairy: "to-fuchsia-400"
 }
 
-export const typesGradientDouble = {
+export const typesGradientDouble: Record<PokemonTypeName, string> = {
   fire: "to-amber-700",
   water: "to-indigo-950",
   grass: "to-green-800",
@@ -124,7 +127,7 @@ export const typesGradientDouble = {
   fairy: "to-fuchsia-300"
 }
 
-export const typesBorder = {
+export const typesBorder: Record<PokemonTypeName, string> = {
   fire: "border-red-700",
   water: "border-blue-700",
   grass: "border-green-700",
@@ -145,7 +148,7 @@ export const typesBorder = {
   fairy: "border-fuchsia-500"
 }
 
-export const typesBorderHover = {
+export const typesBorderHover: Record<PokemonTypeName, string> = {
   fire: "hover:border-red-600",
   water: "hover:border-blue-600",
   grass: "hover:border-green-600",

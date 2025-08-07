@@ -24,7 +24,7 @@ export function TypeLabel({pokeType}: { pokeType: string }): ReactElement {
         const bgColor: string = typePalettesMid[pokeType as keyof typeof typePalettesMid];
 
     return (
-        <div className={`${bgColor} px-4 py-2`}>
+        <div className={`${bgColor} px-4 py-2 text-white`}>
             {labelText}
         </div>
     )
