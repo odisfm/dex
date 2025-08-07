@@ -51,7 +51,7 @@ export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: 
     throw new NoRelevantVersionError(`Unable to parse flavor text`);
 }
 
-type APIPastTypes = {
+export type APIPastTypes = {
     generation: {
         name: string;
     },
