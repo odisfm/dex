@@ -149,6 +149,22 @@ export function getLocalName(data: PokeAPI.Name[], targetLanguage: string, fallb
     throw new NoRelevantVersionError(`no name entry matching targetLanguage "${targetLanguage} or fallbackLanguage ${fallbackLanguage}`)
 }
 
+export function getLocalGenus(data: PokeAPI.Genus[], targetLanguage: string, fallBackLanguage="en"): string {
+    let fallbackResult = null;
+    for (const genus of data) {
+        if (genus.language.name === targetLanguage) {
+            return genus.genus
+        }
+        else if (genus.language.name == fallBackLanguage) {
+            fallbackResult = genus.genus;
+        }
+    }
+    if (fallbackResult) {
+        return fallbackResult;
+    }
+    throw new NoRelevantVersionError(`no genus found for "${targetLanguage}"`)
+}
+
 type versionLocationEncounter = {
     location_area: PokeAPI.NamedAPIResource,
     encounter_details: PokeAPI.Encounter[],
