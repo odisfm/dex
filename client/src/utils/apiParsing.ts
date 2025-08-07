@@ -28,11 +28,14 @@ export function getMoveLearnDetails(data: PokeAPI.PokemonMove, targetVersionGrou
     return mostRelevantEntry;
 }
 
-export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: string, targetLanguage="en"): PokeAPI.FlavorText {
+export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: string, targetLanguage="en", getAnyOfLanguage=false): PokeAPI.FlavorText {
     let mostRelevantEntry = null;
     let mostRelevantVersionPriority = -1;
     const targetVersionIndex = supportedVersions.indexOf(targetVersion);
     for (const flavorEntry of data) {
+        if (getAnyOfLanguage && flavorEntry.language.name === targetLanguage) {
+            return flavorEntry;
+        }
         if (flavorEntry.language.name === targetLanguage && flavorEntry.version.name === targetVersion) {
             return flavorEntry;
         }
