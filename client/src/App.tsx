@@ -18,7 +18,7 @@ function App() {
 
     return (
         <>
-            <header className={"p-3 text-white bg-slate-800 flex gap-3 items-center"}>
+            <header className={"p-3 text-white bg-neutral-800 flex gap-3 items-center"}>
                 <h1 className={"text-3xl font-black"}>Dex</h1>
                 <VersionChooser />
                 <LanguageChooser />

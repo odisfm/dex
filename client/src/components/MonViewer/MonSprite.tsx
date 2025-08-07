@@ -65,7 +65,7 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
         <div
             className={`group relative overflow-hidden rounded-full h-60 w-60 flex items-center border-5 ${borderClass} ${borderHoverClass} animate-all duration-1000`}>
             <img
-                    className="z-10 absolute left-3 pixel-image object-scale-fill size-50 hover:saturate-120"
+                    className="z-10 absolute left-3 pixel-image object-cover size-50 hover:saturate-120"
                     src={null}
                     ref={imageRef}
                 />

@@ -51,7 +51,7 @@ export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokem
                     : null
                 }
             </div>
-            <div className={"flex g-2"}>
+            <div className={"flex gap-2"}>
                 {monTypes.map((type): ReactNode => {
                     return <TypeLabel pokeType={type.type.name} key={type.type.name}></TypeLabel>
                 })}
