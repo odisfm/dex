@@ -1,10 +1,14 @@
 import {LanguageContext} from "../contexts/LanguageContext.tsx";
-import {useContext, useRef} from "react";
-import dex from "../utils/dex.tsx";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import languageJSON from "../data/langauges.json"
 
-const languages = ["en", "it", "de", "fr"]
+interface LanguageDetail{
+    code: string;
+    displayName: string;
+}
 
 export default function LanguageChooser() {
+    const [languages, setLanguages] = useState<LanguageDetail[]>([]);
     const languageContext = useContext(LanguageContext)
     const selectRef = useRef<HTMLSelectElement | null>(null)
 
@@ -14,6 +18,35 @@ export default function LanguageChooser() {
         console.log(`set language to ${newLanguage}`);
     }
 
+    const getLanguages = useCallback(() => {
+        const languageList: LanguageDetail[] = [];
+        for (const languageEntry of languageJSON) {
+            const code = languageEntry.name;
+            let displayName;
+            for (const languageName of languageEntry.names) {
+                if (languageName.language.name === code) {
+                    displayName = languageName.name;
+                    break;
+                }
+            }
+            if (!displayName) {
+                displayName = code;
+            }
+            languageList.push({code, displayName})
+        }
+        setLanguages(languageList);
+    }, [])
+
+    useEffect(() => {
+        getLanguages()
+        const storedLanguagePref = localStorage.getItem('languagePref');
+        if (storedLanguagePref) {
+            languageContext.setLanguage(storedLanguagePref);
+        }
+    }, [getLanguages]);
+
+    if (!languages) return null;
+
     return <div className={"text-black bg-stone-600"}>
         <select
             ref={selectRef}
@@ -22,10 +55,10 @@ export default function LanguageChooser() {
         >
             {languages.map((language) => (
                 <option
-                    key={language}
-                    value={language}
+                    key={language.code}
+                    value={language.code}
                 >
-                    {language.toUpperCase()}
+                    {language.displayName}
                 </option>
             ))}
         </select>

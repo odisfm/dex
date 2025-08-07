@@ -6,8 +6,13 @@ export default function LanguageProvider({children}: React.PropsWithChildren): R
     const [language, setLanguage] = useState<string>("en")
     const [fallbackLanguage, setFallbackLanguage] = useState<string>("it")
 
+    const doSetLanguage = (language: string) => {
+        setLanguage(language);
+        localStorage.setItem("languagePref", language);
+    }
+
     return (
-        <LanguageContext.Provider value={{language, setLanguage, fallbackLanguage, setFallbackLanguage}}>
+        <LanguageContext.Provider value={{language, setLanguage: doSetLanguage, fallbackLanguage, setFallbackLanguage}}>
             {children}
         </LanguageContext.Provider>
     )
