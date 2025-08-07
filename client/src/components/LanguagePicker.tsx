@@ -8,7 +8,7 @@ interface LanguageDetail{
     displayName: string;
 }
 
-export default function LanguageChooser() {
+export default function LanguagePicker() {
     const [languages, setLanguages] = useState<LanguageDetail[]>([]);
     const languageContext = useContext(LanguageContext)
     const selectRef = useRef<HTMLSelectElement | null>(null)

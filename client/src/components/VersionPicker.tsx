@@ -3,7 +3,7 @@ import {VersionContext} from "../contexts/VersionContext.tsx";
 import {supportedVersionGroups} from "../../versionData.tsx";
 import {compareGenerations} from "../utils/util.ts";
 
-export default function VersionChooser(): React.ReactElement {
+export default function VersionPicker(): React.ReactElement {
     const versionContext = useContext(VersionContext)
 
     const availableVersionGroups = useMemo(() => {
