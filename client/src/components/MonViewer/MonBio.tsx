@@ -42,8 +42,11 @@ export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokem
 
     return (
         <div className={"flex flex-col gap-5 items-center text-black"}>
-            <div className={"flex flex-col py-2 px-5 bg-white gap-1"}>
-                <h1 className={"text-5xl  font-bold"}>
+            <div className={"flex flex-col py-2 px-5  bg-white gap-1 items-center"}>
+                <span className={"absolute self-end font-bold opacity-55"}>
+                    #{mon.id}
+                </span>
+                <h1 className={"text-5xl mt-3 font-bold ml-3 mr-3"}>
                 {getLocalName(monSpecies.names, languageContext.language)}
             </h1>
                 {genus ?
