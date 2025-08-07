@@ -64,7 +64,7 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                     }
                 }
             } else {
-                key = shiny ? "front_default" : "front_shiny";
+                key = shiny ? "front_shiny" : "front_default";
             }
             console.log(`getting sprite "${key}"`)
             let sprite
