@@ -24,7 +24,7 @@ export default function MonViewer(): ReactElement {
         const species = await dex.getPokemonSpeciesByName(search.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
         const firstGen = species.generation.name
-        const compare = compareGenerations(versionContext.generation, firstGen);
+        const compare = compareGenerations(versionContext.versionDetails.generation, firstGen);
         if (compare < 0) {
             versionContext.setGeneration(firstGen)
         }
@@ -54,11 +54,11 @@ export default function MonViewer(): ReactElement {
         return getTypes(
             selectedMon.types,
             (selectedMon as any).past_types as PokeAPI.PokemonType[],
-            versionContext.generation
+            versionContext.versionDetails.generation
         );
-    }, [selectedMon, versionContext.generation]);
+    }, [selectedMon, versionContext.versionDetails]);
 
-    if (!selectedMon || !selectedSpecies) {
+    if (!selectedMon || !selectedSpecies ) {
         return <h1 className={"text-white text-3xl"}>{`Could not fetch "${monName}"`}</h1>
     }
 

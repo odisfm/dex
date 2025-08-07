@@ -16,19 +16,19 @@ export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokem
     const languageContext = useContext(LanguageContext)
     const flavorText = useMemo(() => {
         try {
-            return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.language).flavor_text
+            return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.language).flavor_text
         } catch (e) {
             try {
-                return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.language, true).flavor_text
+                return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.language, true).flavor_text
             } catch (e) {
                 try {
-                    return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.fallbackLanguage, true).flavor_text
+                    return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.fallbackLanguage, true).flavor_text
                 } catch (e) {
                     return "..."
                 }
             }
         }
-    }, [monSpecies, languageContext.language, versionContext.version]);
+    }, [monSpecies, languageContext.language, languageContext.fallbackLanguage, versionContext.versionDetails.version]);
 
     const genus = useMemo(() => {
         try {

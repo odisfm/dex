@@ -23,7 +23,7 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
         }
         let sprites;
         try {
-            sprites = getSprites(mon.sprites, versionContext.generation, versionContext.versionGroup, versionContext.version)
+            sprites = getSprites(mon.sprites, versionContext.versionDetails.generation, versionContext.versionDetails.versionGroup, versionContext.versionDetails.version)
         } catch (e) {
             console.error(e)
         }
@@ -34,7 +34,7 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
         }
     }, [mon, versionContext]);
 
-    const preGen3 = compareGenerations(versionContext.generation, "generation-iii") >= 0;
+    const preGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
 
     let gradientStart = ""
     let gradientEnd = ""

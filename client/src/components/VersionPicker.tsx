@@ -22,7 +22,7 @@ export default function VersionPicker(): React.ReactElement {
                 versionContext.setVersionGroup(e.target.value);
             }}
             className={"shrink-1 min-w-1"}
-            value={versionContext.versionGroup}
+            value={versionContext.versionDetails.versionGroup}
         >
             {availableVersionGroups.map((group) => {
                 return <option
@@ -34,12 +34,12 @@ export default function VersionPicker(): React.ReactElement {
             })}
         </select>
         <div className={"flex gap-1"}>
-            {versionContext.groupVersions.length > 1 ?
-                versionContext.groupVersions.map((version) => {
+            {versionContext.versionDetails.groupVersions.length > 1 ?
+                versionContext.versionDetails.groupVersions.map((version) => {
                 return <button
                     key={version}
                     className={`px-2 py-1 rounded-md
-                        ${versionContext.version === version ? "bg-gray-200 text-black" : "bg-slate-700 hover:bg-slate-600 text-white"}`}
+                        ${versionContext.versionDetails.version === version ? "bg-gray-200 text-black" : "bg-slate-700 hover:bg-slate-600 text-white"}`}
                     onClick={() => versionContext.setVersion(version)}
                 >
                     {version.toUpperCase()}

@@ -1,28 +1,35 @@
-import {supportedGenerations, supportedVersionGroups, supportedVersions} from "../../versionData.tsx";
 import {createContext} from "react";
-import * as React from "react";
+import type {PokeAPI} from "pokeapi-types";
 
-interface VersionContext {
+interface VersionDetails {
     generation: string,
     versionGroup:  string,
-    version: string
+    version: string,
+    groupVersions: string[],
+}
+
+interface VersionContext {
+    versionDetails: VersionDetails,
     setGeneration: (generation: string) => void,
     setVersionGroup: (group: string) => void,
     setVersion: (version: string) => void,
-    groupVersions: string[],
     restrictGeneration: null | string,
     setRestrictGeneration: (restrictVersion: string) => void,
+    pokedexes: PokeAPI.Pokedex[],
 }
 
 export const VersionContext = createContext<VersionContext>({
-    generation: "generation-iii",
-    versionGroup: "emerald",
-    version: "emerald",
+    versionDetails: {
+        generation: "generation-iii",
+        versionGroup: "emerald",
+        version: "emerald",
+        groupVersions: ["emerald"],
+    },
     setGeneration: () => {},
     setVersionGroup: () => {},
     setVersion: () => {},
-    groupVersions: ["emerald"],
     restrictGeneration: null,
     setRestrictGeneration: () => {},
+    pokedexes: [],
 });
 
