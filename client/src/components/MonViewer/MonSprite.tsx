@@ -7,13 +7,6 @@ export default function MonSprite({mon}: {mon:PokeAPI.Pokemon}): ReactElement {
     const [activeSprite, setActiveSprite] = useState<"string" | null>(null);
     const versionContext = useContext(VersionContext)
     const imageRef = useRef<HTMLImageElement | null>(null);
-    //
-    // const getSprite = useCallback(async () => {
-    //     if (!mon) {
-    //         return;
-    //     }
-    //
-    // }, [mon])
 
     useEffect(() => {
         if (!mon || !imageRef.current) {

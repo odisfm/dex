@@ -20,13 +20,3 @@ export const VersionContext = createContext<VersionContext>({
     setVersion: () => {},
 });
 
-export default function VersionProvider({ children }: React.PropsWithChildren): React.ReactElement {
-    const [generation, setGeneration] = React.useState(supportedGenerations[0]);
-    const [versionGroup, setVersionGroup] = React.useState(supportedVersionGroups[0].name);
-    const [version, setVersion] = React.useState(supportedVersions[0]);
-
-
-    return <VersionContext.Provider value={{generation, setGeneration, versionGroup, setVersionGroup, version, setVersion}}>
-        {children}
-    </VersionContext.Provider>
-}
