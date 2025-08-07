@@ -35,6 +35,20 @@ export default function MonViewer(): ReactElement {
         fetchPokemon().then(() => {console.log('fetched')});
     }, [fetchPokemon, monName]);
 
+    useEffect(() => {
+        if (!selectedSpecies) {
+            return
+        }
+        versionContext.setRestrictGeneration(selectedSpecies.generation.name);
+        console.log(`restricted gen to ${selectedSpecies.generation.name}`)
+
+        return () => {
+            versionContext.setRestrictGeneration(null);
+        }
+
+
+    }, [selectedSpecies, versionContext]);
+
     const monTypes = useMemo(() => {
         if (!selectedMon) return [];
         return getTypes(
