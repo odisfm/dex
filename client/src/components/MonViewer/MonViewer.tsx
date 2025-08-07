@@ -1,13 +1,14 @@
 import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {Pokedex} from "pokeapi-js-wrapper";
 import {Link, useParams} from "react-router-dom";
-import {PokeAPI} from "pokeapi-types";
+import type { PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
 import {compareGenerations} from "../../utils/util.ts";
 import {getTypes} from "../../utils/apiParsing.ts";
+import MonVariants from "./MonVariants.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -106,6 +107,7 @@ export default function MonViewer(): ReactElement {
     return (
         <div className={"flex flex-col gap-5 items-center text-white"}>
             <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
+            <MonVariants monSpecies={selectedSpecies} mon={selectedMon}/>
             <div className={"flex gap-2"}>
                 <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} adjacentMon={adjacentMon}></MonBio>
             </div>
