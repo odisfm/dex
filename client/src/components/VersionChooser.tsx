@@ -21,12 +21,13 @@ export default function VersionChooser(): React.ReactElement {
             onChange={(e) => {
                 versionContext.setVersionGroup(e.target.value);
             }}
-            className={"shrink-1 min-w-1"}>
+            className={"shrink-1 min-w-1"}
+            value={versionContext.versionGroup}
+        >
             {availableVersionGroups.map((group) => {
                 return <option
                     key={group.api_path}
                     value={group.api_path}
-                    selected={versionContext.versionGroup === group.api_path}
                 >
                     {group.name}
                 </option>
