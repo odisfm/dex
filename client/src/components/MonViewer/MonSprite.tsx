@@ -73,9 +73,10 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
 
             </div>
             <div
-                className={`absolute inset-0 bg-radial-[farthest-corner_at_50%_50%] ${gradientStart} ${gradientEnd} group-hover:animate-[spin_1s_ease-in]`}></div>
+                className={`absolute inset-0 bg-radial ${gradientStart} ${gradientEnd}`}>
+            </div>
             <div
-                className={`absolute inset-0  opacity-0 group-hover:opacity-60 transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
+                className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
         </div>
     )
 }
