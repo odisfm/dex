@@ -56,11 +56,11 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
                 <span className={"bg-white rounded-lg py-1 px-3 text-center text-black font-bold"}>{variantName}</span>
                 : null
             }
-            <div className={"flex gap-2"}>
+            <div className={"flex flex-wrap justify-center gap-2 w-50"}>
                 {
                     filteredVars.map((variety, index) => {
                         return <Link to={`/mon/${variety.pokemon.name}`}
-                                     className={`p-5 size-5 rounded-full flex items-center justify-center ${selectedForm === index ? "bg-black" : "bg-blue-500"}`}>{numerals.splice(0, 1)}</Link>
+                                     className={`p-5 size-5 rounded-full flex items-center justify-center ${selectedForm === index ? "bg-black text-white" : "bg-blue-500"}`}>{numerals.splice(0, 1)}</Link>
                     })
                 }
             </div>
