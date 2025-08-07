@@ -19,8 +19,17 @@ export default function MonSprite({mon}: {mon:PokeAPI.Pokemon}): ReactElement {
         if (!mon || !imageRef.current) {
             return;
         }
-        const sprites = getSprites(mon.sprites, versionContext.generation, versionContext.versionGroup, versionContext.version)
-        imageRef.current.src = sprites.front_default
+        let sprites;
+        try {
+            sprites = getSprites(mon.sprites, versionContext.generation, versionContext.versionGroup, versionContext.version)
+        } catch (e) {
+            console.error(e)
+        }
+        if (sprites) {
+            imageRef.current.src = sprites.front_default
+        } else {
+            imageRef.current.src = "";
+        }
     }, [mon, versionContext]);
 
     return (

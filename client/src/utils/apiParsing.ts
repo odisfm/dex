@@ -190,7 +190,11 @@ export function getSprites(
             }
             const versionGroupDef = genDef[versionGroup];
             if (versionGroupDef) {
-                return versionGroupDef as unknown as PokeAPI.PokemonSprites;
+                if (versionGroupDef.front_default === null) {
+                    return _versionGroupNoSpritesFallback(genDef)
+                }else {
+                    return versionGroupDef as unknown as PokeAPI.PokemonSprites;
+                }
             }
             const versionDef = genDef[version];
             if (versionDef) {
@@ -201,3 +205,21 @@ export function getSprites(
 
     return data;
 }
+
+interface VersionGroupSprites {
+    [x: string]: {
+        [x: string]: string | undefined;
+    };
+}
+
+function _versionGroupNoSpritesFallback(
+    data: { string: VersionGroupSprites }
+): PokeAPI.PokemonSprites {
+    for (const [versionGroupName, sprites] of Object.entries(data)) {
+        if (sprites.front_default !== null) {
+            return sprites as unknown as PokeAPI.PokemonSprites;
+        }
+    }
+    throw new NoRelevantVersionError();
+}
+
