@@ -20,9 +20,23 @@ export default function MonViewer(): ReactElement {
         if (!monName) {
             return;
         }
-        const search = await dex.getPokemonByName(monName) as PokeAPI.Pokemon;
-        setSelectedMon(search);
-        const species = await dex.getPokemonSpeciesByName(search.species.name) as PokeAPI.PokemonSpecies;
+        let newMon: PokeAPI.Pokemon | null = null
+        try {
+            newMon = await dex.getPokemonByName(monName) as PokeAPI.Pokemon;
+        } catch (e) {
+            try {
+                const search = await dex.getPokemonSpeciesByName(monName) as PokeAPI.PokemonSpecies;
+                for (const variety of search.varieties) {
+                    if (variety.is_default) {
+                         newMon = await dex.getPokemonByName(variety.pokemon.name)
+                    }
+                }
+            } catch (e) {
+                console.error(e)
+            }
+        }
+        setSelectedMon(newMon);
+        const species = await dex.getPokemonSpeciesByName(newMon.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
         const firstGen = species.generation.name
         const compare = compareGenerations(versionContext.versionDetails.generation, firstGen);
