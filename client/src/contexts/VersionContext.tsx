@@ -9,7 +9,9 @@ interface VersionContext {
     setGeneration: (generation: string) => void,
     setVersionGroup: (group: string) => void,
     setVersion: (version: string) => void,
-    groupVersions: string[]
+    groupVersions: string[],
+    restrictGeneration: null | string,
+    setRestrictGeneration: (restrictVersion: string) => void,
 }
 
 export const VersionContext = createContext<VersionContext>({
@@ -19,6 +21,8 @@ export const VersionContext = createContext<VersionContext>({
     setGeneration: () => {},
     setVersionGroup: () => {},
     setVersion: () => {},
-    groupVersions: ["emerald"]
+    groupVersions: ["emerald"],
+    restrictGeneration: null,
+    setRestrictGeneration: () => {},
 });
 

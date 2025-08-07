@@ -1,13 +1,14 @@
 import { VersionContext } from "./VersionContext";
 import {supportedGenerations, supportedVersionGroups, supportedVersions} from "../../versionData.tsx";
 import * as React from "react";
-import {useEffect} from "react";
+import {useCallback, useEffect} from "react";
 
 export default function VersionProvider({ children }: React.PropsWithChildren): React.ReactElement {
     const [generation, setGeneration] = React.useState(supportedGenerations[0]);
     const [versionGroup, setVersionGroup] = React.useState(supportedVersionGroups[0].api_path);
     const [version, setVersion] = React.useState(supportedVersions[0]);
     const [groupVersions, setGroupVersions] = React.useState(supportedVersionGroups[0].versions);
+    const [restrictGeneration, setRestrictGeneration] = React.useState<string | null>(null);
 
     const setGame = (newVersionGroup?: string | null, newVersion?: string | null, newGeneration?: string | null) => {
         if (!newVersionGroup && !newVersion && !newGeneration) {
@@ -71,9 +72,9 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         localStorage.setItem('versionGroup', finalVersionGroup);
     };
 
-    const safeSetVersionGroup = (newVersionGroup: string): void => {
+    const safeSetVersionGroup = useCallback((newVersionGroup: string): void => {
         setGame(newVersionGroup)
-    }
+    }, [])
 
     const safeSetVersion = (newVersion: string): void => {
         setGame(null, newVersion)
@@ -88,7 +89,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         if (storedVersionGroupPref) {
             safeSetVersionGroup(storedVersionGroupPref);
         }
-    }, []);
+    }, [safeSetVersionGroup]);
 
 
     return <VersionContext.Provider value={{
@@ -98,7 +99,9 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         setVersionGroup: safeSetVersionGroup,
         version,
         setVersion: safeSetVersion,
-        groupVersions
+        groupVersions,
+        restrictGeneration,
+        setRestrictGeneration
     }}
     >
         {children}
