@@ -11,7 +11,7 @@ import type {PokeAPI} from "pokeapi-types";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
 import {TypeLabel} from "../TypeLabel.tsx";
 
-export default function MonBio({mon, monSpecies}: { mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies }) {
+export default function MonBio({mon, monSpecies, monTypes}: { mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes: PokeAPI.PokemonType[] }) {
     const versionContext = useContext(VersionContext)
     const languageContext = useContext(LanguageContext)
     const flavorText = useMemo(() => {
@@ -40,12 +40,6 @@ export default function MonBio({mon, monSpecies}: { mon: PokeAPI.Pokemon, monSpe
     }, [monSpecies, languageContext.language, languageContext.fallbackLanguage])
 
     if (!mon || !monSpecies) return null;
-
-    const monTypes = getTypes(
-        mon.types,
-        (mon as any).past_types as PokeAPI.PokemonType[],
-        versionContext.generation
-    )
 
     return (
         <>

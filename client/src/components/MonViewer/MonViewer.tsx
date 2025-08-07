@@ -1,4 +1,4 @@
-import {type ReactElement, useCallback, useContext, useEffect, useState} from "react";
+import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {Pokedex} from "pokeapi-js-wrapper";
 import {useParams} from "react-router-dom";
 import {PokeAPI} from "pokeapi-types";
@@ -7,6 +7,7 @@ import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
 import {compareGenerations} from "../../utils/util.ts";
+import {getTypes} from "../../utils/apiParsing.ts";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -34,14 +35,23 @@ export default function MonViewer(): ReactElement {
         fetchPokemon().then(() => {console.log('fetched')});
     }, [fetchPokemon, monName]);
 
+    const monTypes = useMemo(() => {
+        if (!selectedMon) return [];
+        return getTypes(
+            selectedMon.types,
+            (selectedMon as any).past_types as PokeAPI.PokemonType[],
+            versionContext.generation
+        );
+    }, [selectedMon, versionContext.generation]);
+
     if (!selectedMon || !selectedSpecies) {
         return <h1 className={"text-white text-3xl"}>{`Could not fetch "${monName}"`}</h1>
     }
 
     return (
         <div className={"text-white"}>
-            <MonSprite mon={selectedMon}></MonSprite>
-            <MonBio mon={selectedMon} monSpecies={selectedSpecies}></MonBio>
+            <MonSprite mon={selectedMon} monTypes={monTypes}></MonSprite>
+            <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonBio>
             <div className={"text-lg text-white"}>
                 {/*{JSON.stringify(selectedMon)}*/}
             </div>
