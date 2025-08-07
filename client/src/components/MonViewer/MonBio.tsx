@@ -1,21 +1,71 @@
-import {useContext, useEffect} from "react";
+import {type ReactNode, use, useContext, useEffect, useMemo} from "react";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
-import {getLocalName} from "../../utils/apiParsing.ts";
+import {
+    type APIPastTypes,
+    getLocalGenus,
+    getLocalName,
+    getSpeciesFlavorText,
+    getTypes
+} from "../../utils/apiParsing.ts";
 import type {PokeAPI} from "pokeapi-types";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
+import {TypeLabel} from "../TypeLabel.tsx";
 
-export default function MonBio({mon, monSpecies}: {mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies}) {
+export default function MonBio({mon, monSpecies}: { mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies }) {
     const versionContext = useContext(VersionContext)
     const languageContext = useContext(LanguageContext)
+    const flavorText = useMemo(() => {
+        console.log(languageContext)
+        try {
+            return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.language).flavor_text
+        } catch (e) {
+            try {
+                return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.language, true).flavor_text
+            } catch (e) {
+                try {
+                    return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.version, languageContext.fallbackLanguage, true).flavor_text
+                } catch (e) {
+                    return "..."
+                }
+            }
+        }
+    }, [monSpecies, languageContext.language, versionContext.version]);
+
+    const genus = useMemo(() => {
+        try {
+            return getLocalGenus(monSpecies.genera, languageContext.language, languageContext.fallbackLanguage)
+        } catch (e) {
+            return "";
+        }
+    }, [monSpecies, languageContext.language, languageContext.fallbackLanguage])
 
     if (!mon || !monSpecies) return null;
 
+    const monTypes = getTypes(
+        mon.types,
+        (mon as any).past_types as PokeAPI.PokemonType[],
+        versionContext.generation
+    )
 
     return (
         <>
             <div>
                 {getLocalName(monSpecies.names, languageContext.language)}
             </div>
+            { genus ?
+            <span>{genus}</span>
+                : null
+            }
+            <div className={"flex g-2"}>
+                {monTypes.map((type): ReactNode => {
+                    return <TypeLabel pokeType={type.type.name}></TypeLabel>
+                })}
+            </div>
+            <p className={"flex flex-col bg-white p-3 text-black"}>
+                <span>
+                    {flavorText}
+                </span>
+            </p>
         </>
     )
 }
