@@ -6,6 +6,7 @@ import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
+import {compareGenerations} from "../../utils/util.ts";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -21,8 +22,13 @@ export default function MonViewer(): ReactElement {
         setSelectedMon(search);
         const species = await dex.getPokemonSpeciesByName(search.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
+        const firstGen = species.generation.name
+        const compare = compareGenerations(versionContext.generation, firstGen);
+        if (compare < 0) {
+            versionContext.setGeneration(firstGen)
+        }
 
-    }, [monName])
+    }, [monName, versionContext])
 
     useEffect(() => {
         fetchPokemon().then(() => {console.log('fetched')});
