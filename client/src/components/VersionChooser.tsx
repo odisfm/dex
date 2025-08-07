@@ -26,6 +26,7 @@ export default function VersionChooser(): React.ReactElement {
                 return <option
                     key={group.api_path}
                     value={group.api_path}
+                    selected={versionContext.versionGroup === group.api_path}
                 >
                     {group.name}
                 </option>
