@@ -20,7 +20,6 @@ export default function MonSprite({mon}: {mon:PokeAPI.Pokemon}): ReactElement {
             return;
         }
         const sprites = getSprites(mon.sprites, versionContext.generation, versionContext.versionGroup, versionContext.version)
-        console.log('got sprites', sprites);
         imageRef.current.src = sprites.front_default
     }, [mon, versionContext]);
 
