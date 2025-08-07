@@ -12,12 +12,15 @@ import {
 } from "../../utils/typePalettes.tsx";
 import {compareGenerations} from "../../utils/util.ts";
 import ShinyButton from "./ShinyButton.tsx";
+import GenderSpriteButton from "./GenderSpriteButton.tsx";
 
-export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monTypes:PokeAPI.PokemonType[]}): ReactElement {
+export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes:PokeAPI.PokemonType[]}): ReactElement {
     const [activeSprite, setActiveSprite] = useState<"string" | null>(null);
     const versionContext = useContext(VersionContext)
     const imageRef = useRef<HTMLImageElement | null>(null);
     const [shiny, setShiny] = useState<boolean>(false);
+    const [hasGenderSprite, setHasGenderSprite] = useState<boolean>(false);
+    const [gender, setGender] = useState<"male" | "female">("male");
 
     useEffect(() => {
         if (!mon || !imageRef.current) {
@@ -26,16 +29,57 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
         let sprites;
         try {
             sprites = getSprites(mon.sprites, versionContext.versionDetails.generation, versionContext.versionDetails.versionGroup, versionContext.versionDetails.version)
+            if (sprites["front_female"]) {
+                setHasGenderSprite(true)
+            } else {
+                setHasGenderSprite(false)
+            }
         } catch (e) {
             console.error(e)
         }
         if (sprites) {
-            const key = shiny ? "front_shiny" : "front_default"
-            imageRef.current.src = sprites[key]
+            let key: string;
+            let overrideSprite: string;
+            if (versionContext.versionDetails.generation === "generation-i") {
+                key = "front_transparent"
+            } else if (versionContext.versionDetails.generation === "generation-ii") {
+                if (!shiny) {
+                    key = "front_transparent"
+                } else {
+                    overrideSprite = mon.sprites.versions["generation-ii"].crystal.front_shiny_transparent;
+                }
+            }
+            else if (monSpecies.has_gender_differences) {
+                if (!shiny) {
+                    if (gender === "male") {
+                        key = "front_default"
+                    } else {
+                        key = "front_female"
+                    }
+                } else {
+                    if (gender === "male") {
+                        key = "front_shiny"
+                    } else {
+                        key = "front_shiny_female"
+                    }
+                }
+            } else {
+                key = shiny ? "front_default" : "front_shiny";
+            }
+            console.log(`getting sprite "${key}"`)
+            let sprite
+
+            if (!overrideSprite) {
+                sprite = sprites[key as keyof typeof sprites] as string;
+            } else {
+                sprite = overrideSprite;
+            }
+
+            imageRef.current.src = sprite
         } else {
             imageRef.current.src = null as unknown as string;
         }
-    }, [mon, versionContext, shiny]);
+    }, [mon, monSpecies, versionContext, shiny, gender, hasGenderSprite]);
 
     const preGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
 
@@ -70,6 +114,10 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
         console.log(`shiny ${shiny}`)
     }, [shiny])
 
+    const toggleGender = useCallback(() => {
+        setGender(gender === "male" ? "female" : "male")
+    }, [gender])
+
     return (
         <div className={"flex justify-center items-center relative"}>
             <div
@@ -88,8 +136,15 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
                 <div
                     className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
             </div>
-            <div className="absolute bottom-1/2 left-0 -translate-x-1/2 z-20">
+            <div className="absolute bottom-1/2 left-0 -translate-x-1/2 z-20 flex flex-col gap-2">
+                {
+                    hasGenderSprite ?
+                    <GenderSpriteButton gender={gender} toggleGender={toggleGender}/>
+                        : null
+                    }
+                { versionContext.versionDetails.generation === "generation-i" ? null:
                 <ShinyButton isShiny={shiny} toggleShiny={toggleShiny} bgColor={bgColor}/>
+                }
             </div>
         </div>
     )
