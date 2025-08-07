@@ -4,7 +4,7 @@ import {LanguageContext} from "./LanguageContext.tsx";
 
 export default function LanguageProvider({children}: React.PropsWithChildren): React.ReactElement {
     const [language, setLanguage] = useState<string>("en")
-    const [fallbackLanguage, setFallbackLanguage] = useState<string>("it")
+    const [fallbackLanguage, setFallbackLanguage] = useState<string>("en")
 
     const doSetLanguage = (language: string) => {
         setLanguage(language);

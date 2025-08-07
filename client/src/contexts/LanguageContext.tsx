@@ -11,6 +11,6 @@ interface LanguageContextValues {
 export const LanguageContext = createContext<LanguageContextValues>({
     language: "en",
     setLanguage: noop,
-    fallbackLanguage: "it",
+    fallbackLanguage: "en",
     setFallbackLanguage: noop,
 })
