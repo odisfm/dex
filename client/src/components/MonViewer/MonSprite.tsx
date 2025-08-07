@@ -15,74 +15,118 @@ import ShinyButton from "./ShinyButton.tsx";
 import GenderSpriteButton from "./GenderSpriteButton.tsx";
 
 export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes:PokeAPI.PokemonType[]}): ReactElement {
-    const [activeSprite, setActiveSprite] = useState<"string" | null>(null);
+    const [activeSprite, setActiveSprite] = useState<string | undefined>(undefined);
     const versionContext = useContext(VersionContext)
     const imageRef = useRef<HTMLImageElement | null>(null);
     const [shiny, setShiny] = useState<boolean>(false);
     const [hasGenderSprite, setHasGenderSprite] = useState<boolean>(false);
     const [gender, setGender] = useState<"male" | "female">("male");
-    const [imgIsLoading, setImgIsLoading] = useState(false);
+    const [imgIsLoading, setImgIsLoading] = useState(true);
 
     useEffect(() => {
-        if (!mon || !imageRef.current) {
-            return;
+        const imageElement = imageRef.current;
+        console.log('use effect - loading')
+        if (!imageElement || !activeSprite) {
+            if (!activeSprite) {
+                console.log('No active sprite, returning');
+                setImgIsLoading(false);
+            }
+            return
         }
+
         setImgIsLoading(true);
-        let sprites;
-        try {
-            sprites = getSprites(mon.sprites, versionContext.versionDetails.generation, versionContext.versionDetails.versionGroup, versionContext.versionDetails.version)
-            if (sprites["front_female"]) {
-                setHasGenderSprite(true)
-            } else {
-                setHasGenderSprite(false)
-            }
-        } catch (e) {
-            console.error(e)
+
+        console.log('Setting up image load listeners for:', activeSprite);
+
+        const handleLoad = () => {
+            console.log('Image loaded successfully');
+            setImgIsLoading(false);
+        };
+
+        const handleError = () => {
+            console.log('Image failed to load');
+            setImgIsLoading(false);
+        };
+
+        imageElement.addEventListener('load', handleLoad);
+        imageElement.addEventListener('error', handleError);
+
+        if (imageElement.complete && imageElement.naturalHeight !== 0) {
+            console.log('Image already cached');
+            setImgIsLoading(false);
         }
-        if (sprites) {
-            let key: string;
-            let overrideSprite: string;
-            if (versionContext.versionDetails.generation === "generation-i") {
-                key = "front_transparent"
-            } else if (versionContext.versionDetails.generation === "generation-ii") {
-                if (!shiny) {
+
+        return () => {
+            console.log('removing event listeners')
+            imageElement.removeEventListener('load', handleLoad);
+            imageElement.removeEventListener('error', handleError);
+        };
+    }, [activeSprite, imageRef]);
+
+
+    useEffect(() => {
+        const load = async () => {
+            if (!mon || !imageRef.current) {
+                return;
+            }
+            setActiveSprite(undefined)
+            let sprites;
+            try {
+                sprites = getSprites(mon.sprites, versionContext.versionDetails.generation, versionContext.versionDetails.versionGroup, versionContext.versionDetails.version)
+                if (sprites["front_female"]) {
+                    setHasGenderSprite(true)
+                } else {
+                    setHasGenderSprite(false)
+                }
+            } catch (e) {
+                console.error(e)
+            }
+            console.log(sprites)
+            if (sprites) {
+                let key: string;
+                let overrideSprite: string;
+                if (versionContext.versionDetails.generation === "generation-i") {
                     key = "front_transparent"
-                } else {
-                    overrideSprite = mon.sprites.versions["generation-ii"].crystal.front_shiny_transparent;
-                }
-            }
-            else if (monSpecies.has_gender_differences) {
-                if (!shiny) {
-                    if (gender === "male") {
-                        key = "front_default"
+                } else if (versionContext.versionDetails.generation === "generation-ii") {
+                    if (!shiny) {
+                        key = "front_transparent"
                     } else {
-                        key = "front_female"
+                        overrideSprite = mon.sprites.versions["generation-ii"].crystal.front_shiny_transparent;
+                    }
+                } else if (monSpecies.has_gender_differences) {
+                    if (!shiny) {
+                        if (gender === "male") {
+                            key = "front_default"
+                        } else {
+                            key = "front_female"
+                        }
+                    } else {
+                        if (gender === "male") {
+                            key = "front_shiny"
+                        } else {
+                            key = "front_shiny_female"
+                        }
                     }
                 } else {
-                    if (gender === "male") {
-                        key = "front_shiny"
-                    } else {
-                        key = "front_shiny_female"
-                    }
+                    key = shiny ? "front_shiny" : "front_default";
                 }
-            } else {
-                key = shiny ? "front_shiny" : "front_default";
-            }
-            console.log(`getting sprite "${key}"`)
-            let sprite
+                console.log(`getting sprite "${key}"`)
+                let sprite
 
-            if (!overrideSprite) {
-                sprite = sprites[key as keyof typeof sprites] as string;
-            } else {
-                sprite = overrideSprite;
-            }
+                if (!overrideSprite) {
+                    sprite = sprites[key as keyof typeof sprites] as string;
+                } else {
+                    sprite = overrideSprite;
+                }
 
-            imageRef.current.src = sprite
-        } else {
-            imageRef.current.src = null as unknown as string;
-        }
-        setImgIsLoading(false);
-    }, [mon, monSpecies, versionContext, shiny, gender, hasGenderSprite]);
+                setActiveSprite(sprite)
+            } else {
+                setActiveSprite(undefined);
+            }
+        };
+        load().then(() => {});
+
+    }, [mon, monSpecies.has_gender_differences, versionContext, shiny, gender, hasGenderSprite]);
 
     const postGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
 
@@ -122,33 +166,37 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
     }, [gender])
 
     return (
-        <div className={"flex justify-center items-center relative"}>
-            <div
-                className={`group relative overflow-hidden rounded-full h-60 w-60 flex items-center border-5 ${borderClass} ${borderHoverClass} animate-all duration-1000`}>
-                <img
-                    className="z-30 absolute left-3 pixel-image object-contain size-50 hover:saturate-120"
-                    src={null}
-                    ref={imageRef}
-                />
-                <div className={`z-9 absolute top-15 inset-0 h-80 w-100 ${shadowClass} opacity-10 rounded-full `}>
+        <>
 
-                </div>
+            <div className={"flex justify-center items-center relative"}>
                 <div
-                    className={`absolute inset-0 bg-radial ${gradientStart} ${gradientEnd}`}>
+                    className={`group relative overflow-hidden rounded-full h-60 w-60 flex items-center border-5 ${borderClass} ${borderHoverClass} animate-all duration-1000`}>
+                        <img
+                            className={`z-30 absolute left-3 pixel-image object-contain size-50 hover:saturate-120 ${imgIsLoading ? " opacity-0 " : " "}`}
+                            src={activeSprite ? activeSprite : undefined}
+                            ref={imageRef}
+                        />
+
+                    <div className={`z-9 absolute top-15 inset-0 h-80 w-100 ${shadowClass} opacity-10 rounded-full `}>
+
+                    </div>
+                    <div
+                        className={`absolute inset-0 bg-radial ${gradientStart} ${gradientEnd}`}>
+                    </div>
+                    <div
+                        className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
                 </div>
-                <div
-                    className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
-            </div>
-            <div className="absolute bottom-1/2 left-0 -translate-x-1/2 z-20 flex flex-col gap-2">
-                {
-                    hasGenderSprite ?
-                    <GenderSpriteButton gender={gender} toggleGender={toggleGender}/>
-                        : null
+                <div className="absolute bottom-1/2 left-0 -translate-x-1/2 z-20 flex flex-col gap-2">
+                    {
+                        hasGenderSprite ?
+                            <GenderSpriteButton gender={gender} toggleGender={toggleGender}/>
+                            : null
                     }
-                { versionContext.versionDetails.generation === "generation-i" ? null:
-                <ShinyButton isShiny={shiny} toggleShiny={toggleShiny} bgColor={bgColor}/>
-                }
+                    {versionContext.versionDetails.generation === "generation-i" ? null :
+                        <ShinyButton isShiny={shiny} toggleShiny={toggleShiny} bgColor={bgColor}/>
+                    }
+                </div>
             </div>
-        </div>
+            </>
     )
 }
