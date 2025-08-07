@@ -11,11 +11,13 @@ import {
     typesGradientStart
 } from "../../utils/typePalettes.tsx";
 import {compareGenerations} from "../../utils/util.ts";
+import ShinyButton from "./ShinyButton.tsx";
 
 export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monTypes:PokeAPI.PokemonType[]}): ReactElement {
     const [activeSprite, setActiveSprite] = useState<"string" | null>(null);
     const versionContext = useContext(VersionContext)
     const imageRef = useRef<HTMLImageElement | null>(null);
+    const [shiny, setShiny] = useState<boolean>(false);
 
     useEffect(() => {
         if (!mon || !imageRef.current) {
@@ -28,11 +30,12 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
             console.error(e)
         }
         if (sprites) {
-            imageRef.current.src = sprites.front_default
+            const key = shiny ? "front_shiny" : "front_default"
+            imageRef.current.src = sprites[key]
         } else {
             imageRef.current.src = null as unknown as string;
         }
-    }, [mon, versionContext]);
+    }, [mon, versionContext, shiny]);
 
     const preGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
 
@@ -60,23 +63,32 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
 
     }
 
+    const toggleShiny = useCallback(() => {
+        setShiny(!shiny)
+        console.log(`shiny ${shiny}`)
+    }, [shiny])
 
     return (
-        <div
-            className={`group relative overflow-hidden rounded-full h-60 w-60 flex items-center border-5 ${borderClass} ${borderHoverClass} animate-all duration-1000`}>
-            <img
+        <div className={"flex justify-center items-center relative"}>
+            <div
+                className={`group relative overflow-hidden rounded-full h-60 w-60 flex items-center border-5 ${borderClass} ${borderHoverClass} animate-all duration-1000`}>
+                <img
                     className="z-10 absolute left-3 pixel-image object-cover size-50 hover:saturate-120"
                     src={null}
                     ref={imageRef}
                 />
-            <div className={`z-9 absolute top-15 inset-0 h-80 w-100 ${shadowClass} opacity-10 rounded-full `}>
+                <div className={`z-9 absolute top-15 inset-0 h-80 w-100 ${shadowClass} opacity-10 rounded-full `}>
 
+                </div>
+                <div
+                    className={`absolute inset-0 bg-radial ${gradientStart} ${gradientEnd}`}>
+                </div>
+                <div
+                    className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
             </div>
-            <div
-                className={`absolute inset-0 bg-radial ${gradientStart} ${gradientEnd}`}>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">
+                <ShinyButton isShiny={shiny} toggleShiny={toggleShiny} />
             </div>
-            <div
-                className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
         </div>
     )
 }
