@@ -32,7 +32,7 @@ export default function MonViewer(): ReactElement {
     }, [monName, versionContext])
 
     useEffect(() => {
-        fetchPokemon().then(() => {console.log('fetched')});
+        fetchPokemon().then(() => {});
     }, [fetchPokemon, monName]);
 
     useEffect(() => {
