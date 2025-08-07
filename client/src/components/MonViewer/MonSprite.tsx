@@ -81,7 +81,7 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
         }
     }, [mon, monSpecies, versionContext, shiny, gender, hasGenderSprite]);
 
-    const preGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
+    const postGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
 
     let gradientStart = ""
     let gradientEnd = ""
@@ -89,7 +89,7 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
     let borderHoverClass;
     let shadowClass
 
-    if (preGen3) {
+    if (postGen3) {
         gradientStart = typesGradientStart[monTypes[0].type.name as keyof typeof typesGradientStart];
         if (monTypes.length > 1) {
             gradientEnd = typesGradientEnd[monTypes[1].type.name]
