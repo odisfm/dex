@@ -63,7 +63,7 @@ export default function MonViewer(): ReactElement {
     }
 
     return (
-        <div className={"flex flex-col gap-3 items-center text-white"}>
+        <div className={"flex flex-col gap-5 items-center text-white"}>
             <MonSprite mon={selectedMon} monTypes={monTypes}></MonSprite>
             <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonBio>
             <div className={"text-lg text-white"}>
