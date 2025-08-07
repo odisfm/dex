@@ -7,43 +7,80 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
     const [generation, setGeneration] = React.useState(supportedGenerations[0]);
     const [versionGroup, setVersionGroup] = React.useState(supportedVersionGroups[0].api_path);
     const [version, setVersion] = React.useState(supportedVersions[0]);
+    const [groupVersions, setGroupVersions] = React.useState(supportedVersionGroups[0].versions);
+
+    const setGame = (newVersionGroup?: string | null, newVersion?: string | null, newGeneration?: string | null) => {
+        if (!newVersionGroup && !newVersion && !newGeneration) {
+            throw new Error("Must provide either newVersionGroup or newVersion");
+        }
+
+        let finalVersionGroup!: string;
+        let finalVersion!: string;
+        let finalGeneration!: string;
+        let newGroupVersions: string[] = [];
+
+        if (newVersion) {
+            let found = false;
+            for (const versionGroup of supportedVersionGroups) {
+                for (const version of versionGroup.versions) {
+                    if (version === newVersion) {
+                        finalVersionGroup = versionGroup.api_path;
+                        finalGeneration = versionGroup.generation;
+                        newGroupVersions = versionGroup.versions;
+                        finalVersion = newVersion;
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) break;
+            }
+
+            if (!found) {
+                throw new Error(`Invalid version: ${newVersion}`);
+            }
+        } else if (newVersionGroup) {
+            const versionGroup = supportedVersionGroups.find(vg => vg.api_path === newVersionGroup);
+            if (!versionGroup) {
+                throw new Error(`Invalid version group: ${newVersionGroup}`);
+            }
+
+            finalVersionGroup = newVersionGroup;
+            finalVersion = versionGroup.versions[0];
+            finalGeneration = versionGroup.generation;
+            newGroupVersions = versionGroup.versions;
+        } else if (newGeneration) {
+            const versionGroup = supportedVersionGroups.find(vg => vg.generation === newGeneration);
+            if (!versionGroup) {
+                throw new Error(`Invalid generation: ${newGeneration}`);
+            }
+
+            finalVersionGroup = versionGroup.api_path;
+            finalVersion = versionGroup.versions[0];
+            finalGeneration = newGeneration;
+            newGroupVersions = versionGroup.versions;
+        }
+
+        if (!finalGeneration || !finalVersionGroup || !finalVersion || !newGroupVersions.length) {
+            throw new Error(`Failed to parse some details: generation=${finalGeneration}, versionGroup=${finalVersionGroup}, version=${finalVersion}, groupVersions=${newGroupVersions}`);
+        }
+
+        setGeneration(finalGeneration);
+        setVersionGroup(finalVersionGroup);
+        setVersion(finalVersion);
+        setGroupVersions(newGroupVersions);
+        localStorage.setItem('versionGroup', finalVersionGroup);
+    };
 
     const safeSetVersionGroup = (newVersionGroup: string): void => {
-        let generation;
-        let version;
-        for (let i = 0; i < supportedVersionGroups.length; i++) {
-            const thisVersionGroup = supportedVersionGroups[i];
-            if (thisVersionGroup.api_path === newVersionGroup) {
-                generation = thisVersionGroup.generation;
-                version = thisVersionGroup.versions[0]
-                break;
-            }
-        }
-        if (!generation || !version) {
-            throw new Error(`Unrecognized version group ${newVersionGroup}`);
-        }
-        setGeneration(generation);
-        setVersionGroup(newVersionGroup);
-        setVersion(version)
-        console.log(`set version group ${newVersionGroup}`);
-        localStorage.setItem("versionGroup", newVersionGroup)
+        setGame(newVersionGroup)
     }
 
     const safeSetVersion = (newVersion: string): void => {
-        for (const versionGroup of supportedVersionGroups) {
-            if (versionGroup.versions.includes(newVersion)) {
-                return safeSetVersionGroup(versionGroup.api_path)
-            }
-        }
-        console.error(`Could not set version to ${newVersion}`)
+        setGame(null, newVersion)
     }
 
     const safeSetGeneration = (newGeneration: string): void => {
-        for (const versionGroup of supportedVersionGroups) {
-            if (versionGroup.generation === newGeneration) {
-                return safeSetVersionGroup(versionGroup.api_path)
-            }
-        }
+        setGame(null, null, newGeneration)
     }
 
     useEffect(() => {
@@ -60,7 +97,8 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         versionGroup,
         setVersionGroup: safeSetVersionGroup,
         version,
-        setVersion: safeSetVersion
+        setVersion: safeSetVersion,
+        groupVersions
     }}
     >
         {children}
