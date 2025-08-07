@@ -1,6 +1,7 @@
 import { VersionContext } from "./VersionContext";
 import {supportedGenerations, supportedVersionGroups, supportedVersions} from "../../versionData.tsx";
 import * as React from "react";
+import {useEffect} from "react";
 
 export default function VersionProvider({ children }: React.PropsWithChildren): React.ReactElement {
     const [generation, setGeneration] = React.useState(supportedGenerations[0]);
@@ -24,10 +25,44 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         setGeneration(generation);
         setVersionGroup(newVersionGroup);
         setVersion(version)
+        console.log(`set version group ${newVersionGroup}`);
+        localStorage.setItem("versionGroup", newVersionGroup)
     }
 
+    const safeSetVersion = (newVersion: string): void => {
+        for (const versionGroup of supportedVersionGroups) {
+            if (versionGroup.versions.includes(newVersion)) {
+                return safeSetVersionGroup(versionGroup.api_path)
+            }
+        }
+        console.error(`Could not set version to ${newVersion}`)
+    }
 
-    return <VersionContext.Provider value={{generation, setGeneration, versionGroup, setVersionGroup: safeSetVersionGroup, version, setVersion}}>
+    const safeSetGeneration = (newGeneration: string): void => {
+        for (const versionGroup of supportedVersionGroups) {
+            if (versionGroup.generation === newGeneration) {
+                return safeSetVersionGroup(versionGroup.api_path)
+            }
+        }
+    }
+
+    useEffect(() => {
+        const storedVersionGroupPref = localStorage.getItem("versionGroup");
+        if (storedVersionGroupPref) {
+            safeSetVersionGroup(storedVersionGroupPref);
+        }
+    }, []);
+
+
+    return <VersionContext.Provider value={{
+        generation,
+        setGeneration: safeSetGeneration,
+        versionGroup,
+        setVersionGroup: safeSetVersionGroup,
+        version,
+        setVersion: safeSetVersion
+    }}
+    >
         {children}
     </VersionContext.Provider>
 }
