@@ -10,6 +10,7 @@ import {
     typesGradientEnd,
     typesGradientStart
 } from "../../utils/typePalettes.tsx";
+import {compareGenerations} from "../../utils/util.ts";
 
 export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monTypes:PokeAPI.PokemonType[]}): ReactElement {
     const [activeSprite, setActiveSprite] = useState<"string" | null>(null);
@@ -33,20 +34,31 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
         }
     }, [mon, versionContext]);
 
+    const preGen3 = compareGenerations(versionContext.generation, "generation-iii") >= 0;
+
     let gradientStart = ""
     let gradientEnd = ""
+    let borderClass;
+    let borderHoverClass;
+    let shadowClass
 
-    gradientStart = typesGradientStart[monTypes[0].type.name as keyof typeof typesGradientStart];
-    if (monTypes.length > 1) {
-        gradientEnd = typesGradientEnd[monTypes[1].type.name]
+    if (preGen3) {
+        gradientStart = typesGradientStart[monTypes[0].type.name as keyof typeof typesGradientStart];
+        if (monTypes.length > 1) {
+            gradientEnd = typesGradientEnd[monTypes[1].type.name]
+        } else {
+            gradientEnd = typesGradientDouble[monTypes[0].type.name]
+        }
+
+        borderClass = typesBorder[monTypes[0].type.name]
+        borderHoverClass = typesBorderHover[monTypes[0].type.name]
+        shadowClass = typePalettesDark[monTypes[0].type.name]
     } else {
-        gradientEnd = typesGradientDouble[monTypes[0].type.name]
-    }
+        gradientStart = "from-white"
+        gradientEnd = "to-white"
+        borderClass = "border-gray-200"
 
-    const bgClass = typePalettesMid[monTypes[0].type.name]
-    const borderClass = typesBorder[monTypes[0].type.name]
-    const borderHoverClass = typesBorderHover[monTypes[0].type.name]
-    const shadowClass = typePalettesDark[monTypes[0].type.name]
+    }
 
 
     return (
@@ -61,9 +73,9 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
 
             </div>
             <div
-                className={`absolute inset-0 bg-radial-[farthest-corner_at_50%_50%] ${gradientStart} ${gradientEnd} group-hover:animate-[spin_3s_ease-in]`}></div>
+                className={`absolute inset-0 bg-radial-[farthest-corner_at_50%_50%] ${gradientStart} ${gradientEnd} group-hover:animate-[spin_1s_ease-in]`}></div>
             <div
-                className={`absolute inset-0  opacity-0 group-hover:opacity-70 transition-all duration-500 ease-in-out bg-radial-[at_75%_25%] ${gradientStart} ${gradientEnd}`}></div>
+                className={`absolute inset-0  opacity-0 group-hover:opacity-60 transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
         </div>
     )
 }
