@@ -5,8 +5,7 @@ import {PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
-
-const dex = new Pokedex();
+import dex from "../../utils/dex.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
