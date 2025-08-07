@@ -7,7 +7,7 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
         return null
     }
 
-    const numerals = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x"]
+    const numerals = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii", "xiii", "xiv", "xv", "xvi", "xvii"]
 
     let selectedForm = 0;
     for (let i = 0; i < monSpecies.varieties.length; i++) {
