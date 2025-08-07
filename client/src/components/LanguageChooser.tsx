@@ -1,6 +1,7 @@
 import {LanguageContext} from "../contexts/LanguageContext.tsx";
 import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import languageJSON from "../data/langauges.json"
+import TranslateIcon from "../icon/translate.svg?react"
 
 interface LanguageDetail{
     code: string;
@@ -47,7 +48,8 @@ export default function LanguageChooser() {
 
     if (!languages) return null;
 
-    return <div className={"text-black bg-stone-600"}>
+    return <div className={"ml-auto flex shrink-2 min-w-0 gap-2"}>
+        <TranslateIcon className={"size-8 fill-white shrink-1"} />
         <select
             ref={selectRef}
             value={languageContext.language}
