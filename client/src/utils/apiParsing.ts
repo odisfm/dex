@@ -178,9 +178,6 @@ export function getSprites(
     versionGroup: string,
     version: string
 ): PokeAPI.PokemonSprites {
-     console.log(`fetching sprites ${generation} ${versionGroup} ${version}`);
-     console.log(data)
-
     const versionsData = data.versions
 
     if (versionsData) {

@@ -11,7 +11,6 @@ export default function VersionChooser(): React.ReactElement {
             return <button
                 className={"bg-white text-lg text-black rounded-md p-2"}
                 onClick={() => {
-                    console.log(group);
                     versionContext.setVersionGroup(group.api_path)
                 }}
             >
