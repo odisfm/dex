@@ -63,6 +63,8 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
 
     }
 
+    const bgColor = typePalettesMid[monTypes[0].type.name as keyof typeof typePalettesMid]
+
     const toggleShiny = useCallback(() => {
         setShiny(!shiny)
         console.log(`shiny ${shiny}`)
@@ -86,8 +88,8 @@ export default function MonSprite({mon, monTypes}: {mon:PokeAPI.Pokemon, monType
                 <div
                     className={`absolute inset-0  opacity-0 group-hover:opacity-60 group-hover:animate-[spin_4s_ease-in-out] transition-all duration-500 ease-in-out bg-radial-[at_25%_75%] ${gradientStart} ${gradientEnd}`}></div>
             </div>
-            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20">
-                <ShinyButton isShiny={shiny} toggleShiny={toggleShiny} />
+            <div className="absolute bottom-1/2 left-0 -translate-x-1/2 z-20">
+                <ShinyButton isShiny={shiny} toggleShiny={toggleShiny} bgColor={bgColor}/>
             </div>
         </div>
     )

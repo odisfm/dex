@@ -1,6 +1,6 @@
 import ShinyIcon from "../../icon/shimmer.svg?react"
 
-export default function ShinyButton({isShiny, toggleShiny}: {isShiny: boolean, toggleShiny: () => void}) {
+export default function ShinyButton({isShiny, toggleShiny, bgColor}: {isShiny: boolean, toggleShiny: () => void, bgColor: string}) {
     return (
         <button
             onClick={toggleShiny}
@@ -8,7 +8,7 @@ export default function ShinyButton({isShiny, toggleShiny}: {isShiny: boolean, t
             `relative transition-all duration-75 
             group size-md rounded-full top-5 p-2 
             z-9 cursor-pointer self-center justify-self-end 
-            ${isShiny ? "bg-white hover:bg-black" : "bg-black hover:bg-white opacity-15 hover:opacity-100 "}
+            ${isShiny ? "bg-white hover:bg-black" : `${bgColor} hover:bg-white opacity-90 hover:opacity-100 `}
             `
         }
         >
