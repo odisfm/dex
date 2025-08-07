@@ -109,7 +109,7 @@ export const supportedVersionGroups = [
     },
     {
         name: "Brilliant Diamond / Shining Pearl",
-        api_path: "brilliant-diamond-shining-pearl",
+        api_path: "brilliant-diamond-and-shining-pearl",
         generation: "generation-viii",
         versions: ["brilliant-diamond", "shining-pearl"]
     },
