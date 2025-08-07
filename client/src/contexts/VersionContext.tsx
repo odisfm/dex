@@ -16,6 +16,7 @@ interface VersionContext {
     restrictGeneration: null | string,
     setRestrictGeneration: (restrictVersion: string) => void,
     pokedexes: PokeAPI.Pokedex[],
+    nationalDex: PokeAPI.Pokedex | null
 }
 
 export const VersionContext = createContext<VersionContext>({
@@ -31,5 +32,6 @@ export const VersionContext = createContext<VersionContext>({
     restrictGeneration: null,
     setRestrictGeneration: () => {},
     pokedexes: [],
+    nationalDex: null
 });
 

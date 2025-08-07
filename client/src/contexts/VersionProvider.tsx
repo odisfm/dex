@@ -12,6 +12,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
     const [groupVersions, setGroupVersions] = React.useState<string[]>([]);
     const [restrictGeneration, setRestrictGeneration] = React.useState<string | null>(null);
     const [pokedexes, setPokedexes] = React.useState<PokeAPI.Pokedex[]>([]);
+    const [nationalDex, setNationalDex] = React.useState<PokeAPI.Pokedex | null>(null);
     const [initialised, setInitialised] = React.useState(false);
 
     const setGame = (newVersionGroup?: string | null, newVersion?: string | null, newGeneration?: string | null) => {
@@ -110,6 +111,9 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
             dexObjList.push(dexObj);
         }
 
+        const natDex = await dex.getPokedexByName("national")
+        setNationalDex(natDex)
+
         setPokedexes(dexObjList);
         console.log("Pokedexes:", dexObjList);
     }, [versionDetails]);
@@ -147,6 +151,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
                 restrictGeneration,
                 setRestrictGeneration,
                 pokedexes,
+                nationalDex,
             }}
         >
             {children}
