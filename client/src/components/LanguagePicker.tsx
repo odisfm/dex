@@ -54,6 +54,7 @@ export default function LanguagePicker() {
             ref={selectRef}
             value={languageContext.language}
             onChange={handleLanguageChange}
+            className={"shrink-1"}
         >
             {languages.map((language) => (
                 <option

@@ -18,12 +18,12 @@ function App() {
 
     return (
         <>
-            <header className={"p-3 text-white bg-neutral-800 flex gap-3 items-center"}>
+            <header className={"p-3 text-white bg-neutral-800 flex gap-3 items-center w-full"}>
                 <h1 className={"text-3xl font-black"}>Dex</h1>
                 <VersionPicker />
                 <LanguagePicker />
             </header>
-            <main className={"bg-gray-100 flex flex-col gap-3 h-screen w-screen items-center py-10 px-5 text-black"}>
+            <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full items-center py-10 px-5 text-black"}>
                 <Outlet></Outlet>
             </main>
         </>
