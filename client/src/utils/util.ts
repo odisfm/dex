@@ -17,3 +17,12 @@ export const compareVersionGroupToGen = (versionGroup: string, generation: strin
     }
     throw new Error("Invalid version group");
 }
+
+export const getVersionGroupGeneration = (versionGroup: string) => {
+    for (const vg of supportedVersionGroups) {
+        if (vg.api_path === versionGroup) {
+            return vg.generation;
+        }
+    }
+    throw new Error("Invalid version group");
+}
