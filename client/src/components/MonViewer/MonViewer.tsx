@@ -9,6 +9,7 @@ import {compareVersionGroupToGen, getVersionGroupGeneration} from "../../utils/u
 import {getTypes} from "../../utils/apiParsing.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
+import MovMoveList from "./MonMoveList.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -139,7 +140,7 @@ export default function MonViewer(): ReactElement {
     }
 
     return (
-        <div className={"flex flex-col gap-7 items-centertext-white"}>
+        <div className={"flex flex-col gap-7 items-center text-white"}>
             <div className={"flex items-center justify-center gap-10"}>
                 {adjacentMon ? <MonPrevNextButton left={true} url={"/mon/" + adjacentMon[0]}/> : null}
                 <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
@@ -149,6 +150,7 @@ export default function MonViewer(): ReactElement {
             <div className={"flex gap-2"}>
                 <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} variantForms={monVariantForms}></MonBio>
             </div>
+            <MovMoveList mon={selectedMon} />
             <div className={"text-lg text-white"}>
                 {/*{JSON.stringify(selectedMon)}*/}
             </div>
