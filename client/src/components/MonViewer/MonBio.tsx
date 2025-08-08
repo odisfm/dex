@@ -45,9 +45,6 @@ export default function MonBio({mon, monSpecies, monTypes, adjacentMon}:
     return (
 
         <div className={"flex flex-col gap-5 items-center text-black"}>
-            <div className={"flex gap-2 items-center"}>
-                {adjacentMon ? <MonPrevNextButton left={true} url={"/mon/" + adjacentMon[0]}/> : null}
-
                 <div className={"flex flex-col py-2 px-5  bg-white gap-1 items-center"}>
 
                 <span className={"absolute self-end font-bold opacity-55"}>
@@ -62,8 +59,6 @@ export default function MonBio({mon, monSpecies, monTypes, adjacentMon}:
                     }
 
                 </div>
-                {adjacentMon ? <MonPrevNextButton left={false} url={"/mon/" + adjacentMon[1]}/> : null}</div>
-
             <div className={"flex gap-2"}>
                 {monTypes.map((type): ReactNode => {
                     return <TypeLabel pokeType={type.type.name} key={type.type.name}></TypeLabel>

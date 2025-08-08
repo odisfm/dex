@@ -9,6 +9,7 @@ import dex from "../../utils/dex.tsx";
 import {compareGenerations} from "../../utils/util.ts";
 import {getTypes} from "../../utils/apiParsing.ts";
 import MonVariants from "./MonVariants.tsx";
+import MonPrevNextButton from "./MonPrevNextButton.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -105,8 +106,12 @@ export default function MonViewer(): ReactElement {
     }
 
     return (
-        <div className={"flex flex-col gap-5 items-center text-white"}>
-            <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
+        <div className={"flex flex-col gap-7 items-centertext-white"}>
+            <div className={"flex items-center justify-center gap-10"}>
+                {adjacentMon ? <MonPrevNextButton left={true} url={"/mon/" + adjacentMon[0]}/> : null}
+                <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
+                {adjacentMon ? <MonPrevNextButton left={false} url={"/mon/" + adjacentMon[1]}/> : null}
+            </div>
             <MonVariants monSpecies={selectedSpecies} mon={selectedMon}/>
             <div className={"flex gap-2"}>
                 <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} adjacentMon={adjacentMon}></MonBio>
