@@ -5,7 +5,7 @@ import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
-import { compareVersionGroupToGen} from "../../utils/util.ts";
+import {compareVersionGroupToGen, getVersionGroupGeneration} from "../../utils/util.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 
@@ -15,8 +15,8 @@ export default function MonViewer(): ReactElement {
     const [selectedSpecies, setSelectedSpecies] = useState<PokeAPI.PokemonSpecies | null>(null)
     const {monName} = useParams()
     const [adjacentMon, setAdjacentMon] = useState<[string, string] | null>(null)
-    const [monForms, setMonForms] = useState<PokeAPI.Pokemon[]>([])
-    const [activeForm, setActiveForm] = useState<PokeAPI.Pokemon | null>(null)
+    const [monVariants, setMonVariants] = useState<PokeAPI.Pokemon[]>([])
+    const [monVariantForms, setMonVariantForms] = useState<PokeAPI.PokemonForm[]>([])
 
     const fetchPokemon = useCallback(async () => {
         if (!monName) {
@@ -53,6 +53,34 @@ export default function MonViewer(): ReactElement {
     useEffect(() => {
         fetchPokemon().then(() => {});
     }, [fetchPokemon, monName]);
+
+    useEffect(() => {
+        (async ()=>  {
+            if (!selectedMon || !selectedSpecies) {
+                return;
+            }
+            if (selectedSpecies.name !== selectedMon.species.name) {
+                return;
+            }
+            const varieties = selectedSpecies.varieties;
+
+            const variantObjs: PokeAPI.Pokemon[] = [];
+            const formList: PokeAPI.PokemonForm[] = [];
+            for (const variety of varieties) {
+                const varObj = await dex.getPokemonByName(variety.pokemon.name) as PokeAPI.Pokemon;
+                const formObj = await dex.getPokemonFormByName(varObj.forms[0].name);
+                const compare = compareVersionGroupToGen(formObj.version_group.name, versionContext.versionDetails.generation)
+                if (compare <= 0) {
+                    variantObjs.push(varObj)
+                    formList.push(formObj)
+                }
+            }
+            setMonVariantForms(formList)
+            setMonVariants(variantObjs)
+            console.log(`forms for mon ${selectedMon.name}`, variantObjs)
+
+        })()
+    }, [selectedMon, selectedSpecies, versionContext.versionDetails ]);
 
     useEffect(() => {
         if (!selectedSpecies) {
@@ -114,9 +142,9 @@ export default function MonViewer(): ReactElement {
                 <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
                 {adjacentMon ? <MonPrevNextButton left={false} url={"/mon/" + adjacentMon[1]}/> : null}
             </div>
-            <MonVariants monSpecies={selectedSpecies} mon={selectedMon}/>
+            <MonVariants monSpecies={selectedSpecies} mon={selectedMon} monVariants={monVariants}/>
             <div className={"flex gap-2"}>
-                <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} adjacentMon={adjacentMon}></MonBio>
+                <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} variantForms={monVariantForms}></MonBio>
             </div>
             <div className={"text-lg text-white"}>
                 {/*{JSON.stringify(selectedMon)}*/}

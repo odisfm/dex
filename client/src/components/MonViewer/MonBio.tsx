@@ -13,11 +13,10 @@ import {TypeLabel} from "../TypeLabel.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 import dex from "../../utils/dex.tsx"
 
-export default function MonBio({mon, monSpecies, monTypes, adjacentMon}:
-{ mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes: PokeAPI.PokemonType[], adjacentMon: [ string, string] }) {
+export default function MonBio({mon, monSpecies, monTypes, variantForms}:
+{ mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes: PokeAPI.PokemonType[], variantForms: PokeAPI.PokemonForm[] }) {
     const versionContext = useContext(VersionContext)
     const languageContext = useContext(LanguageContext)
-    const [formNames, setFormNames] = useState<PokeAPI.Name[]>([])
     const flavorText = useMemo(() => {
         try {
             return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.language).flavor_text
@@ -42,38 +41,31 @@ export default function MonBio({mon, monSpecies, monTypes, adjacentMon}:
         }
     }, [monSpecies, languageContext.language, languageContext.fallbackLanguage])
 
-    useEffect(() => {
-        const fetchFormNames = async () => {
-            const forms = mon.forms;
-            if (!forms) {
-                setFormNames(monSpecies.names)
-                return;
-            }
-
-            for (const formResource of forms) {
-                if (formResource.name === mon.name) {
-                    try {
-                        const form = await dex.getPokemonFormByName(formResource.name);
-                        setFormNames(form.names);
-                        return;
-                    } catch (e) {
-                        console.error("Error fetching form names:", e);
-                    }
-                }
-            }
-
-            // Fallback to species names if no matching form found
-            setFormNames(monSpecies.names);
-        }
-
-        fetchFormNames();
-    }, [mon, monSpecies])
-
     if (!mon || !monSpecies) return null;
 
-    const displayNames = formNames.length ? formNames : monSpecies.names;
 
-    console.log(displayNames);
+    let displayName;
+
+    variantForms.forEach(form => {
+        try {
+            console.log("form", form)
+
+            if (mon.name === form.name) {
+                displayName = getLocalName([...form.names, ...form.form_names], languageContext.language)
+            }
+        } catch (e) {
+            // console.error(e)
+        }
+    })
+
+    if (!displayName) {
+        try {
+            displayName = getLocalName(monSpecies.names, languageContext.language);
+        } catch (e) {
+            displayName = monSpecies.name
+        }
+    }
+
 
     return (
 
@@ -83,8 +75,8 @@ export default function MonBio({mon, monSpecies, monTypes, adjacentMon}:
                 <span className={"absolute self-end font-bold opacity-55"}>
                     #{monSpecies.id}
                 </span>
-                    <h1 className={"text-5xl mt-3 font-bold ml-3 mr-3"}>
-                        {getLocalName(displayNames, languageContext.language)}
+                    <h1 className={"md:text-5xl text-3xl mt-3 font-bold ml-3 mr-3"}>
+                        {displayName}
                     </h1>
                     {genus ?
                         <span className={"italic opacity-50"}>{genus}</span>
