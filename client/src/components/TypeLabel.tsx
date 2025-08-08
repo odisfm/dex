@@ -1,12 +1,35 @@
 import {typePalettesMid} from "../utils/typePalettes.tsx";
-import {type ReactElement, useContext, useEffect, useState} from "react";
+import {type ReactElement, useContext, useEffect, useMemo, useState} from "react";
 import {LanguageContext} from "../contexts/LanguageContext.tsx";
 import dex from "../utils/dex.tsx";
 import {getLocalName} from "../utils/apiParsing.ts";
 
-export function TypeLabel({pokeType}: { pokeType: string }): ReactElement {
+export function TypeLabel({pokeType, size="md"}: { pokeType: string, size: "sm" | "md" | "lg"  }): ReactElement {
     const languageContext = useContext(LanguageContext);
     const [labelText, setLabelText] = useState<string>('');
+
+    const style = useMemo(() => {
+        if (size === "sm") {
+            return {
+                px: "px-2",
+                py: "py-1",
+                textSize: "text-sm"
+            };
+        } else if (size === "md") {
+            return {
+                px: "px-3",
+                py: "py-2",
+                textSize: "text-md"
+            };
+        } else { // size === "lg"
+            return {
+                px: "px-4",
+                py: "py-3",
+                textSize: "text-lg"
+            };
+        }
+    }, [size]);
+
 
     useEffect(() => {
         if (!pokeType) return;
@@ -24,7 +47,7 @@ export function TypeLabel({pokeType}: { pokeType: string }): ReactElement {
         const bgColor: string = typePalettesMid[pokeType as keyof typeof typePalettesMid];
 
     return (
-        <div className={`${bgColor} px-5 py-3 text-white font-bold rounded-md text-lg`}>
+        <div className={`${bgColor} ${style.px} ${style.py} text-white font-bold rounded-md ${style.textSize}`}>
             {labelText.toUpperCase()}
         </div>
     )
