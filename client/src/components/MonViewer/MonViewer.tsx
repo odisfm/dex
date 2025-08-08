@@ -123,7 +123,7 @@ export default function MonViewer(): ReactElement {
         }
         setAdjacentMon([prev, next])
 
-    }, [selectedMon, versionContext.nationalDex]);
+    }, [selectedMon, versionContext]);
 
     const monTypes = useMemo(() => {
         if (!selectedMon) return [];
@@ -132,7 +132,7 @@ export default function MonViewer(): ReactElement {
             (selectedMon as any).past_types as PokeAPI.PokemonType[],
             versionContext.versionDetails.generation
         );
-    }, [selectedMon, versionContext.versionDetails]);
+    }, [selectedMon, versionContext]);
 
     if (!selectedMon || !selectedSpecies ) {
         return <h1 className={"text-white text-3xl"}>{`Could not fetch "${monName}"`}</h1>
