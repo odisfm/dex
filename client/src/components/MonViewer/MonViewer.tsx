@@ -6,6 +6,7 @@ import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
 import {compareVersionGroupToGen, getVersionGroupGeneration} from "../../utils/util.ts";
+import {getTypes} from "../../utils/apiParsing.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 
