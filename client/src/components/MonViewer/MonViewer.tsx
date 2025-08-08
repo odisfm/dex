@@ -35,7 +35,7 @@ export default function MonViewer(): ReactElement {
                     }
                 }
             } catch (e) {
-                console.error(e)
+                console.log(e)
             }
         }
         setSelectedMon(newMon);
