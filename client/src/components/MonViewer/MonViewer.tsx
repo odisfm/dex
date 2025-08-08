@@ -45,11 +45,13 @@ export default function MonViewer(): ReactElement {
         console.log("thisForm", thisForm)
         const compare = compareVersionGroupToGen(thisForm.version_group.name, versionContext.versionDetails.generation);
         console.log(`first appearance later than set gen? ${compare < 0}`)
+        versionContext.setRestrictGeneration(getVersionGroupGeneration(thisForm.version_group.name));
+
         if (compare > 0) {
             versionContext.setVersionGroup(thisForm.version_group.name)
         }
 
-    }, [monName, versionContext])
+    }, [monName])
 
     useEffect(() => {
         fetchPokemon().then(() => {});
