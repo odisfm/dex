@@ -1,6 +1,5 @@
 import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {Pokedex} from "pokeapi-js-wrapper";
-import {Link, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import type { PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
