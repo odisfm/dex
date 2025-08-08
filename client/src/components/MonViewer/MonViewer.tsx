@@ -6,8 +6,8 @@ import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
-import {compareGenerations} from "../../utils/util.ts";
 import {getTypes} from "../../utils/apiParsing.ts";
+import { compareVersionGroupToGen} from "../../utils/util.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 
@@ -17,6 +17,8 @@ export default function MonViewer(): ReactElement {
     const [selectedSpecies, setSelectedSpecies] = useState<PokeAPI.PokemonSpecies | null>(null)
     const {monName} = useParams()
     const [adjacentMon, setAdjacentMon] = useState<[string, string] | null>(null)
+    const [monForms, setMonForms] = useState<PokeAPI.Pokemon[]>([])
+    const [activeForm, setActiveForm] = useState<PokeAPI.Pokemon | null>(null)
 
     const fetchPokemon = useCallback(async () => {
         if (!monName) {
@@ -40,10 +42,12 @@ export default function MonViewer(): ReactElement {
         setSelectedMon(newMon);
         const species = await dex.getPokemonSpeciesByName(newMon.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
-        const firstGen = species.generation.name
-        const compare = compareGenerations(versionContext.versionDetails.generation, firstGen);
-        if (compare < 0) {
-            versionContext.setGeneration(firstGen)
+        const thisForm = await dex.getPokemonFormByName(newMon.name)
+        console.log("thisForm", thisForm)
+        const compare = compareVersionGroupToGen(thisForm.version_group.name, versionContext.versionDetails.generation);
+        console.log(`first appearance later than set gen? ${compare < 0}`)
+        if (compare > 0) {
+            versionContext.setVersionGroup(thisForm.version_group.name)
         }
 
     }, [monName, versionContext])
