@@ -54,6 +54,53 @@ export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: 
     throw new NoRelevantVersionError(`Unable to parse flavor text`);
 }
 
+export function getMoveFlavorText(data: PokeAPI.MoveFlavorText[], targetVersionGroup: string, targetLanguage: string, fallbackLanguage: string = "en"): string {
+    let mostRelevantEntry: PokeAPI.MoveFlavorText | null = null;
+    let mostRelevantVersionPriority = -1;
+    const targetPriority = versionPriorityList.indexOf(targetVersionGroup);
+
+    for (const flavorEntry of data) {
+        if (flavorEntry.language.name === targetLanguage && flavorEntry.version_group.name === targetVersionGroup) {
+            return flavorEntry.flavor_text;
+        }
+
+        const thisGenPriority = versionPriorityList.indexOf(flavorEntry.version_group.name);
+        if (flavorEntry.language.name === targetLanguage &&
+            thisGenPriority > mostRelevantVersionPriority &&
+            thisGenPriority < targetPriority) {
+            mostRelevantEntry = flavorEntry;
+            mostRelevantVersionPriority = thisGenPriority;
+        }
+    }
+
+    if (mostRelevantEntry) {
+        return mostRelevantEntry.flavor_text;
+    }
+
+    mostRelevantEntry = null;
+    mostRelevantVersionPriority = -1;
+
+    for (const flavorEntry of data) {
+        if (flavorEntry.language.name === fallbackLanguage && flavorEntry.version_group.name === targetVersionGroup) {
+            return flavorEntry.flavor_text;
+        }
+
+        const thisGenPriority = versionPriorityList.indexOf(flavorEntry.version_group.name);
+        if (flavorEntry.language.name === fallbackLanguage &&
+            thisGenPriority > mostRelevantVersionPriority &&
+            thisGenPriority < targetPriority) {
+            mostRelevantEntry = flavorEntry;
+            mostRelevantVersionPriority = thisGenPriority;
+        }
+    }
+
+    if (mostRelevantEntry) {
+        return mostRelevantEntry.flavor_text;
+    }
+
+    return data.length > 0 ? data[0].flavor_text : "";
+}
+
 export type APIPastTypes = {
     generation: {
         name: string;
@@ -78,7 +125,7 @@ export function getTypes(currentTypes: PokeAPI.PokemonType[], pastTypes: APIPast
     return mostRelevantEntry ? mostRelevantEntry.types: currentTypes;
 }
 
-type MovePlusLearnDef = {
+export type MoveLearnDef = {
     level_learned_at: number,
     move_learn_method: PokeAPI.NamedAPIResource,
     order?: null | number,
@@ -86,8 +133,8 @@ type MovePlusLearnDef = {
     url: string
 }
 
-export function getAllVersionMoves(allMoves: PokeAPI.PokemonMove[], versionGroup: string): MovePlusLearnDef[] {
-    const allRelevantMoves: MovePlusLearnDef[] = [];
+export function getAllVersionMoves(allMoves: PokeAPI.PokemonMove[], versionGroup: string): MoveLearnDef[] {
+    const allRelevantMoves: MoveLearnDef[] = [];
     for (const moveLearnDef of allMoves) {
         try {
             const relevantMove = getMoveLearnDetails(moveLearnDef, versionGroup);
@@ -252,4 +299,108 @@ export function filterPokemonForms(data: PokeAPI.PokemonForm[], targetVersionGro
         }
     }
     return filtered;
+}
+
+type MonMoveValues = {
+    accuracy: number,
+    effectChance: number,
+    power: number,
+    pp: number,
+    priority: number,
+
+}
+
+export type CondensedMonMove = {
+    fullMove: PokeAPI.Move,
+    name: string,
+    values: MonMoveValues,
+    effect?: {
+        description: string,
+        short_desc?: string,
+    },
+    flavorText: string,
+    meta: PokeAPI.MoveMetaData,
+    statChanges: PokeAPI.MoveStatChange[]
+
+
+}
+
+function getMoveEffectEntry(data: PokeAPI.Effect[], targetLanguage: string, fallbackLanguage="en"): {
+    description: string, short_desc?: string,
+} {
+    let fallbackValue: {
+        description: string,
+        short_desc?: string,
+    } = {
+        description: ""
+    };
+    for (const effect of data) {
+        if (effect.language.name === targetLanguage) {
+            const short_desc = (effect as never)['short_effect'] as string;
+            return {
+                description: effect.effect,
+                short_desc: short_desc
+            }
+        }
+        else if (effect.language.name === fallbackLanguage) {
+            const short_desc = (effect as never)['short_effect'] as string;
+            fallbackValue = {
+                description: effect.effect,
+                short_desc: short_desc
+            }
+        }
+    }
+    return fallbackValue;
+}
+
+export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string, targetLanguage: string, fallbackLanguage: string): CondensedMonMove  {
+    const flavorText = getMoveFlavorText(move.flavor_text_entries, targetVersionGroup, targetLanguage, fallbackLanguage);
+    const name = getLocalName(move.names, targetLanguage, fallbackLanguage);
+
+    // MonMoveValues
+    const targetVersionPriority = versionPriorityList.indexOf(targetVersionGroup);
+    let bestPastValueSet: PokeAPI.PastMoveStatValues | null = null
+    let bestPastValueSetPriority = -1;
+
+    for (const pastValueSet of move.past_values) {
+        const valueSetPriorityIndex = versionPriorityList.indexOf(pastValueSet.version_group.name);
+        if (valueSetPriorityIndex >= targetVersionPriority || valueSetPriorityIndex < bestPastValueSetPriority) {
+            continue;
+        }
+        bestPastValueSet = pastValueSet;
+        bestPastValueSetPriority = valueSetPriorityIndex;
+
+    }
+
+    let moveValues: MonMoveValues;
+    if (bestPastValueSet) {
+        moveValues = {
+            accuracy: bestPastValueSet.accuracy,
+            effectChance: bestPastValueSet.effect_chance,
+            power: bestPastValueSet.power,
+            pp: bestPastValueSet.pp || move.pp,
+            priority: move.priority
+        }
+    } else {
+        moveValues = {
+            accuracy: move.accuracy,
+            effectChance: move.effect_chance,
+            power: move.power,
+            pp: move.pp,
+            priority: move.priority
+        }
+    }
+
+    const condensed: CondensedMonMove = {
+        fullMove: move,
+        name: name,
+        flavorText: flavorText,
+        meta: move.meta,
+        values: moveValues,
+        statChanges: move.stat_changes,
+        effect: getMoveEffectEntry(move.effect_entries, targetLanguage, fallbackLanguage)
+
+    }
+
+    return condensed;
 }
