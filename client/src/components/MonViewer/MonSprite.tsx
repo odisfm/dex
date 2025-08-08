@@ -82,8 +82,9 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                 console.error(e)
             }
             console.log(sprites)
+            let key: string;
+            let fallbackKey: string;
             if (sprites) {
-                let key: string;
                 let overrideSprite: string;
                 if (versionContext.versionDetails.generation === "generation-i") {
                     key = "front_transparent"
@@ -99,12 +100,14 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                             key = "front_default"
                         } else {
                             key = "front_female"
+                            fallbackKey = "front_default"
                         }
                     } else {
                         if (gender === "male") {
                             key = "front_shiny"
                         } else {
                             key = "front_shiny_female"
+                            fallbackKey = "front_shiny"
                         }
                     }
                 } else {
@@ -117,6 +120,10 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                     sprite = sprites[key as keyof typeof sprites] as string;
                 } else {
                     sprite = overrideSprite;
+                }
+
+                if (!sprite) {
+                    sprite = sprites[fallbackKey as keyof typeof sprites] as string;
                 }
 
                 setActiveSprite(sprite)
