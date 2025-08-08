@@ -242,3 +242,14 @@ function _versionGroupNoSpritesFallback(
     throw new NoRelevantVersionError();
 }
 
+export function filterPokemonForms(data: PokeAPI.PokemonForm[], targetVersionGroup: string): PokeAPI.PokemonForm[] {
+    const filtered = []
+    const targetGroupIndex = versionPriorityList.indexOf(targetVersionGroup);
+    for (const form of data) {
+        const formVersionIndex = versionPriorityList.indexOf(form.version_group.name)
+        if (formVersionIndex <= targetGroupIndex) {
+            filtered.push(form);
+        }
+    }
+    return filtered;
+}
