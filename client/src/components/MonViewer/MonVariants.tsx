@@ -24,38 +24,12 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
         }
     }
 
-    const variantName = useMemo(() => {
-        const varieties = monSpecies.varieties;
-        for (let i = 0; i < varieties.length; i++) {
-            let thisVar = varieties[i];
-            if (thisVar.pokemon.name === mon.name) {
-                if (thisVar.is_default) {
-                    return ""
-                } else {
-                    let splitName = thisVar.pokemon.name.split("-").slice(1)
-                    splitName = splitName.map((word) => {
-                        return word.charAt(0).toUpperCase() + word.slice(1)
-                    })
-                    let varName = splitName.join(" ")
-                    if (varName === "Gmax") {
-                        varName = "Gigantamax"
-                    }
-                    return varName
-                }
-            }
-        }
-    }, [monSpecies, mon])
-
     if (filteredVars.length < 2) {
         return null;
     }
 
     return (
         <div className={"flex flex-col gap-3 items-center"}>
-            { variantName ?
-                <span className={"bg-white rounded-lg py-1 px-3 text-center text-black font-bold"}>{variantName}</span>
-                : null
-            }
             <div className={"flex flex-wrap justify-center gap-2 w-50"}>
                 {
                     filteredVars.map((variety, index) => {
