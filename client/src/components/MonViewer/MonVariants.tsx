@@ -34,7 +34,7 @@ export default function MonVariants({monSpecies, mon}: {monSpecies: PokeAPI.Poke
                 {
                     filteredVars.map((variety, index) => {
                         return <Link to={`/mon/${variety.pokemon.name}`}
-                                     className={`p-5 size-5 rounded-full flex items-center justify-center ${selectedForm === index ? "bg-black text-white" : "bg-blue-500"}`}>{numerals.splice(0, 1)}</Link>
+                                     className={`p-5 size-5 rounded-full flex items-center justify-center ${selectedForm === index ? "bg-white text-black" : "bg-black text-white"}`}>{numerals.splice(0, 1)}</Link>
                     })
                 }
             </div>
