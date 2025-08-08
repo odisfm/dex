@@ -23,7 +23,7 @@ export default function MonVariants({mon, monVariants}:
             <div className={"flex flex-wrap justify-center gap-2 w-50"}>
                 {
                     monVariants.map((variety, index) => {
-                        return <Link to={`/mon/${variety.name}`}
+                        return <Link to={`/mon/${variety.name}`} key={index}
                                      className={`p-5 size-5 rounded-full flex items-center justify-center ${selectedVariant === index ? "bg-black text-white hover:bg-neutral-600 " : "bg-white text-black hover:bg-neutral-200 "}`}>{numerals.splice(0, 1)}</Link>
                     })
                 }
