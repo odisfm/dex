@@ -89,7 +89,7 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
                     return <TypeLabel pokeType={type.type.name} key={type.type.name}></TypeLabel>
                 })}
             </div>
-            <p className={"flex flex-col bg-white py-5 px-7 text-black max-w-lg text-center"}>
+            <p className={"flex flex-col bg-white py-5 px-7 text-black max-w-max md:max-w-lg text-center"}>
                 <span>
                     {flavorText}
                 </span>

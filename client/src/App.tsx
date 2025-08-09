@@ -18,14 +18,22 @@ function App() {
 
     return (
         <>
-            <header className={"p-3 text-white bg-neutral-800 flex gap-3 items-center w-full"}>
+            <header className={"z-100 sticky top-0 p-3 text-white bg-neutral-800 flex gap-5 items-center w-full"}>
                 <h1 className={"text-3xl font-black"}>Dex</h1>
-                <VersionPicker />
-                <LanguagePicker />
+                <div className={"hidden md:flex gap-3 w-full"}>
+                    <VersionPicker/>
+                    <LanguagePicker/>
+                </div>
             </header>
-            <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full items-center py-10 px-5 text-black"}>
-                <Outlet></Outlet>
-            </main>
+            <div className={"relative h-full w-full"}>
+                <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full items-center py-15 px-1 md:px-10 text-black"}>
+                    <Outlet></Outlet>
+                </main>
+                <div className={"z-0 fixed hidden h-full w-4/5 top-0 bg-transparent flex flex-col py-20"}>
+                    <VersionPicker/>
+                    <LanguagePicker/>
+                </div>
+            </div>
         </>
 
     )

@@ -48,7 +48,7 @@ export default function LanguagePicker() {
 
     if (!languages) return null;
 
-    return <div className={"ml-auto flex shrink-2 min-w-0 gap-2"}>
+    return <div className={"ml-auto flex min-w-0 gap-2"}>
         <TranslateIcon className={"size-8 fill-white shrink-1"} />
         <select
             ref={selectRef}

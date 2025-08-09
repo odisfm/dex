@@ -167,12 +167,20 @@ export default function MonViewer(): ReactElement {
     }
 
     return (
-        <div className={"flex flex-col gap-7 items-center text-black"}>
-            <div className={"flex items-center justify-center gap-10"}>
-                {prevUrl ? <MonPrevNextButton left={true} url={prevUrl}/> : null}
+        <div className={"flex flex-col gap-7 items-center lg:w-4/5 text-black"}>
+            <div className={"flex flex-wrap items-center justify-center gap-10"}>
+                {prevUrl ? <div className={"hidden md:block"}><MonPrevNextButton left={true} url={prevUrl}/></div> : null}
                 <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
-                {nextUrl ? <MonPrevNextButton left={false} url={nextUrl}/> : null}
+                {nextUrl ? <div className={"hidden md:block"}><MonPrevNextButton left={false} url={nextUrl}/></div> : null}
             </div>
+            {
+                prevUrl ?
+                    <div className={"flex gap-2  md:hidden"}>
+                        <div ><MonPrevNextButton left={true} url={prevUrl}/></div>
+                        <div ><MonPrevNextButton left={false} url={nextUrl}/></div>
+                    </div>
+                    : null
+            }
             <MonVariants monSpecies={selectedSpecies} mon={selectedMon} monVariants={monVariants}/>
             <div className={"flex gap-2"}>
                 <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} variantForms={monVariantForms}></MonBio>

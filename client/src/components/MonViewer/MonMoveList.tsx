@@ -194,7 +194,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
 
     return (
         <>
-            <div className={"flex gap-1"}>
+            <div className={"flex flex-wrap gap-1 justify-center"}>
                 {[...standardLearnMethods, "other", null].map((method, index) => {
                     return (
                         <button
@@ -207,7 +207,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
                 })
                 }
             </div>
-            <div className={"flex flex-col gap-1"}>
+            <div className={"flex flex-col gap-2 lg:max-w-2/3"}>
                 {filteredMoves.length ?
                     filteredMoves.map((move, index) => {
                     return <MonMoveSummary move={move} key={moveKeys[index]}/>

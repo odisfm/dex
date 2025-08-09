@@ -13,7 +13,7 @@ export function TypeLabel({pokeType, size="md"}: { pokeType: string, size: "sm" 
             return {
                 px: "px-2",
                 py: "py-1",
-                textSize: "text-sm"
+                textSize: "text-xs"
             };
         } else if (size === "md") {
             return {
