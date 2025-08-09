@@ -128,8 +128,6 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
             return [];
         }
 
-        console.log(`filtering ${moveSummaries.length} moves!!`);
-
         if (!learnMethodFilter) {
             return sortMoves(moveSummaries);
         }

@@ -25,7 +25,6 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
 
     useEffect(() => {
         const imageElement = imageRef.current;
-        console.log('use effect - loading')
         if (!imageElement || !activeSprite) {
             if (!activeSprite) {
                 console.log('No active sprite, returning');
@@ -36,15 +35,11 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
 
         setImgIsLoading(true);
 
-        console.log('Setting up image load listeners for:', activeSprite);
-
         const handleLoad = () => {
-            console.log('Image loaded successfully');
             setImgIsLoading(false);
         };
 
         const handleError = () => {
-            console.log('Image failed to load');
             setImgIsLoading(false);
         };
 
@@ -52,12 +47,10 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
         imageElement.addEventListener('error', handleError);
 
         if (imageElement.complete && imageElement.naturalHeight !== 0) {
-            console.log('Image already cached');
             setImgIsLoading(false);
         }
 
         return () => {
-            console.log('removing event listeners')
             imageElement.removeEventListener('load', handleLoad);
             imageElement.removeEventListener('error', handleError);
         };
@@ -81,7 +74,6 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
             } catch (e) {
                 console.error(e)
             }
-            console.log(sprites)
             let key: string;
             let fallbackKey: string;
             if (sprites) {
@@ -113,7 +105,6 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                 } else {
                     key = shiny ? "front_shiny" : "front_default";
                 }
-                console.log(`getting sprite "${key}"`)
                 let sprite
 
                 if (!overrideSprite) {
@@ -165,7 +156,6 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
 
     const toggleShiny = useCallback(() => {
         setShiny(!shiny)
-        console.log(`shiny ${shiny}`)
     }, [shiny])
 
     const toggleGender = useCallback(() => {

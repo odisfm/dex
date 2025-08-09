@@ -48,7 +48,6 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
 
     variantForms.forEach(form => {
         try {
-            console.log("form", form)
 
             if (mon.name === form.name) {
                 displayName = getLocalName([...form.names, ...form.form_names], languageContext.language)

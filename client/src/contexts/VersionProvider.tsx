@@ -101,7 +101,6 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
     const getPokedexes = useCallback(async (): Promise<void> => {
         if (!versionDetails.versionGroup) return;
 
-        console.log('getting pokedexes', versionDetails);
         const versionGroup = await dex.getVersionGroupByName(versionDetails.versionGroup);
         const dexEntries = versionGroup.pokedexes;
         const dexObjList: PokeAPI.Pokedex[] = [];
@@ -115,7 +114,6 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         setNationalDex(natDex)
 
         setPokedexes(dexObjList);
-        console.log("Pokedexes:", dexObjList);
     }, [versionDetails]);
 
     const contextValue = useMemo(() => ({

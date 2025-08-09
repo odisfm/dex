@@ -50,9 +50,7 @@ export default function MonViewer(): ReactElement {
         const species = await dex.getPokemonSpeciesByName(newMon.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
         const thisForm = await dex.getPokemonFormByName(newMon.name)
-        console.log("thisForm", thisForm)
         const compare = compareVersionGroupToGen(thisForm.version_group.name, versionContext.versionDetails.generation);
-        console.log(`first appearance later than set gen? ${compare < 0}`)
         versionContext.setRestrictGeneration(getVersionGroupGeneration(thisForm.version_group.name));
 
         if (compare > 0) {
@@ -96,7 +94,6 @@ export default function MonViewer(): ReactElement {
             if (!isCancelled) {
                 setMonVariantForms(formList)
                 setMonVariants(variantObjs)
-                console.log(`forms for mon ${selectedMon.name}`, variantObjs)
             }
         })()
 
@@ -114,7 +111,6 @@ export default function MonViewer(): ReactElement {
             return
         }
         versionContext.setRestrictGeneration(restrictionGeneration);
-        console.log(`restricted gen to ${restrictionGeneration}`)
 
         return () => {
             versionContext.setRestrictGeneration(null);
