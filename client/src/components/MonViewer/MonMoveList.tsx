@@ -1,5 +1,5 @@
 import type { PokeAPI} from "pokeapi-types";
-import {type ReactElement, useContext, useEffect, useState} from "react";
+import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {condenseMoveData, getAllVersionMoves} from "../../utils/apiParsing.ts";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
@@ -12,6 +12,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [moveSummaries, setMoveSummaries] = useState<MoveSummaryData[]>([]);
+    const [learnMethodFilter, setLearnMethodFilter] = useState<null | string>("level-up");
 
     useEffect(() => {
         const fetchMoveData = async () => {
@@ -74,6 +75,47 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
         fetchMoveData();
     }, [mon, versionContext, languageContext]);
 
+    const sortMoves = (data: MoveSummaryData[]): MoveSummaryData[] => {
+        return [...data].sort((a, b) => {
+            if (!a.learnDef.level_learned_at && !b.learnDef.level_learned_at) {
+                return 0
+            } else if (!a.learnDef.level_learned_at) {
+                return 1
+            } else if (!b.learnDef.level_learned_at) {
+                return -1
+            }
+            if (a.learnDef.level_learned_at === b.learnDef.level_learned_at) {
+                return 0
+            }
+            return a.learnDef.level_learned_at > b.learnDef.level_learned_at ? 1 : -1
+        });
+        }
+
+    const filteredMoves = useMemo((): MoveSummaryData[] => {
+        if (!learnMethodFilter) {
+            return sortMoves(moveSummaries);
+        }
+
+        if (learnMethodFilter === "level-up") {
+            return sortMoves(
+                [...moveSummaries].filter(move => {
+                return move.learnDef.move_learn_method.name === "level-up"
+                })
+            )
+        } else {
+            return [...moveSummaries].filter(move => {
+                return move.learnDef.move_learn_method.name === learnMethodFilter
+            }).sort((a, b) => {
+                return a.condensed.name.localeCompare(b.condensed.name);
+            })
+        }
+    }, [moveSummaries, learnMethodFilter])
+
+
+    // const filteredMoves
+
+
+
     if (loading) {
         return <span>Loading move data...</span>;
     }
@@ -90,8 +132,8 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
 
     return (
         <div className={"flex flex-col gap-1"}>
-            {moveSummaries.map((move, index) => {
-                return <MonMoveSummary move={move} key={index}/>
+            {filteredMoves.map((move) => {
+                return <MonMoveSummary move={move} key={move.condensed.name}/>
             })}
         </div>
     );
