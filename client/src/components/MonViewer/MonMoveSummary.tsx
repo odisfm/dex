@@ -43,12 +43,6 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
             <div className={"flex flex-col md:w-2/6  md:grow-1 gap-1"}>
                 <h1 className={"font-bold"}>{move.condensed.name}</h1>
                 <span>{move.condensed.flavorText}</span>
-                {/*<span>*/}
-                {/*    {move.learnDef.level_learned_at ?*/}
-                {/*        `Learned at level ${move.learnDef.level_learned_at}`*/}
-                {/*        : `Learned with ${move.learnDef.move_learn_method.name}`*/}
-                {/*    }*/}
-                {/*</span>*/}
             </div>
             <div className={"flex grow-1 md:w-3/6 md:ml-auto md:justify-end gap-4 [&_svg]:size-10"}>
                 <table className={"grow-1 w-1/2"}>
