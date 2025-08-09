@@ -48,13 +48,13 @@ export default function LanguagePicker() {
 
     if (!languages) return null;
 
-    return <div className={"ml-auto flex min-w-0 gap-2"}>
-        <TranslateIcon className={"size-8 fill-white shrink-1"} />
+    return <div className={"flex gap-2 min-w-3 ml-auto"}>
+        <TranslateIcon className={"size-6 fill-white shrink-1"} />
         <select
             ref={selectRef}
             value={languageContext.language}
             onChange={handleLanguageChange}
-            className={"shrink-1"}
+            className={"shrink-1 max-w-10"}
         >
             {languages.map((language) => (
                 <option

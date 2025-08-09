@@ -21,7 +21,7 @@ export default function VersionPicker(): React.ReactElement {
             onChange={(e) => {
                 versionContext.setVersionGroup(e.target.value);
             }}
-            className={"shrink-1 min-w-1"}
+            className={"shrink-2 min-w-1 max-w-30 md:max-w-1/4"}
             value={versionContext.versionDetails.versionGroup}
         >
             {availableVersionGroups.map((group) => {
@@ -33,20 +33,20 @@ export default function VersionPicker(): React.ReactElement {
                 </option>
             })}
         </select>
-        <div className={"flex gap-1"}>
-            {versionContext.versionDetails.groupVersions.length > 1 ?
-                versionContext.versionDetails.groupVersions.map((version) => {
-                return <button
-                    key={version}
-                    className={`px-2 py-1 rounded-md
-                        ${versionContext.versionDetails.version === version ? "bg-gray-200 text-black" : "bg-slate-700 hover:bg-slate-600 text-white"}`}
-                    onClick={() => versionContext.setVersion(version)}
-                >
-                    {version.toUpperCase()}
-                </button>
-            })
-            : null
-            }
-        </div>
+        {/*<div className={"flex gap-1"}>*/}
+        {/*    {versionContext.versionDetails.groupVersions.length > 1 ?*/}
+        {/*        versionContext.versionDetails.groupVersions.map((version) => {*/}
+        {/*        return <button*/}
+        {/*            key={version}*/}
+        {/*            className={`px-2 py-1 rounded-md*/}
+        {/*                ${versionContext.versionDetails.version === version ? "bg-gray-200 text-black" : "bg-slate-700 hover:bg-slate-600 text-white"}`}*/}
+        {/*            onClick={() => versionContext.setVersion(version)}*/}
+        {/*        >*/}
+        {/*            {version.toUpperCase()}*/}
+        {/*        </button>*/}
+        {/*    })*/}
+        {/*    : null*/}
+        {/*    }*/}
+        {/*</div>*/}
     </>
 }

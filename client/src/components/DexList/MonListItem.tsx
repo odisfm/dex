@@ -34,7 +34,10 @@ export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusS
     }, [monPlusSpecies, versionContext.versionDetails.generation])
 
     useEffect(() => {
-        const sprite = monPlusSpecies.mon.sprites.versions["generation-viii"]["icons"]["front_default"] as string;
+        let sprite = monPlusSpecies.mon.sprites.versions["generation-viii"]["icons"]["front_default"] as string;
+        if (!sprite) {
+            sprite = monPlusSpecies.mon.sprites.front_default
+        }
         if (imageRef.current) {
             imageRef.current.src = sprite;
         }
@@ -55,11 +58,11 @@ export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusS
                 <div className={"size-15"}>
                     <div className={"absolute items-center justify-center size-15"}>
                         <img
-                            className={"relative h-full w-full right-1 bottom-1"}
+                            className={"pixel-image relative h-full w-full right-1 bottom-1"}
                             ref={imageRef} src={null}/>
                     </div>
                 </div>
-                <span className={"mr-2 rounded-md p-1 bg-gray-50"}>#{dexNum + 1}</span>
+                <span className={"mr-2 rounded-md p-1 bg-gray-50"}>#{dexNum}</span>
                 <span className={"font-bold text-lg"}>{name}</span>
                 <div className={"flex flex-col gap-1 ml-auto self-start"}>
                     {types.map((type) => (
