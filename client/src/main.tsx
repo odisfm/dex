@@ -6,13 +6,14 @@ import VersionProvider from "./contexts/VersionProvider.tsx";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import MonViewer from "./components/MonViewer/MonViewer.tsx";
 import LanguageProvider from "./contexts/LanguageProvider.tsx";
+import {DexView} from "./components/DexList/DexView.tsx";
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
         children: [
-            { index: true, element: null},
+            { index: true, element: <DexView />},
             { path: `/mon/:monName`, element: <MonViewer />}
         ]
     },
