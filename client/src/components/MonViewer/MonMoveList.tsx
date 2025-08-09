@@ -197,7 +197,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
                 {[...standardLearnMethods, "other", null].map((method, index) => {
                     return (
                         <button
-                            className={`${method === learnMethodFilter ? "bg-slate-300 " : "bg-white "} hover:bg-gray-300 text-black rounded-md cursor-pointer px-4 py-1`}
+                            className={`${method === learnMethodFilter ? "bg-black text-white hover:bg-black " : "bg-white hover:bg-gray-300 "} rounded-md cursor-pointer px-4 py-1`}
                             onClick={() => setLearnMethodFilter(method as LearnMethodFilter)}
                         >
                             {localLearnMethodNames[index]}
@@ -206,7 +206,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
                 })
                 }
             </div>
-            <div className={"flex flex-col gap-2 lg:max-w-2/3"}>
+            <div className={"flex flex-col gap-2 lg:max-w-4/5 xl:3/5"}>
                 {filteredMoves.length ?
                     filteredMoves.map((move, index) => {
                     return <MonMoveSummary move={move} key={moveKeys[index]}/>
