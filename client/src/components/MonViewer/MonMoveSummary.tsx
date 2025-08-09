@@ -39,10 +39,10 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
     }
 
     return (
-        <div className={"flex flex-col md:flex-row gap-3 md:gap-2 bg-white hover:bg-neutral-50 text-black py-2 px-2"}>
+        <div className={"flex flex-col md:flex-row gap-3 md:gap-2 bg-white hover:bg-neutral-50 text-black py-3 px-2"}>
             <div className={"flex flex-col md:w-2/6  md:grow-1 gap-1 p-1"}>
                 <h1 className={"font-bold"}>{move.condensed.name}</h1>
-                <span>{move.condensed.flavorText}</span>
+                <span className={"p-1"}>{move.condensed.flavorText}</span>
 
                 {move.learnDef.level_learned_at ?
                     <span className={"font-bold text-neutral-500"}>Learned at Level {move.learnDef.level_learned_at}</span>
@@ -50,7 +50,7 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
                 }
             </div>
             <div className={"flex grow-1 md:w-3/6 md:ml-auto md:justify-end gap-4 [&_svg]:size-10"}>
-                <table className={"grow-1 w-1/2"}>
+                <table className={"grow-1 w-1/2 bg-gray-100 p-1"}>
                     <thead className={"**:border-l-neutral-200 **:lg:not-first:border-l-2 **:px-2 text-left"}>
                     <tr>
                         <th className={""}>
@@ -86,7 +86,7 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
                 </table>
 
                 <div className={"flex flex-col gap-1 w-1/3 md:w-2/6 items-end justify-center"}>
-                    <TypeLabel pokeType={move.condensed.fullMove.type.name} size={"sm"}/>
+                    <TypeLabel pokeType={move.condensed.fullMove.type.name} size={"md"}/>
                     <DamageClassLabel damageClass={damageClass}/>
                 </div>
             </div>

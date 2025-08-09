@@ -26,7 +26,7 @@ function App() {
                 </div>
             </header>
             <div className={"relative h-full w-full"}>
-                <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full items-center py-15 px-1 md:px-10 text-black"}>
+                <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full items-center py-15 px-3 md:px-10 text-black"}>
                     <Outlet></Outlet>
                 </main>
                 <div className={"z-0 fixed hidden h-full w-4/5 top-0 bg-transparent flex flex-col py-20"}>

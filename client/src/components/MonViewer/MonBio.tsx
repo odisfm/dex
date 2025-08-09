@@ -68,13 +68,14 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
 
     return (
 
-        <div className={"flex flex-col gap-5 items-center text-black"}>
-                <div className={"flex flex-col py-2 px-5  bg-white gap-1 items-center"}>
+        <div className={"flex flex-col gap-5 items-center text-black "}>
 
-                <span className={"absolute self-end font-bold opacity-55"}>
+                <div className={"flex flex-col py-1 px-10  bg-white items-center text-lg"}>
+                    <span className={"absolute self-end font-bold opacity-55"}>
                     #{monSpecies.id}
-                </span>
-                    <h1 className={"md:text-5xl text-3xl mt-3 font-bold ml-3 mr-3"}>
+                    </span>
+
+                    <h1 className={"md:text-5xl text-3xl mt-4 font-bold ml-3 mr-3"}>
                         {displayName}
                     </h1>
                     {genus ?
@@ -88,7 +89,7 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
                     return <TypeLabel pokeType={type.type.name} key={type.type.name}></TypeLabel>
                 })}
             </div>
-            <p className={"flex flex-col bg-white py-5 px-7 text-black max-w-max md:max-w-lg text-center"}>
+            <p className={"flex flex-col bg-white py-5 px-7 text-black max-w-max md:max-w-lg text-center italic"}>
                 <span>
                     {flavorText}
                 </span>
