@@ -24,7 +24,7 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
             if (move.condensed.fullMove.damage_class.name === "status") {
                 return "status"
             }
-            if (move.condensed.fullMove.type.name in specialSplitTypes) {
+            if (specialSplitTypes.includes(move.condensed.fullMove.type.name)) {
                 return "special"
             } else {
                 return "physical"

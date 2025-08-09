@@ -363,7 +363,7 @@ export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string,
 
     for (const pastValueSet of move.past_values) {
         const valueSetPriorityIndex = versionPriorityList.indexOf(pastValueSet.version_group.name);
-        if (valueSetPriorityIndex >= targetVersionPriority || valueSetPriorityIndex < bestPastValueSetPriority) {
+        if (valueSetPriorityIndex <= targetVersionPriority || valueSetPriorityIndex > bestPastValueSetPriority) {
             continue;
         }
         bestPastValueSet = pastValueSet;

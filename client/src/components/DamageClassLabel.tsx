@@ -11,7 +11,7 @@ export function DamageClassLabel({damageClass}: {damageClass: string}): ReactEle
             case "status":
                 return "bg-indigo-500";
         }
-    })
+    }, [damageClass]);
 
     return (
         <div className={`rounded-md px-2 py-1 font-bold text-white text-xs ${bgClass} `}>
