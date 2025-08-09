@@ -4,7 +4,7 @@ import {VersionContext} from "./contexts/VersionContext.tsx";
 import type {PokeAPI} from "pokeapi-types";
 import {Pokedex} from "pokeapi-js-wrapper";
 import VersionPicker from "./components/VersionPicker.tsx";
-import {Outlet} from "react-router-dom";
+import {Link, Outlet} from "react-router-dom";
 import LanguagePicker from "./components/LanguagePicker.tsx";
 
 const dex = new Pokedex();
@@ -19,7 +19,7 @@ function App() {
     return (
         <>
             <header className={"z-100 sticky top-0 p-3 text-white bg-neutral-800 flex gap-5 items-center w-full"}>
-                <h1 className={"text-3xl font-black"}>Dex</h1>
+                <Link to={"/"}><h1 className={"text-3xl font-black"}>Dex</h1></Link>
                 <div className={"hidden md:flex gap-3 w-full"}>
                     <VersionPicker/>
                     <LanguagePicker/>
