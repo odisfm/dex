@@ -3,7 +3,7 @@ export type PokemonTypeName = 'fire' | 'water' | 'grass' | 'normal' | 'fighting'
 
 export const typePalettesMid: Record<PokemonTypeName, string> = {
    fire: "bg-red-500",
-   water: "bg-blue-600",
+   water: "bg-blue-500",
    grass: "bg-green-600",
    normal: "bg-gray-600",
    fighting: "bg-amber-600",
@@ -108,8 +108,8 @@ export const typesGradientEnd: Record<PokemonTypeName, string> = {
 
 export const typesGradientDouble: Record<PokemonTypeName, string> = {
   fire: "to-amber-700",
-  water: "to-indigo-950",
-  grass: "to-green-800",
+  water: "to-sky-400",
+  grass: "to-lime-800",
   normal: "to-gray-500",
   fighting: "to-yellow-600",
   flying: "to-sky-700",
@@ -129,7 +129,7 @@ export const typesGradientDouble: Record<PokemonTypeName, string> = {
 
 export const typesBorder: Record<PokemonTypeName, string> = {
   fire: "border-red-700",
-  water: "border-blue-700",
+  water: "border-blue-600",
   grass: "border-green-700",
   normal: "border-gray-500",
   fighting: "border-amber-700",
