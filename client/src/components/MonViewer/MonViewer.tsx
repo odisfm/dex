@@ -10,6 +10,8 @@ import {getTypes} from "../../utils/apiParsing.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 import MovMoveList from "./MonMoveList.tsx";
+import MonBattleDetails from "./MonBattleDetails.tsx";
+import MonEncounters from "./MonEncounters.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -181,6 +183,8 @@ export default function MonViewer(): ReactElement {
             <div className={"flex gap-2"}>
                 <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} variantForms={monVariantForms}></MonBio>
             </div>
+            <MonBattleDetails mon={selectedMon} />
+            {/*<MonEncounters mon={selectedMon}/>*/}
             <MovMoveList mon={selectedMon} />
             <div className={"text-lg text-white"}>
                 {/*{JSON.stringify(selectedMon)}*/}
