@@ -2,7 +2,7 @@ type PokemonTypeName = 'fire' | 'water' | 'grass' | 'normal' | 'fighting' | 'fly
 
 
 export const typePalettesMid: Record<PokemonTypeName, string> = {
-   fire: "bg-red-600",
+   fire: "bg-red-500",
    water: "bg-blue-600",
    grass: "bg-green-600",
    normal: "bg-gray-600",
@@ -11,7 +11,7 @@ export const typePalettesMid: Record<PokemonTypeName, string> = {
    poison: "bg-purple-600",
    ground: "bg-yellow-800",
    rock: "bg-stone-500",
-   bug: "bg-lime-700",
+   bug: "bg-lime-600",
    ghost: "bg-purple-800",
    steel: "bg-zinc-400",
    electric: "bg-yellow-500",
