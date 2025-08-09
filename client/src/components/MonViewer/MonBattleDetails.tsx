@@ -53,7 +53,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
         <>
             <h2 className={"font-bold text-3xl"}>Battle</h2>
 
-            <div className={"flex flex-wrap gap-2 items-stretch w-full justify-center"}>
+            <div className={"flex flex-col md:flex-row flex-wrap gap-2 items-stretch w-full justify-center"}>
 
                 <Card>
                     <h3>Typing</h3>
