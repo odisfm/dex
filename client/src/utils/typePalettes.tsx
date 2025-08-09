@@ -1,4 +1,4 @@
-type PokemonTypeName = 'fire' | 'water' | 'grass' | 'normal' | 'fighting' | 'flying' | 'poison' | 'ground' | 'rock' | 'bug' | 'ghost' | 'steel' | 'electric' | 'psychic' | 'ice' | 'dragon' | 'dark' | 'fairy';
+export type PokemonTypeName = 'fire' | 'water' | 'grass' | 'normal' | 'fighting' | 'flying' | 'poison' | 'ground' | 'rock' | 'bug' | 'ghost' | 'steel' | 'electric' | 'psychic' | 'ice' | 'dragon' | 'dark' | 'fairy';
 
 
 export const typePalettesMid: Record<PokemonTypeName, string> = {
