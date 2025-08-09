@@ -161,14 +161,13 @@ export function getAbilities(currentAbilities: PokeAPI.Ability[], pastAbilities:
     const targetGenPriority = supportedGenerations.indexOf(targetGen);
 
     for (const abilitiesDef of pastAbilities) {
-
         if (abilitiesDef.generation.name === targetGen) {
             return abilitiesDef.abilities;
         }
 
         const genPriority = supportedGenerations.indexOf(abilitiesDef.generation.name);
 
-        if (genPriority > mostRelevantVersionPriority && genPriority > targetGenPriority) {
+        if (genPriority <= targetGenPriority && genPriority > mostRelevantVersionPriority) {
             mostRelevantEntry = abilitiesDef.abilities;
             mostRelevantVersionPriority = genPriority;
         }
