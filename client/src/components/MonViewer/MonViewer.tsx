@@ -1,4 +1,4 @@
-import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
+import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState, useRef} from "react";
 import {useParams} from "react-router-dom";
 import type { PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
@@ -20,10 +20,14 @@ export default function MonViewer(): ReactElement {
     const [monVariants, setMonVariants] = useState<PokeAPI.Pokemon[]>([])
     const [monVariantForms, setMonVariantForms] = useState<PokeAPI.PokemonForm[]>([])
 
+    const currentMonNameRef = useRef<string | undefined>(undefined);
+
     const fetchPokemon = useCallback(async () => {
-        if (!monName) {
+        if (!monName || monName === currentMonNameRef.current) {
             return;
         }
+        currentMonNameRef.current = monName;
+
         let newMon: PokeAPI.Pokemon | null = null
         try {
             newMon = await dex.getPokemonByName(monName) as PokeAPI.Pokemon;
@@ -32,13 +36,16 @@ export default function MonViewer(): ReactElement {
                 const search = await dex.getPokemonSpeciesByName(monName) as PokeAPI.PokemonSpecies;
                 for (const variety of search.varieties) {
                     if (variety.is_default) {
-                         newMon = await dex.getPokemonByName(variety.pokemon.name)
+                        newMon = await dex.getPokemonByName(variety.pokemon.name)
                     }
                 }
             } catch (e) {
                 console.log(e)
             }
         }
+
+        if (!newMon) return;
+
         setSelectedMon(newMon);
         const species = await dex.getPokemonSpeciesByName(newMon.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
@@ -51,14 +58,17 @@ export default function MonViewer(): ReactElement {
         if (compare > 0) {
             versionContext.setVersionGroup(thisForm.version_group.name)
         }
-
-    }, [monName])
+    }, [monName, versionContext.versionDetails.generation]);
 
     useEffect(() => {
-        fetchPokemon().then(() => {});
+        if (monName !== currentMonNameRef.current) {
+            fetchPokemon().then(() => {});
+        }
     }, [fetchPokemon, monName]);
 
     useEffect(() => {
+        let isCancelled = false;
+
         (async ()=>  {
             if (!selectedMon || !selectedSpecies) {
                 return;
@@ -66,11 +76,14 @@ export default function MonViewer(): ReactElement {
             if (selectedSpecies.name !== selectedMon.species.name) {
                 return;
             }
-            const varieties = selectedSpecies.varieties;
 
+            const varieties = selectedSpecies.varieties;
             const variantObjs: PokeAPI.Pokemon[] = [];
             const formList: PokeAPI.PokemonForm[] = [];
+
             for (const variety of varieties) {
+                if (isCancelled) return;
+
                 const varObj = await dex.getPokemonByName(variety.pokemon.name) as PokeAPI.Pokemon;
                 const formObj = await dex.getPokemonFormByName(varObj.forms[0].name);
                 const compare = compareVersionGroupToGen(formObj.version_group.name, versionContext.versionDetails.generation)
@@ -79,33 +92,41 @@ export default function MonViewer(): ReactElement {
                     formList.push(formObj)
                 }
             }
-            setMonVariantForms(formList)
-            setMonVariants(variantObjs)
-            console.log(`forms for mon ${selectedMon.name}`, variantObjs)
 
+            if (!isCancelled) {
+                setMonVariantForms(formList)
+                setMonVariants(variantObjs)
+                console.log(`forms for mon ${selectedMon.name}`, variantObjs)
+            }
         })()
-    }, [selectedMon, selectedSpecies, versionContext.versionDetails ]);
+
+        return () => {
+            isCancelled = true;
+        };
+    }, [selectedMon, selectedSpecies, versionContext.versionDetails.generation]);
+
+    const restrictionGeneration = useMemo(() => {
+        return selectedSpecies?.generation.name || null;
+    }, [selectedSpecies?.generation.name]);
 
     useEffect(() => {
-        if (!selectedSpecies) {
+        if (!restrictionGeneration) {
             return
         }
-        versionContext.setRestrictGeneration(selectedSpecies.generation.name);
-        console.log(`restricted gen to ${selectedSpecies.generation.name}`)
+        versionContext.setRestrictGeneration(restrictionGeneration);
+        console.log(`restricted gen to ${restrictionGeneration}`)
 
         return () => {
             versionContext.setRestrictGeneration(null);
         }
+    }, [restrictionGeneration, versionContext]);
 
-
-    }, [selectedSpecies, versionContext]);
-
-    useEffect(() => {
+    const adjacentMonMemo = useMemo(() => {
         if (!selectedMon || !versionContext.nationalDex) {
-            return;
+            return null;
         }
         const speciesName = selectedMon.species.name
-        let prev, next: string;
+        let prev: string | undefined, next: string | undefined;
         let found = false;
 
         for (const mon of versionContext.nationalDex.pokemon_entries) {
@@ -122,9 +143,12 @@ export default function MonViewer(): ReactElement {
                 prev = name;
             }
         }
-        setAdjacentMon([prev, next])
+        return [prev, next] as [string, string];
+    }, [selectedMon?.species.name, versionContext.nationalDex]);
 
-    }, [selectedMon, versionContext]);
+    useEffect(() => {
+        setAdjacentMon(adjacentMonMemo);
+    }, [adjacentMonMemo]);
 
     const monTypes = useMemo(() => {
         if (!selectedMon) return [];
@@ -133,18 +157,21 @@ export default function MonViewer(): ReactElement {
             (selectedMon as any).past_types as PokeAPI.PokemonType[],
             versionContext.versionDetails.generation
         );
-    }, [selectedMon, versionContext]);
+    }, [selectedMon?.types, selectedMon?.past_types, versionContext.versionDetails.generation]);
+
+    const prevUrl = useMemo(() => adjacentMon?.[0] ? "/mon/" + adjacentMon[0] : null, [adjacentMon?.[0]]);
+    const nextUrl = useMemo(() => adjacentMon?.[1] ? "/mon/" + adjacentMon[1] : null, [adjacentMon?.[1]]);
 
     if (!selectedMon || !selectedSpecies ) {
         return <h1 className={"text-white text-3xl"}>{`Could not fetch "${monName}"`}</h1>
     }
 
     return (
-        <div className={"flex flex-col gap-7 items-center text-white"}>
+        <div className={"flex flex-col gap-7 items-center text-black"}>
             <div className={"flex items-center justify-center gap-10"}>
-                {adjacentMon ? <MonPrevNextButton left={true} url={"/mon/" + adjacentMon[0]}/> : null}
+                {prevUrl ? <MonPrevNextButton left={true} url={prevUrl}/> : null}
                 <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
-                {adjacentMon ? <MonPrevNextButton left={false} url={"/mon/" + adjacentMon[1]}/> : null}
+                {nextUrl ? <MonPrevNextButton left={false} url={nextUrl}/> : null}
             </div>
             <MonVariants monSpecies={selectedSpecies} mon={selectedMon} monVariants={monVariants}/>
             <div className={"flex gap-2"}>

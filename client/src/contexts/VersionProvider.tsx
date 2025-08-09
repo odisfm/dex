@@ -15,7 +15,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
     const [nationalDex, setNationalDex] = React.useState<PokeAPI.Pokedex | null>(null);
     const [initialised, setInitialised] = React.useState(false);
 
-    const setGame = (newVersionGroup?: string | null, newVersion?: string | null, newGeneration?: string | null) => {
+    const setGame = useCallback((newVersionGroup?: string | null, newVersion?: string | null, newGeneration?: string | null) => {
         if (!newVersionGroup && !newVersion && !newGeneration) {
             throw new Error("Must provide either newVersionGroup or newVersion");
         }
@@ -75,19 +75,19 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         setVersion(finalVersion);
         setGroupVersions(newGroupVersions);
         localStorage.setItem("versionGroup", finalVersionGroup);
-    };
+    }, []);
 
     const safeSetVersionGroup = useCallback((newVersionGroup: string) => {
         setGame(newVersionGroup);
-    }, []);
+    }, [setGame]);
 
-    const safeSetVersion = (newVersion: string) => {
+    const safeSetVersion = useCallback((newVersion: string) => {
         setGame(null, newVersion);
-    };
+    }, [setGame]);
 
-    const safeSetGeneration = (newGeneration: string) => {
+    const safeSetGeneration = useCallback((newGeneration: string) => {
         setGame(null, null, newGeneration);
-    };
+    }, [setGame]);
 
     const versionDetails = useMemo(() => {
         return {
@@ -118,6 +118,26 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         console.log("Pokedexes:", dexObjList);
     }, [versionDetails]);
 
+    const contextValue = useMemo(() => ({
+        versionDetails,
+        setGeneration: safeSetGeneration,
+        setVersionGroup: safeSetVersionGroup,
+        setVersion: safeSetVersion,
+        restrictGeneration,
+        setRestrictGeneration,
+        pokedexes,
+        nationalDex,
+    }), [
+        versionDetails,
+        safeSetGeneration,
+        safeSetVersionGroup,
+        safeSetVersion,
+        restrictGeneration,
+        setRestrictGeneration,
+        pokedexes,
+        nationalDex,
+    ]);
+
     useEffect(() => {
         const storedVersionGroup = localStorage.getItem("versionGroup");
 
@@ -129,7 +149,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         }
 
         setInitialised(true);
-    }, []);
+    }, [setGame]);
 
     useEffect(() => {
         if (initialised && versionGroup) {
@@ -142,18 +162,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
     }
 
     return (
-        <VersionContext.Provider
-            value={{
-                versionDetails,
-                setGeneration: safeSetGeneration,
-                setVersionGroup: safeSetVersionGroup,
-                setVersion: safeSetVersion,
-                restrictGeneration,
-                setRestrictGeneration,
-                pokedexes,
-                nationalDex,
-            }}
-        >
+        <VersionContext.Provider value={contextValue}>
             {children}
         </VersionContext.Provider>
     );
