@@ -1,7 +1,7 @@
 import type {PokeAPI} from "pokeapi-types";
 import {type ReactElement, useCallback, useContext, useEffect, useRef, useState} from "react";
-import {VersionContext} from "../../contexts/VersionContext.tsx";
-import {getSprites} from "../../utils/apiParsing.ts";
+import {VersionContext} from "../../../contexts/VersionContext.tsx";
+import {getSprites} from "../../../utils/apiParsing.ts";
 import {
     typePalettesDark,
     typePalettesMid, typesBorder,
@@ -9,8 +9,8 @@ import {
     typesGradientDouble,
     typesGradientEnd,
     typesGradientStart
-} from "../../utils/typePalettes.tsx";
-import {compareGenerations} from "../../utils/util.ts";
+} from "../../../utils/typePalettes.tsx";
+import {compareGenerations} from "../../../utils/util.ts";
 import ShinyButton from "./ShinyButton.tsx";
 import GenderSpriteButton from "./GenderSpriteButton.tsx";
 

@@ -1,4 +1,4 @@
-import ShinyIcon from "../../icon/shimmer.svg?react"
+import ShinyIcon from "../../../icon/shimmer.svg?react"
 
 export default function ShinyButton({isShiny, toggleShiny, bgColor}: {isShiny: boolean, toggleShiny: () => void, bgColor: string}) {
     return (

@@ -2,7 +2,7 @@ import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState
 import {useParams} from "react-router-dom";
 import type { PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
-import MonSprite from "./MonSprite.tsx";
+import MonSprite from "./Sprite/MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
 import {compareVersionGroupToGen, getVersionGroupGeneration} from "../../utils/util.ts";
@@ -10,8 +10,8 @@ import {getTypes} from "../../utils/apiParsing.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 import MovMoveList from "./MonMoveList.tsx";
-import MonBattleDetails from "./MonBattleDetails.tsx";
-import MonEncounters from "./MonEncounters.tsx";
+import MonBattleDetails from "./BattleDetails/MonBattleDetails.tsx";
+import MonEncounters from "./unused/MonEncounters.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);

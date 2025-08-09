@@ -1,5 +1,5 @@
-import MaleIcon from "../../icon/gender-male.svg?react"
-import FemaleIcon from "../../icon/gender-female.svg?react"
+import MaleIcon from "../../../icon/gender-male.svg?react"
+import FemaleIcon from "../../../icon/gender-female.svg?react"
 import type {ReactElement} from "react";
 
 export default function GenderSpriteButton({gender, toggleGender}: {gender: "male" | "female", toggleGender: () => void}): ReactElement {

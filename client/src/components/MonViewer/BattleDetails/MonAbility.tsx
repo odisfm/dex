@@ -1,8 +1,8 @@
 import {type ReactElement, useContext, useEffect, useMemo, useState} from "react";
 import {PokeAPI} from "pokeapi-types";
-import {getLocalName} from "../../utils/apiParsing.ts";
-import {LanguageContext} from "../../contexts/LanguageContext.tsx";
-import dex from "../../utils/dex.tsx"
+import {getLocalName} from "../../../utils/apiParsing.ts";
+import {LanguageContext} from "../../../contexts/LanguageContext.tsx";
+import dex from "../../../utils/dex.tsx"
 
 export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility }): ReactElement {
     const languageContext = useContext(LanguageContext);

@@ -1,9 +1,9 @@
 import {PokeAPI} from "pokeapi-types";
 import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState} from "react";
-import {VersionContext} from "../../contexts/VersionContext.tsx";
-import {LanguageContext} from "../../contexts/LanguageContext.tsx";
-import {getEncounters, getLocalName} from "../../utils/apiParsing.ts";
-import dex from "../../utils/dex.tsx"
+import {VersionContext} from "../../../contexts/VersionContext.tsx";
+import {LanguageContext} from "../../../contexts/LanguageContext.tsx";
+import {getEncounters, getLocalName} from "../../../utils/apiParsing.ts";
+import dex from "../../../utils/dex.tsx"
 import MonEncounterSummary from "./MonEncounterSummary.tsx";
 
 export type EncounterSummaryData = {

@@ -1,8 +1,8 @@
 import {PokeAPI} from "pokeapi-types";
 import {type ReactElement, useContext, useMemo} from "react";
 import Card from "./Card.tsx";
-import {getAbilities} from "../../utils/apiParsing.ts";
-import {VersionContext} from "../../contexts/VersionContext.tsx";
+import {getAbilities} from "../../../utils/apiParsing.ts";
+import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import MonAbility from "./MonAbility.tsx";
 
 type MonStats = {
