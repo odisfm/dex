@@ -10,11 +10,11 @@ export function DexView(): ReactElement | null {
     const [activeDex, setActiveDex] = useState<PokeAPI.Pokedex | null>(null)
 
     useEffect(() => {
-        if (!versionContext.pokedexes.length) {
+        if (!versionContext.pokedexes.length || !versionContext.nationalDex) {
             return
         }
-        setActiveDex(versionContext.pokedexes[0])
-    }, [versionContext.pokedexes]);
+        setActiveDex(versionContext.nationalDex)
+    }, [versionContext.pokedexes, versionContext.nationalDex]);
 
 
     const randomMon = useCallback(() => {
