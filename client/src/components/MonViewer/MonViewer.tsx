@@ -184,7 +184,7 @@ export default function MonViewer(): ReactElement {
     }
 
     return (
-        <div className={"flex flex-col gap-7 items-center lg:w-4/5 text-black"}>
+        <div className={"flex flex-col gap-7 items-center lg:w-4/5 text-black mt-5"}>
             <div className={"flex flex-wrap items-center justify-center gap-10"}>
                 <div className={"hidden md:block min-w-14"}>
                     {prevUrl ?

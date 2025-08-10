@@ -18,7 +18,7 @@ function App() {
 
     return (
         <>
-            <header className={"z-100 sticky top-0 p-3 text-white gap-2 bg-slate-800 flex items-center max-w-screen"}>
+            <header className={"z-100 sticky top-0 p-3 text-white gap-2 md:gap-10 bg-slate-800 flex items-center max-w-screen"}>
                 <Link to={"/"}><h1 className={"text-3xl font-black"}>Dex</h1></Link>
                 <div className={"flex gap-3 w-full"}>
                     <VersionPicker/>
@@ -26,7 +26,7 @@ function App() {
                 </div>
             </header>
             <div className={"relative h-full w-full"}>
-                <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full min-h-screen items-center py-15 px-3 md:px-10 text-black"}>
+                <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full min-h-screen items-center py-5 px-3 md:px-10 text-black"}>
                     <Outlet></Outlet>
                 </main>
             </div>
