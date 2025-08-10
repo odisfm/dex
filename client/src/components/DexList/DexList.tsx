@@ -5,7 +5,7 @@ import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {MonListItem} from "./MonListItem.tsx";
 import DexButton from "./DexButton.tsx";
 
-const PER_PAGE = 15
+const PER_PAGE = 30
 
 export type MonPlusSpecies = {
     mon: PokeAPI.Pokemon,
