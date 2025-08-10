@@ -20,7 +20,7 @@ export type MoveSummaryData = {
 export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactElement | null {
     const versionContex = useContext(VersionContext)
     const damageClass = useMemo(() => {
-        if (compareGenerations(versionContex.versionDetails.generation, "generation-iv") === 1) {
+        if (compareGenerations(versionContex.versionDetails.generation, "generation-iv") === -1) {
             if (move.condensed.fullMove.damage_class.name === "status") {
                 return "status"
             }
