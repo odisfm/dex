@@ -27,7 +27,6 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
         const imageElement = imageRef.current;
         if (!imageElement || !activeSprite) {
             if (!activeSprite) {
-                console.log('No active sprite, returning');
                 setImgIsLoading(false);
             }
             return

@@ -70,8 +70,6 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
                 })
             }
 
-            console.log(fetchedSpecies)
-            console.log(fetchedMon)
             setLoadedMon(prevLoadedMon => [...prevLoadedMon, ...monPlusSpecies])
             setPage(prevPage => prevPage + 1)
         } catch (error) {

@@ -68,8 +68,6 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
 
     }, [attackingTypes, typesToUse])
 
-    console.log(attackRelations)
-
 
     return (
         <div className={"flex  lg:flex-wrap gap-10 flex-wrap w-full justify-center"}>
