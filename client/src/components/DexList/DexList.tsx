@@ -1,9 +1,11 @@
 import type {PokeAPI} from "pokeapi-types";
-import {type ReactElement, useContext, useEffect, useState, useCallback, useRef} from "react";
+import {type ReactElement, useContext, useEffect, useState, useCallback, useRef, useMemo} from "react";
 import dex from "../../utils/dex"
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {MonListItem} from "./MonListItem.tsx";
 import DexButton from "./DexButton.tsx";
+import {supportedVersionGroups} from "../../../versionData.tsx";
+import {generationIncrement} from "../../utils/util.ts";
 
 const PER_PAGE = 30
 
@@ -18,6 +20,7 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
     const [page, setPage] = useState(0);
     const [loading, setLoading] = useState(false);
     const [hasMore, setHasMore] = useState(true);
+    const [natVersionCount, setNatVersionCount] = useState<number>(151);
 
     const lastItemRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +28,13 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
         setLoadedMon([])
         setPage(0)
         setHasMore(true)
-    }, [pokedex]);
+        for (const vg of supportedVersionGroups) {
+            if (vg.api_path === versionContext.versionDetails.versionGroup) {
+                setNatVersionCount(vg.mon_count)
+                break;
+            }
+        }
+    }, [pokedex, versionContext.versionDetails.versionGroup]);
 
     const fetchMoreMon = useCallback(async () => {
         if (!pokedex || loading || !hasMore) {
@@ -37,7 +46,11 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
         try {
             const toFetch: string[] = [];
             const startIndex = PER_PAGE * page
-            const endIndex = PER_PAGE * (page + 1)
+            let endIndex = PER_PAGE * (page + 1)
+
+            if (pokedex.name === "national" && endIndex > natVersionCount) {
+                endIndex = natVersionCount
+            }
 
             if (startIndex >= pokedex.pokemon_entries.length) {
                 setHasMore(false);
@@ -110,6 +123,21 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
         }
     }, [pokedex, loadedMon.length, fetchMoreMon, loading]);
 
+    const nextGen: string | false = useMemo(() => {
+        try {
+            return generationIncrement(versionContext.versionDetails.generation, 1)
+        } catch (error) {
+            return false
+        }
+    }, [versionContext.versionDetails.generation]);
+
+    const setNextGen = useCallback(() => {
+        if (!nextGen) {
+            return
+        }
+        versionContext.setGeneration(nextGen)
+    }, [nextGen])
+
     return (
         <div className={"flex flex-col items-center justify-center w-full md:w-lg"}>
             <div className={"flex flex-col gap-1 w-full"}>
@@ -135,9 +163,18 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
                     </div>
                 )}
 
-                {!hasMore && loadedMon.length > 0 && (
+                {!loading && !hasMore && loadedMon.length > 0 && (
                     <div className="flex justify-center items-center p-4">
-                        <div className="text-gray-500">You've seen all Pokémon in this Pokédex! <a href={"#"} className={"font-bold hover:underline"}>Back to top</a></div>
+                        <div className="flex flex-col gap-3 text-gray-500 items-center">
+                            <span className={"m-2"}>You've seen all Pokémon in this Pokédex! </span>
+                            <div className={"flex gap-4 "}>
+                                <a href={"#"} className={"font-bold hover:underline p-2 hover:bg-gray-200 rounded-md cursor-pointer"}>back to top</a>
+                                { (pokedex?.name==="national" && nextGen) ?
+                                    <button className={"font-bold hover:underline p-2 hover:bg-gray-200 rounded-md cursor-pointer"} onClick={setNextGen}>next generation</button>
+                                : null
+                                }
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
