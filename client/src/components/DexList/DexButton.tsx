@@ -22,7 +22,7 @@ export default function DexButton({pdex, setDex, selected}: {pdex: PokeAPI.Poked
         <button
             className={`${selected ? "bg-black text-white hover:bg-gray-700 " : "bg-white hover:bg-gray-100" } cursor-pointer py-2 px-4 rounded-lg`}
             onClick={() => {setDex(pdex)}}>
-            {localName}
+            {localName} Dex
         </button>
     )
 }
