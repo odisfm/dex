@@ -21,6 +21,7 @@ export default function MonViewer(): ReactElement {
     const [adjacentMon, setAdjacentMon] = useState<[string, string] | null>(null)
     const [monVariants, setMonVariants] = useState<PokeAPI.Pokemon[]>([])
     const [monVariantForms, setMonVariantForms] = useState<PokeAPI.PokemonForm[]>([])
+    const [firstLoad, setFirstLoad] = useState<boolean>(false)
 
     const currentMonNameRef = useRef<string | undefined>(undefined);
 
@@ -40,12 +41,22 @@ export default function MonViewer(): ReactElement {
         } catch (e) {
             try {
                 const search = await dex.getPokemonSpeciesByName(monName) as PokeAPI.PokemonSpecies;
+                let replacement = false;
                 for (const variety of search.varieties) {
                     if (variety.is_default) {
                         newMon = await dex.getPokemonByName(variety.pokemon.name)
+                        replacement = true;
+                        break;
                     }
                 }
+                if (!replacement) {
+                    throw e
+
+                }
             } catch (e) {
+                if (e.code === "ERR_BAD_REQUEST") {
+                    window.location.href = "/404"
+                }
                 console.log(e)
             }
         }
