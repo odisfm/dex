@@ -66,7 +66,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
     return (
         <>
-            <h2 className={"font-bold text-4xl"}>Battle</h2>
+            <h2 id="battle" className={"font-bold text-4xl"}>Battle</h2>
             {preLatestGen ?
                 <span className={"italic opacity-75"}>Stats based on Gen 9 data.</span>
                 : null
@@ -74,7 +74,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
             <div className={"flex flex-col md:flex-row flex-wrap gap-2  w-full justify-center "}>
 
-                <Card>
+                <Card extraStyles={null} id={"stats"}>
                     <h3>Base stats</h3>
                     <table className={"text-right [&_td]:font-bold [&_td]:px-3 [&_td]:bg-gray-100 [&_td]:rounded-lg border-separate border-spacing-2"}>
                         <tbody>
@@ -106,7 +106,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                     </table>
                 </Card>
                 { hasAbilities ?
-                    <Card>
+                    <Card extraStyles={null} id={"abilities"}>
                     <h3>Abilities</h3>
                     <div className={"flex flex-col gap-2"}>
                         {mon.abilities.map((ab, index) => {
@@ -119,7 +119,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                 </Card>
                 : null
                 }
-                <Card extraStyles={"lg:w-2/3"}>
+                <Card extraStyles={"lg:w-2/3"} id={"typing"}>
                     <h3>Typing</h3>
                     <TypeChart
                         attackingTypes=
