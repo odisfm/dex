@@ -56,6 +56,10 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
         return compareGenerations(versionContext.versionDetails.generation, "generation-ix") < 0
     }, [versionContext.versionDetails.generation])
 
+    const hasAbilities = useMemo(() => {
+        return compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0
+    }, [versionContext.versionDetails.generation])
+
     if (!mon) {
         return null
     }
@@ -101,7 +105,8 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                         </tbody>
                     </table>
                 </Card>
-                <Card>
+                { hasAbilities ?
+                    <Card>
                     <h3>Abilities</h3>
                     <div className={"flex flex-col gap-2"}>
                         {mon.abilities.map((ab, index) => {
@@ -112,6 +117,8 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
                     })}</div>
                 </Card>
+                : null
+                }
                 <Card extraStyles={"lg:w-2/3"}>
                     <h3>Typing</h3>
                     <TypeChart

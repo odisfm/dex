@@ -408,3 +408,23 @@ export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string,
 
     return condensed;
 }
+
+export function getAbilityFlavorText(data: PokeAPI.AbilityFlavorText[], versionGroup: string, targetLanguage: string, fallbackLanguage="en"): string {
+    let mostRelevantEntry = null;
+    let mostRelevantVersionPriority = -1;
+    const targetVersionPriority = supportedGenerations.indexOf(versionGroup);
+    for (const flavorEntry of data) {
+        if (flavorEntry.language.name === targetLanguage && flavorEntry.version_group.name) {
+            return flavorEntry.flavor_text
+        }
+        const thisVersionPriority = versionPriorityList.indexOf(flavorEntry.version_group.name)
+            if (thisVersionPriority > mostRelevantVersionPriority && thisVersionPriority < targetVersionPriority) {
+                mostRelevantEntry = flavorEntry.flavor_text
+            }
+        }
+    if (mostRelevantEntry) {
+        return mostRelevantEntry;
+    }
+
+    throw new NoRelevantVersionError()
+}
