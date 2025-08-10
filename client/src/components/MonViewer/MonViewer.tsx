@@ -12,6 +12,7 @@ import MonPrevNextButton from "./MonPrevNextButton.tsx";
 import MovMoveList from "./MonMoveList.tsx";
 import MonBattleDetails from "./BattleDetails/MonBattleDetails.tsx";
 import MonEncounters from "./unused/MonEncounters.tsx";
+import Spinner from "../Spinner.tsx";
 
 export default function MonViewer(): ReactElement {
     const versionContext = useContext(VersionContext);
@@ -73,6 +74,7 @@ export default function MonViewer(): ReactElement {
         if (compare > 0) {
             versionContext.setVersionGroup(thisForm.version_group.name)
         }
+        setFirstLoad(true);
     }, [monName, versionContext.versionDetails.generation]);
 
     useEffect(() => {
@@ -175,8 +177,10 @@ export default function MonViewer(): ReactElement {
     const prevUrl = useMemo(() => adjacentMon?.[0] ? "/mon/" + adjacentMon[0] : null, [adjacentMon?.[0]]);
     const nextUrl = useMemo(() => adjacentMon?.[1] ? "/mon/" + adjacentMon[1] : null, [adjacentMon?.[1]]);
 
-    if (!selectedMon || !selectedSpecies ) {
-        return <h1 className={"text-white text-3xl"}>{`Could not fetch "${monName}"`}</h1>
+    if (!firstLoad || !selectedMon) {
+        return (
+            <Spinner />
+        )
     }
 
     return (
