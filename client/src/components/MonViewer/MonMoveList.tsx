@@ -1,6 +1,6 @@
 import type { PokeAPI} from "pokeapi-types";
 import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState, useRef} from "react";
-import {condenseMoveData, getAllVersionMoves, getLocalName} from "../../utils/apiParsing.ts";
+import {condenseMoveData, getAllVersionMoves, getLocalName, LegacyMoveError} from "../../utils/apiParsing.ts";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
 import dex from "../../utils/dex.tsx"
@@ -79,15 +79,22 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
                 const move = pokemonMoves[i];
                 const learnDef = monMoves[i];
 
-                _moveSummaries.push({
-                    condensed: condenseMoveData(
-                        move,
-                        versionContext.versionDetails.versionGroup,
-                        languageContext.language,
-                        languageContext.fallbackLanguage
-                    ),
-                    learnDef: learnDef
-                });
+                try {
+                    _moveSummaries.push({
+                        condensed: condenseMoveData(
+                            move,
+                            versionContext.versionDetails.versionGroup,
+                            languageContext.language,
+                            languageContext.fallbackLanguage
+                        ),
+                        learnDef: learnDef
+                    });
+                } catch (e) {
+                    if (e instanceof LegacyMoveError) {
+                        continue;
+                    }
+                    throw e;
+                }
             }
 
             setMoveSummaries(_moveSummaries);

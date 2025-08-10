@@ -5,6 +5,8 @@ const versionPriorityList = supportedVersionGroups.map(versionGroup => versionGr
 
 class NoRelevantVersionError extends Error {}
 
+export class LegacyMoveError extends Error {}
+
 
 export function getMoveLearnDetails(data: PokeAPI.PokemonMove, targetVersionGroup: string): PokeAPI.PokemonMoveVersion {
     let mostRelevantEntry = null;
@@ -354,6 +356,9 @@ function getMoveEffectEntry(data: PokeAPI.Effect[], targetLanguage: string, fall
 
 export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string, targetLanguage: string, fallbackLanguage: string): CondensedMonMove  {
     const flavorText = getMoveFlavorText(move.flavor_text_entries, targetVersionGroup, targetLanguage, fallbackLanguage);
+    if (flavorText.startsWith("This move can’t be used")) {
+        throw new LegacyMoveError(`Move ${move.name} is not available in ${targetVersionGroup}`)
+    }
     const name = getLocalName(move.names, targetLanguage, fallbackLanguage);
 
     // MonMoveValues
