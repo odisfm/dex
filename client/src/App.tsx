@@ -6,6 +6,7 @@ import {Pokedex} from "pokeapi-js-wrapper";
 import VersionPicker from "./components/VersionPicker.tsx";
 import {Link, Outlet} from "react-router-dom";
 import LanguagePicker from "./components/LanguagePicker.tsx";
+import GithubIcon from "./icon/github.svg?react"
 
 const dex = new Pokedex();
 
@@ -30,8 +31,14 @@ function App() {
                     <Outlet></Outlet>
                 </main>
             </div>
-            <footer className={"flex justify-end bg-slate-800 px-10 py-3 text-white h-max-20"}>
-                <span>Powered by <a className={"font-bold hover:underline"} href={"https://pokeapi.co"}>PokeApi</a></span>
+            <footer className={"flex bg-slate-800 px-10 py-3 text-white h-max-20 items-center"}>
+                <Link to={"https://github.com/odisfm/dex"} className={"group rounded-md px-3 py-1 hover:bg-slate-900"}>
+                <span className={"flex gap-2 fill-white"}>
+                    <div className={"size-6 "}><GithubIcon/></div>
+                    View source
+                </span>
+                </Link>
+                <span className={"ml-auto"}>Powered by <a className={"font-bold hover:underline"} href={"https://pokeapi.co"}>PokeApi</a></span>
             </footer>
         </>
 
