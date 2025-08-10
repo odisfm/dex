@@ -167,9 +167,13 @@ export default function MonViewer(): ReactElement {
     return (
         <div className={"flex flex-col gap-7 items-center lg:w-4/5 text-black"}>
             <div className={"flex flex-wrap items-center justify-center gap-10"}>
-                {prevUrl ? <div className={"hidden md:block"}><MonPrevNextButton left={true} url={prevUrl}/></div> : null}
+                <div className={"hidden md:block min-w-14"}>
+                    {prevUrl ?
+                    <div className={"hidden md:block"}><MonPrevNextButton left={true} url={prevUrl}/></div> : null}</div>
                 <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
+                <div className={"hidden md:block min-w-14"}>
                 {nextUrl ? <div className={"hidden md:block"}><MonPrevNextButton left={false} url={nextUrl}/></div> : null}
+                </div>
             </div>
             {
                 prevUrl ?
