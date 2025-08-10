@@ -68,11 +68,11 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                 : null
             }
 
-            <div className={"flex flex-col md:flex-row flex-wrap gap-2 items-stretch w-full justify-center"}>
+            <div className={"flex flex-col md:flex-row flex-wrap gap-2  w-full justify-center "}>
 
                 <Card>
                     <h3>Base stats</h3>
-                    <table className={"text-right [&_td]:px-3"}>
+                    <table className={"text-right [&_td]:font-bold [&_td]:px-3 [&_td]:bg-gray-100 [&_td]:rounded-lg border-separate border-spacing-2"}>
                         <tbody>
                         <tr>
                             <th>HP</th>
