@@ -142,7 +142,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         if (storedVersionGroup) {
             setGame(storedVersionGroup);
         } else {
-            const defaultGroup = supportedVersionGroups[0];
+            const defaultGroup = supportedVersionGroups[supportedVersionGroups.length -1];
             setGame(defaultGroup.api_path);
         }
 
