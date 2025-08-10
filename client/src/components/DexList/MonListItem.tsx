@@ -47,7 +47,7 @@ export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusS
     return (
         <Link to={`/mon/${monPlusSpecies.mon.name}`}>
             <div
-                className={`flex gap-1 bg-white hover:bg-gray-50 border-white ${border} border-l-5  p-1 items-center animate-all transition-colors duration-50`}>
+                className={`flex gap-1 bg-white hover:bg-gray-50 border-white ${border} border-l-5  px-2 items-center animate-all transition-colors duration-50`}>
                 <div className={"size-15"}>
                     <div className={"absolute items-center justify-center size-15"}>
                         <img
@@ -57,7 +57,7 @@ export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusS
                 </div>
                 <span className={"mr-2 rounded-md p-1 bg-gray-50"}>#{dexNum}</span>
                 <span className={"font-bold text-lg"}>{name}</span>
-                <div className={"flex flex-col gap-1 ml-auto self-start"}>
+                <div className={"flex flex-col gap-1 ml-auto self-center"}>
                     {types.map((type, index) => (
                         <TypeLabel key={index} pokeType={type.type.name} size={"sm"}/>
                     ))}

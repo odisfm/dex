@@ -49,8 +49,8 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
                     : null
                 }
             </div>
-            <div className={"flex grow-1 md:w-3/6 md:ml-auto md:justify-end gap-4 [&_svg]:size-10"}>
-                <table className={"grow-1 w-1/2 bg-gray-100 p-1"}>
+            <div className={"flex grow-1 md:w-3/7 md:ml-auto md:justify-end gap-4 [&_svg]:size-10"}>
+                <table className={"grow-1 w-3/7 bg-gray-50 p-1 "}>
                     <thead className={"**:border-l-neutral-200 **:lg:not-first:border-l-2 **:px-2 text-left"}>
                     <tr>
                         <th className={""}>
@@ -85,7 +85,7 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
                     </tbody>
                 </table>
 
-                <div className={"flex flex-col gap-1 w-1/3 md:w-2/6 items-end justify-center"}>
+                <div className={"flex flex-col gap-1 w-1/7 md:w-1/7 items-end justify-center"}>
                     <TypeLabel pokeType={move.condensed.fullMove.type.name} size={"md"}/>
                     <DamageClassLabel damageClass={damageClass}/>
                 </div>

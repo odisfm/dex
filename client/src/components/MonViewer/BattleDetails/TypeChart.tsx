@@ -93,7 +93,7 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                         // <div className={"flex flex-col flex-wrap gap-2"}>
                         <div key={index} className={"flex flex-col gap-2 items-center "}>
                             <div className={"self-center"}><TypeLabel pokeType={typeRel.attackType} size={"sm"}/></div>
-                            <div className={"grid grid-cols-3 md:grid-cols-2 lg:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
+                            <div className={"grid grid-cols-3 lg:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
                                 {typeRel.relations.map((rel, index) => {
                                     return <TypeRelation key={index} relation={rel.relation} mode={"attack"}
                                                          typeName={rel.typeName}/>
