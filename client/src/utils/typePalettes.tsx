@@ -65,7 +65,7 @@ export const typePalettesDark: Record<PokemonTypeName, string> = {
 }
 
 export const typesGradientStart: Record<PokemonTypeName, string> = {
-  fire: "from-red-500",
+  fire: "from-red-400",
   water: "from-blue-500",
   grass: "from-green-500",
   normal: "from-gray-400",
