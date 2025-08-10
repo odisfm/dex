@@ -39,7 +39,7 @@ export default function MonMoveSummary({move} :{move: MoveSummaryData}): ReactEl
     }
 
     return (
-        <div className={"flex flex-col md:flex-row gap-3 md:gap-2 bg-white hover:bg-neutral-50 text-black py-3 px-2"}>
+        <div className={"flex flex-col md:flex-row gap-3 md:gap-2 bg-white hover:bg-neutral-50 text-black py-3 px-2 w-full md:max-w-cl"}>
             <div className={"flex flex-col md:w-2/6  md:grow-1 gap-1 p-1"}>
                 <h1 className={"font-bold"}>{move.condensed.name}</h1>
                 <span className={"p-1"}>{move.condensed.flavorText}</span>
