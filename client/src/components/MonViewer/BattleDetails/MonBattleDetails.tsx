@@ -61,7 +61,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
             <div className={"flex flex-col md:flex-row flex-wrap gap-2 items-stretch w-full justify-center"}>
 
                 <Card>
-                    <h3>Stats</h3>
+                    <h3>Base stats</h3>
                     <table className={"text-right [&_td]:px-3"}>
                         <tbody>
                         <tr>
