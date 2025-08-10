@@ -3,6 +3,7 @@ import DexList from "./DexList.tsx";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import type {PokeAPI} from "pokeapi-types";
 import DexButton from "./DexButton.tsx";
+import DiceIcon from "../../icon/dice-5.svg?react"
 
 export function DexView(): ReactElement | null {
     const versionContext = useContext(VersionContext);
@@ -30,16 +31,19 @@ export function DexView(): ReactElement | null {
     }
 
     return (
-        <>
-            <button onClick={randomMon} className={"bg-slate-700 hover:bg-slate-800 px-6 py-2 rounded-md text-white cursor-pointer"}>Random Pokemon!</button>
-            <div className={"flex flex-col items-center gap-2 h-1/1 w-max md:w-lg"}>
+        <div className={"flex flex-col gap-4"}>
+            <div className={"flex flex-col items-center gap-2 md:max-w-xl mb-4"}>
                 <h1 className={"font-bold text-3xl"}>Pokedex</h1>
-                <div className={"flex justify-center flex-wrap size-2/3 gap-1"}><DexButton pdex={versionContext.nationalDex} setDex={setActiveDex} selected={activeDex === versionContext.nationalDex}/>
+
+                <div className={"flex justify-center flex-wrap max-w-2/3 gap-1 px-3 min-h-auto"}><DexButton pdex={versionContext.nationalDex} setDex={setActiveDex} selected={activeDex === versionContext.nationalDex}/>
                     {versionContext.pokedexes.map((pdex, index) => {
                         return <DexButton key={index} pdex={pdex} setDex={setActiveDex} selected={activeDex === pdex}/>;
                     })}</div>
             </div>
+            <button onClick={randomMon} className={"group flex gap-3 bg-slate-700 hover:bg-slate-800 px-6 py-4 rounded-md text-white cursor-pointer self-center mb-2 items-center"}>
+                <div className="size-5 fill-white group-hover:animate-[spin_250ms_ease-in-out]"><DiceIcon/></div>Random Pokemon!            </button>
+
             <DexList pokedex={activeDex}/>
-        </>
+        </div>
     )
 }
