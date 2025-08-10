@@ -15,9 +15,6 @@ export function DexView(): ReactElement | null {
         setActiveDex(versionContext.pokedexes[0])
     }, [versionContext.pokedexes]);
 
-    if (!versionContext.nationalDex) {
-        return null
-    }
 
     const randomMon = useCallback(() => {
         if (!versionContext.nationalDex) {
@@ -28,6 +25,9 @@ export function DexView(): ReactElement | null {
         window.location.href = `/mon/${name}`
     }, [versionContext.nationalDex])
 
+    if (!versionContext.nationalDex) {
+        return null
+    }
 
     return (
         <>
