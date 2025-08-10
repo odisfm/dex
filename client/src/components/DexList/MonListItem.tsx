@@ -65,8 +65,8 @@ export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusS
                 <span className={"mr-2 rounded-md p-1 bg-gray-50"}>#{dexNum}</span>
                 <span className={"font-bold text-lg"}>{name}</span>
                 <div className={"flex flex-col gap-1 ml-auto self-start"}>
-                    {types.map((type) => (
-                        <TypeLabel pokeType={type.type.name} size={"sm"}/>
+                    {types.map((type, index) => (
+                        <TypeLabel key={index} pokeType={type.type.name} size={"sm"}/>
                     ))}
                 </div>
             </div>

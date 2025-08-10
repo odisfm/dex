@@ -204,6 +204,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
                 {[...standardLearnMethods, "other", null].map((method, index) => {
                     return (
                         <button
+                            key={index}
                             className={`${method === learnMethodFilter ? "bg-black text-white hover:bg-black " : "bg-white hover:bg-gray-300 "} rounded-md cursor-pointer px-4 py-1`}
                             onClick={() => setLearnMethodFilter(method as LearnMethodFilter)}
                         >

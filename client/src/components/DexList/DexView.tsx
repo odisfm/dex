@@ -35,8 +35,8 @@ export function DexView(): ReactElement | null {
             <div className={"flex flex-col items-center gap-2 h-1/1 w-max md:w-lg"}>
                 <h1 className={"font-bold text-3xl"}>Pokedex</h1>
                 <div className={"flex justify-center flex-wrap size-2/3 gap-1"}><DexButton pdex={versionContext.nationalDex} setDex={setActiveDex} selected={activeDex === versionContext.nationalDex}/>
-                    {versionContext.pokedexes.map((pdex) => {
-                        return <DexButton pdex={pdex} setDex={setActiveDex} selected={activeDex === pdex}/>;
+                    {versionContext.pokedexes.map((pdex, index) => {
+                        return <DexButton key={index} pdex={pdex} setDex={setActiveDex} selected={activeDex === pdex}/>;
                     })}</div>
             </div>
             <DexList pokedex={activeDex}/>

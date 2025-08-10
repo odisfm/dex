@@ -94,9 +94,9 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                 <Card>
                     <h3>Abilities</h3>
                     <div className={"flex flex-col gap-2"}>
-                        {mon.abilities.map((ab) => {
+                        {mon.abilities.map((ab, index) => {
                         return (
-                            <MonAbility ability={ab}>
+                            <MonAbility ability={ab} key={index}>
 
                             </MonAbility>)
 

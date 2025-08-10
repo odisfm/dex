@@ -75,8 +75,8 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
         <div className={"flex  lg:flex-wrap gap-10 flex-wrap w-full justify-center"}>
             <div className={"flex flex-col items-center gap-4 grow-1"}>
                 <h1 className={"font-bold text-2xl"}>Defense</h1>
-                <div className={"flex gap-2"}>{defendingTypes.map((type) => {
-                    return <TypeLabel pokeType={type} size={"sm"}/>
+                <div className={"flex gap-2"}>{defendingTypes.map((type, index) => {
+                    return <TypeLabel key={index} pokeType={type} size={"sm"}/>
                 })}</div>
                 <div className={"grow-0 grid  gap-1 grid-cols-3 lg:grid-cols-6 grid-flow-row bg-gray-100 p-2 rounded-md"}>
                     {defenseRelations.map((typeRel, index) => {
@@ -93,11 +93,11 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                     {attackRelations.map((typeRel, index) => {
                     return (
                         // <div className={"flex flex-col flex-wrap gap-2"}>
-                        <div className={"flex flex-col gap-2 items-center "}>
+                        <div key={index} className={"flex flex-col gap-2 items-center "}>
                             <div className={"self-center"}><TypeLabel pokeType={typeRel.attackType} size={"sm"}/></div>
                             <div className={"grid grid-cols-3 md:grid-cols-2 lg:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
-                                {typeRel.relations.map((rel) => {
-                                    return <TypeRelation relation={rel.relation} mode={"attack"}
+                                {typeRel.relations.map((rel, index) => {
+                                    return <TypeRelation key={index} relation={rel.relation} mode={"attack"}
                                                          typeName={rel.typeName}/>
                                 })}
                             </div>

@@ -123,6 +123,7 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
                             ref={isLast ? lastItemRef : null}
                         >
                             <MonListItem
+                                key={`${mon.mon.name}-${index}`}
                                 monPlusSpecies={mon}
                                 dexNum={pokedex?.pokemon_entries[index]?.entry_number || index + 1}
                             />
