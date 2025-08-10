@@ -5,6 +5,7 @@ import {getAbilities} from "../../../utils/apiParsing.ts";
 import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import MonAbility from "./MonAbility.tsx";
 import TypeChart from "./TypeChart.tsx";
+import {compareGenerations} from "../../../utils/util.ts";
 
 type MonStats = {
     hp: number,
@@ -50,6 +51,11 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
     }, [mon])
 
+
+    const preLatestGen = useMemo(() => {
+        return compareGenerations(versionContext.versionDetails.generation, "generation-ix") < 0
+    }, [versionContext.versionDetails.generation])
+
     if (!mon) {
         return null
     }
@@ -57,6 +63,10 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
     return (
         <>
             <h2 className={"font-bold text-4xl"}>Battle</h2>
+            {preLatestGen ?
+                <span className={"italic opacity-75"}>Stats based on Gen 9 data.</span>
+                : null
+            }
 
             <div className={"flex flex-col md:flex-row flex-wrap gap-2 items-stretch w-full justify-center"}>
 
