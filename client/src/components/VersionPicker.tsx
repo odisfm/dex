@@ -33,20 +33,5 @@ export default function VersionPicker(): React.ReactElement {
                 </option>
             })}
         </select>
-        {/*<div className={"flex gap-1"}>*/}
-        {/*    {versionContext.versionDetails.groupVersions.length > 1 ?*/}
-        {/*        versionContext.versionDetails.groupVersions.map((version) => {*/}
-        {/*        return <button*/}
-        {/*            key={version}*/}
-        {/*            className={`px-2 py-1 rounded-md*/}
-        {/*                ${versionContext.versionDetails.version === version ? "bg-gray-200 text-black" : "bg-slate-700 hover:bg-slate-600 text-white"}`}*/}
-        {/*            onClick={() => versionContext.setVersion(version)}*/}
-        {/*        >*/}
-        {/*            {version.toUpperCase()}*/}
-        {/*        </button>*/}
-        {/*    })*/}
-        {/*    : null*/}
-        {/*    }*/}
-        {/*</div>*/}
     </>
 }

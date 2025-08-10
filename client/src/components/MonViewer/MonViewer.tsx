@@ -188,11 +188,7 @@ export default function MonViewer(): ReactElement {
                 <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} variantForms={monVariantForms}></MonBio>
             </div>
             <MonBattleDetails mon={selectedMon} />
-            {/*<MonEncounters mon={selectedMon}/>*/}
             <MovMoveList mon={selectedMon} />
-            <div className={"text-lg text-white"}>
-                {/*{JSON.stringify(selectedMon)}*/}
-            </div>
         </div>
     )
 }

@@ -10,16 +10,9 @@ import {type PokemonTypeName, typesBorder, typesBorderHover} from "../../utils/t
 import {Link} from "react-router-dom";
 
 export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusSpecies, dexNum: number }): JSX.Element {
-    // const [monObject, setMonObject] = useState<null | PokeAPI.Pokemon>(null)
     const languageContext = useContext(LanguageContext);
     const versionContext = useContext(VersionContext);
     const imageRef = useRef<HTMLImageElement | null>(null);
-
-    // useEffect(() => {
-    //     (async () => {
-    //        dex.getPokemonByName(monPlusSpecies.name).then((mon) => setMonObject(mon))
-    //     })()
-    // }, [monPlusSpecies]);
 
     const name = useMemo(() => {
         return getLocalName(monPlusSpecies.species.names, languageContext.language, languageContext.fallbackLanguage)
