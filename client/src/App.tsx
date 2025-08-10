@@ -19,8 +19,8 @@ function App() {
 
     return (
         <>
-            <header className={"z-100 sticky top-0 p-3 text-white gap-2 md:gap-10 bg-slate-800 flex items-center max-w-screen"}>
-                <Link to={"/"}><h1 className={"text-3xl font-black"}>Dex</h1></Link>
+            <header className={"z-100 sticky top-0 p-1 text-white gap-2 md:gap-10 bg-slate-800 flex items-center max-w-screen"}>
+                <Link to={"/"} className={"p-2 md:px-3 lg:px-5 rounded-md hover:bg-slate-700"}><h1 className={"text-3xl font-black"}>Dex</h1></Link>
                 <div className={"flex gap-3 w-full"}>
                     <VersionPicker/>
                     <LanguagePicker/>

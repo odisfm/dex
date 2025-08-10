@@ -47,7 +47,7 @@ export function TypeLabel({pokeType, size="md"}: { pokeType: string, size: "sm" 
         const bgColor: string = typePalettesMid[pokeType as keyof typeof typePalettesMid];
 
     return (
-        <div className={`${bgColor} ${style.px} ${style.py} text-white text-center min-w-15 font-bold rounded-md ${style.textSize}`}>
+        <div className={`${bgColor} ${style.px} ${style.py} empty:hidden text-white text-center min-w-15 font-bold rounded-md ${style.textSize}`}>
             {labelText.toUpperCase()}
         </div>
     )
