@@ -61,15 +61,6 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
             <div className={"flex flex-col md:flex-row flex-wrap gap-2 items-stretch w-full justify-center"}>
 
                 <Card>
-                    <h3>Typing</h3>
-                    <TypeChart
-                        attackingTypes=
-                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]}
-                        defendingTypes=
-                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]} />
-                </Card>
-
-                <Card>
                     <h3>Stats</h3>
                     <table className={"text-right [&_td]:px-3"}>
                         <tbody>
@@ -111,6 +102,15 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
                     })}</div>
                 </Card>
+                <Card>
+                    <h3>Typing</h3>
+                    <TypeChart
+                        attackingTypes=
+                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]}
+                        defendingTypes=
+                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]} />
+                </Card>
+
             </div>
         </>
     )

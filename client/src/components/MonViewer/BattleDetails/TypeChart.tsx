@@ -72,32 +72,38 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
 
 
     return (
-        <div className={"flex flex-col md:flex-row"}>
-            <div>
-                <h1 className={"font-bold text-xl"}>Defense</h1>
-                <div>
+        <div className={"flex gap-10 flex-wrap w-full justify-center"}>
+            <div className={"flex flex-col items-center gap-2 grow-1"}>
+                <h1 className={"font-bold text-2xl"}>Defense</h1>
+                <div className={"flex gap-2"}>{defendingTypes.map((type) => {
+                    return <TypeLabel pokeType={type} size={"sm"}/>
+                })}</div>
+                <div className={"grow-0 grid  gap-1 grid-cols-3 grid-flow-row bg-gray-100 p-2 rounded-md"}>
                     {defenseRelations.map((typeRel, index) => {
                         return <TypeRelation key={index} typeName={typeRel.typeName} relation={typeRel.relation}
                                              mode={"defend"}/>
                     })}
                 </div>
             </div>
-            <div>
-                <h1 className={"font-bold text-xl"}>Attack</h1>
-                <div className={"flex flex-wrap gap-1"}>
+
+            <div className={"flex flex-col gap-2 items-center"}>
+                <h1 className={"font-bold text-2xl"}>Attack</h1>
+
+                <div className={"flex flex-wrap gap-5 justify-center"}>
                     {attackRelations.map((typeRel, index) => {
-                        return (
-                            <div>
-                            <TypeLabel pokeType={typeRel.attackType} size={"sm"} />
-                                <div className={"flex flex-col gap-1"}>
-                                    {typeRel.relations.map((rel) => {
-                                    return <TypeRelation relation={rel.relation} mode={"attack"} typeName={rel.typeName} />
+                    return (
+                        // <div className={"flex flex-col flex-wrap gap-2"}>
+                        <div className={"flex flex-col gap-2 items-center "}>
+                            <div className={"self-center"}><TypeLabel pokeType={typeRel.attackType} size={"sm"}/></div>
+                            <div className={"grid grid-cols-2 gap-1 bg-gray-100 p-2 rounded-md"}>
+                                {typeRel.relations.map((rel) => {
+                                    return <TypeRelation relation={rel.relation} mode={"attack"}
+                                                         typeName={rel.typeName}/>
                                 })}
-                                </div>
                             </div>
-                        )
-                    })}
-                    </div>
+                        </div>
+                    )
+                })}</div>
                 </div>
         </div>
     )

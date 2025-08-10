@@ -8,50 +8,52 @@ export default function TypeRelation({typeName, mode, relation}: {
 }): ReactElement {
 
     const styles = useMemo(() => {
-        let textColor;
+        let bgColor;
         if (mode === "attack") {
             if (relation === 1) {
-                textColor = "text-black";
+                bgColor = "text-black";
             } else if (relation > 1) {
                 if (relation >= 2) {
-                    textColor = "text-green-400";
+                    bgColor = "bg-lime-500";
                 } else {
-                    textColor = "text-green-600";
+                    bgColor = "bg-lime-600";
                 }
             } else if (relation < 1) {
                 if (relation === 0) {
-                    textColor = "text-red-400";
+                    bgColor = "bg-red-700";
                 } else {
-                    textColor = "text-red-600";
+                    bgColor = "bg-red-600";
                 }
             }
         } else if (mode === "defend") {
             if (relation === 1) {
-                textColor = "text-black";
+                bgColor = "bg-black";
             } else if (relation > 1) {
                 if (relation >= 4) {
-                    textColor = "text-red-300";
+                    bgColor = "bg-red-600";
                 } else if (relation >= 2) {
-                    textColor = "text-red-400";
+                    bgColor = "bg-red-500";
                 } else {
-                    textColor = "text-red-500";
+                    bgColor = "bg-red-400";
                 }
             } else if (relation < 1) {
                 if (relation === 0) {
-                    textColor = "text-green-400";
+                    bgColor = "bg-green-500";
+                } else if (relation < 0.5) {
+                    bgColor = "bg-lime-500";
                 } else {
-                    textColor = "text-green-600";
+                    bgColor = "bg-lime-600";
                 }
             }
         }
         return {
-            textColor
+            bgColor
         }
         }, [mode, relation])
 
     return (
-        <div className={"flex gap-1 p-2"}>
-            <TypeLabel pokeType={typeName} size={"sm"} /> <span className={`${styles.textColor} `}>X {relation}</span>
+        <div className={"flex flex-col p-2 gap-1 rounded-md"}>
+            <TypeLabel pokeType={typeName} size={"sm"} /> <span className={`${styles.bgColor} text-white font-bold px-3 self-stretch rounded-lg `}>X {relation}</span>
         </div>
     )
 }
