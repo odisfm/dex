@@ -24,6 +24,10 @@ export default function MonViewer(): ReactElement {
 
     const currentMonNameRef = useRef<string | undefined>(undefined);
 
+    useEffect(() => {
+        window.location.href = "#"
+    }, []);
+
     const fetchPokemon = useCallback(async () => {
         if (!monName || monName === currentMonNameRef.current) {
             return;
