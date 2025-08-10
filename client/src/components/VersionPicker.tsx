@@ -21,7 +21,7 @@ export default function VersionPicker(): React.ReactElement {
             onChange={(e) => {
                 versionContext.setVersionGroup(e.target.value);
             }}
-            className={"shrink-2 min-w-1 max-w-30 md:max-w-1/4"}
+            className={"shrink-2 min-w-1 max-w-40 md:max-w-1/4"}
             value={versionContext.versionDetails.versionGroup}
         >
             {availableVersionGroups.map((group) => {
