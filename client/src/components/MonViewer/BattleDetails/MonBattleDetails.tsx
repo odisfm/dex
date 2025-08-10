@@ -4,6 +4,7 @@ import Card from "./Card.tsx";
 import {getAbilities} from "../../../utils/apiParsing.ts";
 import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import MonAbility from "./MonAbility.tsx";
+import TypeChart from "./TypeChart.tsx";
 
 type MonStats = {
     hp: number,
@@ -14,7 +15,7 @@ type MonStats = {
     speed: number,
 }
 
-export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): ReactElement {
+export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): ReactElement | null {
     const versionContext = useContext(VersionContext);
 
 
@@ -49,6 +50,10 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
     }, [mon])
 
+    if (!mon) {
+        return null
+    }
+
     return (
         <>
             <h2 className={"font-bold text-3xl"}>Battle</h2>
@@ -57,6 +62,11 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
                 <Card>
                     <h3>Typing</h3>
+                    <TypeChart
+                        attackingTypes=
+                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]}
+                        defendingTypes=
+                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]} />
                 </Card>
 
                 <Card>

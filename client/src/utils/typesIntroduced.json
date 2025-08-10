@@ -1,0 +1,19 @@
+{
+  "fire": "generation-i",
+  "water": "generation-i",
+  "grass": "generation-i",
+  "electric": "generation-i",
+  "rock": "generation-i",
+  "ground": "generation-i",
+  "flying": "generation-i",
+  "normal": "generation-i",
+  "fighting": "generation-i",
+  "psychic": "generation-i",
+  "ghost": "generation-i",
+  "bug": "generation-i",
+  "ice": "generation-i",
+  "poison": "generation-i",
+  "dark": "generation-ii",
+  "steel": "generation-ii",
+  "fairy": "generation-vi"
+}
