@@ -199,7 +199,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
 
     return (
         <>
-            <h1 className={"text-3xl font-bold"}>Moves</h1>
+            <h1 className={"text-4xl font-bold"}>Moves</h1>
             <div className={"flex flex-wrap gap-1 justify-center p-2"}>
                 {[...standardLearnMethods, "other", null].map((method, index) => {
                     return (

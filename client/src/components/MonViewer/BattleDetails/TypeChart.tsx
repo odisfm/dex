@@ -72,13 +72,13 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
 
 
     return (
-        <div className={"flex gap-10 flex-wrap w-full justify-center"}>
-            <div className={"flex flex-col items-center gap-2 grow-1"}>
+        <div className={"flex  lg:flex-wrap gap-10 flex-wrap w-full justify-center"}>
+            <div className={"flex flex-col items-center gap-4 grow-1"}>
                 <h1 className={"font-bold text-2xl"}>Defense</h1>
                 <div className={"flex gap-2"}>{defendingTypes.map((type) => {
                     return <TypeLabel pokeType={type} size={"sm"}/>
                 })}</div>
-                <div className={"grow-0 grid  gap-1 grid-cols-3 grid-flow-row bg-gray-100 p-2 rounded-md"}>
+                <div className={"grow-0 grid  gap-1 grid-cols-3 lg:grid-cols-6 grid-flow-row bg-gray-100 p-2 rounded-md"}>
                     {defenseRelations.map((typeRel, index) => {
                         return <TypeRelation key={index} typeName={typeRel.typeName} relation={typeRel.relation}
                                              mode={"defend"}/>
@@ -86,7 +86,7 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                 </div>
             </div>
 
-            <div className={"flex flex-col gap-2 items-center"}>
+            <div className={"flex flex-col gap-4 items-center"}>
                 <h1 className={"font-bold text-2xl"}>Attack</h1>
 
                 <div className={"flex flex-wrap gap-5 justify-center"}>
@@ -95,7 +95,7 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                         // <div className={"flex flex-col flex-wrap gap-2"}>
                         <div className={"flex flex-col gap-2 items-center "}>
                             <div className={"self-center"}><TypeLabel pokeType={typeRel.attackType} size={"sm"}/></div>
-                            <div className={"grid grid-cols-2 gap-1 bg-gray-100 p-2 rounded-md"}>
+                            <div className={"grid grid-cols-3 md:grid-cols-2 lg:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
                                 {typeRel.relations.map((rel) => {
                                     return <TypeRelation relation={rel.relation} mode={"attack"}
                                                          typeName={rel.typeName}/>

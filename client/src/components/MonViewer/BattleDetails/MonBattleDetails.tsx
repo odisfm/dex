@@ -56,7 +56,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
     return (
         <>
-            <h2 className={"font-bold text-3xl"}>Battle</h2>
+            <h2 className={"font-bold text-4xl"}>Battle</h2>
 
             <div className={"flex flex-col md:flex-row flex-wrap gap-2 items-stretch w-full justify-center"}>
 
@@ -102,7 +102,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
                     })}</div>
                 </Card>
-                <Card>
+                <Card extraStyles={"lg:w-2/3"}>
                     <h3>Typing</h3>
                     <TypeChart
                         attackingTypes=
