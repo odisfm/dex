@@ -77,7 +77,7 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                     return <TypeLabel key={index} pokeType={type} size={"sm"}/>
                 })}</div>
                 <div
-                    className={"grow-0 grid  gap-1 grid-cols-3 lg:grid-cols-6 grid-flow-row bg-gray-100 p-2 rounded-md"}>
+                    className={"grow-0 grid  gap-1 grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 grid-flow-row bg-gray-100 p-2 rounded-md"}>
                     {defenseRelations.map((typeRel, index) => {
                         return <TypeRelation key={index} typeName={typeRel.typeName} relation={typeRel.relation}
                                              mode={"defend"}/>
@@ -95,7 +95,7 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                             <div key={index} className={"flex flex-col gap-2 items-center "}>
                                 <div className={"self-center"}><TypeLabel pokeType={typeRel.attackType} size={"sm"}/>
                                 </div>
-                                <div className={"grid grid-cols-3 lg:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
+                                <div className={"grid grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
                                     {typeRel.relations.map((rel: {
                                         relation: number,
                                         typeName: string
