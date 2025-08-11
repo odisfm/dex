@@ -8,7 +8,7 @@ export default function _404(): ReactElement {
             <p>
                 Couldn't find the requested page.
             </p>
-            <Link to={"/"}
+            <Link to={`/`}
                   className={"font-bold px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-md"}>Home</Link>
         </div>
     )

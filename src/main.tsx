@@ -20,7 +20,8 @@ const router = createBrowserRouter([
             {path: `*`, element: <_404/>}
         ]
     }
-]);
+], {
+});
 
 const rootElement = document.getElementById("root") as HTMLElement;
 
