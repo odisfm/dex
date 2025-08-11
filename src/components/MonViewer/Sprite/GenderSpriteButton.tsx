@@ -1,4 +1,6 @@
+// @ts-expect-error "path"
 import MaleIcon from "../../../icon/gender-male.svg?react"
+// @ts-expect-error "path"
 import FemaleIcon from "../../../icon/gender-female.svg?react"
 import type {ReactElement} from "react";
 

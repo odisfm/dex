@@ -1,21 +1,10 @@
-import {type FormEvent, useContext, useRef, useState} from 'react'
-import {supportedVersionGroups} from "../versionData.tsx";
-import {VersionContext} from "./contexts/VersionContext.tsx";
-import type {PokeAPI} from "pokeapi-types";
-import {Pokedex} from "pokeapi-js-wrapper";
 import VersionPicker from "./components/VersionPicker.tsx";
 import {Link, Outlet} from "react-router-dom";
 import LanguagePicker from "./components/LanguagePicker.tsx";
+// @ts-expect-error "path"
 import GithubIcon from "./icon/github.svg?react"
 
-const dex = new Pokedex();
-
 function App() {
-    const versionContext = useContext(VersionContext)
-    const [selectedMon, setSelectedMon] = useState<PokeAPI.Pokemon | null>(null);
-    const [selectedMonSpecies, setSelectedMonSpecies] = useState<PokeAPI.PokemonSpecies | null>(null);
-    const inputRef = useRef<HTMLInputElement | null>(null);
-
 
     return (
         <>

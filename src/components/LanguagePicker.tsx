@@ -1,6 +1,7 @@
 import {LanguageContext} from "../contexts/LanguageContext.tsx";
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {type ChangeEvent, useCallback, useContext, useEffect, useRef, useState} from "react";
 import languageJSON from "../data/langauges.json"
+// @ts-expect-error "path"
 import TranslateIcon from "../icon/translate.svg?react"
 
 interface LanguageDetail{
@@ -13,7 +14,7 @@ export default function LanguagePicker() {
     const languageContext = useContext(LanguageContext)
     const selectRef = useRef<HTMLSelectElement | null>(null)
 
-    const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleLanguageChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const newLanguage = event.target.value;
         languageContext.setLanguage(newLanguage);
         console.log(`set language to ${newLanguage}`);
@@ -44,7 +45,7 @@ export default function LanguagePicker() {
         if (storedLanguagePref) {
             languageContext.setLanguage(storedLanguagePref);
         }
-    }, [getLanguages]);
+    }, [getLanguages, languageContext]);
 
     if (!languages) return null;
 

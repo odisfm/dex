@@ -1,10 +1,11 @@
 import {type ReactElement, useContext, useEffect, useMemo, useState} from "react";
-import {PokeAPI} from "pokeapi-types";
-import {getAbilityFlavorText, getLocalName, getSpeciesFlavorText} from "../../../utils/apiParsing.ts";
+import type {PokeAPI} from "pokeapi-types";
+import {getAbilityFlavorText, getLocalName} from "../../../utils/apiParsing.ts";
 import {LanguageContext} from "../../../contexts/LanguageContext.tsx";
 import dex from "../../../utils/dex.tsx"
 import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import {compareGenerations} from "../../../utils/util.ts";
+// @ts-expect-error "path"
 import HiddenIcon from "../../../icon/eye-off.svg?react"
 
 export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility }): ReactElement | null {
@@ -24,7 +25,7 @@ export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility 
             return ;
         }
         return getLocalName(abilityObj.names, languageContext.language, languageContext.fallbackLanguage)
-    }, [ability, abilityObj, languageContext]);
+    }, [abilityObj, languageContext]);
 
     const abilityEffect = useMemo(() => {
         if (!abilityObj) {
@@ -34,9 +35,8 @@ export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility 
             abilityObj.flavor_text_entries,
             versionContext.versionDetails.versionGroup,
             languageContext.language,
-            languageContext.fallbackLanguage,
             )
-    }, [abilityObj, versionContext.versionDetails.versionGroup, languageContext.language, languageContext.fallbackLanguage])
+    }, [abilityObj, versionContext.versionDetails.versionGroup, languageContext.language])
 
     if (abilityObj && compareGenerations(versionContext.versionDetails.generation, abilityObj.generation.name) < 0) {
         return null

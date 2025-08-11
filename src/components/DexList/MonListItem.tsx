@@ -1,15 +1,13 @@
-import {useContext, useEffect, useMemo, useRef, useState} from "react";
+import {type ReactElement, useContext, useEffect, useMemo, useRef} from "react";
 import {getLocalName, getTypes} from "../../utils/apiParsing.ts";
-import type {PokeAPI} from "pokeapi-types";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
-import dex from "../../utils/dex.tsx"
 import {TypeLabel} from "../TypeLabel.tsx";
 import type {MonPlusSpecies} from "./DexList.tsx";
-import {type PokemonTypeName, typesBorder, typesBorderHover} from "../../utils/typePalettes.tsx";
+import {type PokemonTypeName, typesBorderHover} from "../../utils/typePalettes.tsx";
 import {Link} from "react-router-dom";
 
-export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusSpecies, dexNum: number }): JSX.Element {
+export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusSpecies, dexNum: number }): ReactElement | null{
     const languageContext = useContext(LanguageContext);
     const versionContext = useContext(VersionContext);
     const imageRef = useRef<HTMLImageElement | null>(null);

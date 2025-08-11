@@ -235,10 +235,6 @@ export function getEncounters(data: PokeAPI.LocationAreaEncounter[], targetVersi
     return relevantEncounters;
 }
 
-type PokemonSpritesVersion = {
-    front_default: string, back_default: string, front_shiny: string, back_shiny: string
-}
-
 export function getSprites(
     data: PokeAPI.PokemonSprites,
     generation: string,
@@ -258,7 +254,7 @@ export function getSprites(
             const versionGroupDef = genDef[versionGroup];
             if (versionGroupDef) {
                 if (versionGroupDef.front_default === null) {
-                    return _versionGroupNoSpritesFallback(genDef)
+                    return _versionGroupNoSpritesFallback(genDef as unknown as {string: VersionGroupSprites}) as PokeAPI.PokemonSprites;
                 }else {
                     return versionGroupDef as unknown as PokeAPI.PokemonSprites;
                 }
@@ -282,9 +278,9 @@ interface VersionGroupSprites {
 function _versionGroupNoSpritesFallback(
     data: { string: VersionGroupSprites }
 ): PokeAPI.PokemonSprites {
-    for (const [versionGroupName, sprites] of Object.entries(data)) {
-        if (sprites.front_default !== null) {
-            return sprites as unknown as PokeAPI.PokemonSprites;
+    for (const spriteSet of Object.values(data)) {
+        if (spriteSet.front_default !== null) {
+            return spriteSet as unknown as PokeAPI.PokemonSprites;
         }
     }
     throw new NoRelevantVersionError();
@@ -409,9 +405,9 @@ export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string,
     return condensed;
 }
 
-export function getAbilityFlavorText(data: PokeAPI.AbilityFlavorText[], versionGroup: string, targetLanguage: string, fallbackLanguage="en"): string {
+export function getAbilityFlavorText(data: PokeAPI.AbilityFlavorText[], versionGroup: string, targetLanguage: string): string {
     let mostRelevantEntry = null;
-    let mostRelevantVersionPriority = -1;
+    const mostRelevantVersionPriority = -1;
     const targetVersionPriority = supportedGenerations.indexOf(versionGroup);
     for (const flavorEntry of data) {
         if (flavorEntry.language.name === targetLanguage && flavorEntry.version_group.name) {

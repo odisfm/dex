@@ -1,7 +1,6 @@
-import {PokeAPI} from "pokeapi-types";
+import type {PokeAPI} from "pokeapi-types";
 import {type ReactElement, useContext, useMemo} from "react";
 import Card from "./Card.tsx";
-import {getAbilities} from "../../../utils/apiParsing.ts";
 import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import MonAbility from "./MonAbility.tsx";
 import TypeChart from "./TypeChart.tsx";
@@ -21,7 +20,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
 
     const monStats: MonStats = useMemo(() => {
-        let hp, attack, defense, specialAttack, specialDefense, speed: number;
+        let hp, attack, defense, specialAttack, specialDefense, speed: number = 0;
         for (const stat of mon.stats) {
             const val = stat.base_stat
             switch (stat.stat.name) {
@@ -47,7 +46,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
         return {
             hp, attack, defense, specialAttack, specialDefense, speed
-        }
+        } as MonStats;
 
     }, [mon])
 

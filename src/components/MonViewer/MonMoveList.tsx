@@ -93,6 +93,7 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
                     if (e instanceof LegacyMoveError) {
                         continue;
                     }
+                    // noinspection ExceptionCaughtLocallyJS
                     throw e;
                 }
             }

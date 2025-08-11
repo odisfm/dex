@@ -1,3 +1,4 @@
+// @ts-expect-error "path"
 import ShinyIcon from "../../../icon/shimmer.svg?react"
 
 export default function ShinyButton({isShiny, toggleShiny, bgColor}: {isShiny: boolean, toggleShiny: () => void, bgColor: string}) {

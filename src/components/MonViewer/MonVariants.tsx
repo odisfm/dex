@@ -1,9 +1,9 @@
-import {PokeAPI} from "pokeapi-types";
-import {type ReactElement, useContext, useMemo} from "react";
+import type {PokeAPI} from "pokeapi-types";
+import {type ReactElement} from "react";
 import {Link} from "react-router-dom";
 
 export default function MonVariants({mon, monVariants}:
-{monSpecies: PokeAPI.PokemonSpecies, mon: PokeAPI.Pokemon, monVariants: PokeAPI.Pokemon[], activeVariant: PokeAPI.Pokemon[], variantForms: PokeAPI.PokemonForm[]}): ReactElement | null {
+{monSpecies: PokeAPI.PokemonSpecies, mon: PokeAPI.Pokemon, monVariants: PokeAPI.Pokemon[]}): ReactElement | null {
 
     if (monVariants.length < 2) {
         return null;

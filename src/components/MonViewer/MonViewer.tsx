@@ -6,12 +6,11 @@ import MonSprite from "./Sprite/MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
 import dex from "../../utils/dex.tsx";
 import {compareVersionGroupToGen, getVersionGroupGeneration} from "../../utils/util.ts";
-import {getTypes} from "../../utils/apiParsing.ts";
+import {type APIPastTypes, getTypes} from "../../utils/apiParsing.ts";
 import MonVariants from "./MonVariants.tsx";
 import MonPrevNextButton from "./MonPrevNextButton.tsx";
 import MovMoveList from "./MonMoveList.tsx";
 import MonBattleDetails from "./BattleDetails/MonBattleDetails.tsx";
-import MonEncounters from "./unused/MonEncounters.tsx";
 import Spinner from "../Spinner.tsx";
 
 export default function MonViewer(): ReactElement {
@@ -45,12 +44,13 @@ export default function MonViewer(): ReactElement {
                 let replacement = false;
                 for (const variety of search.varieties) {
                     if (variety.is_default) {
-                        newMon = await dex.getPokemonByName(variety.pokemon.name)
+                        newMon = await dex.getPokemonByName(variety.pokemon.name) as PokeAPI.Pokemon
                         replacement = true;
                         break;
                     }
                 }
                 if (!replacement) {
+                    // noinspection ExceptionCaughtLocallyJS
                     throw e
 
                 }
@@ -75,7 +75,7 @@ export default function MonViewer(): ReactElement {
             versionContext.setVersionGroup(thisForm.version_group.name)
         }
         setFirstLoad(true);
-    }, [monName, versionContext.versionDetails.generation]);
+    }, [monName, versionContext]);
 
     useEffect(() => {
         if (monName !== currentMonNameRef.current) {
@@ -159,7 +159,7 @@ export default function MonViewer(): ReactElement {
             }
         }
         return [prev, next] as [string, string];
-    }, [selectedMon?.species.name, versionContext.nationalDex]);
+    }, [selectedMon, versionContext.nationalDex]);
 
     useEffect(() => {
         setAdjacentMon(adjacentMonMemo);
@@ -169,15 +169,15 @@ export default function MonViewer(): ReactElement {
         if (!selectedMon) return [];
         return getTypes(
             selectedMon.types,
-            (selectedMon as any).past_types as PokeAPI.PokemonType[],
+            (selectedMon as unknown as {past_types: APIPastTypes[]}).past_types,
             versionContext.versionDetails.generation
         );
-    }, [selectedMon?.types, selectedMon?.past_types, versionContext.versionDetails.generation]);
+    }, [selectedMon, versionContext.versionDetails.generation]);
 
     const prevUrl = useMemo(() => adjacentMon?.[0] ? "/mon/" + adjacentMon[0] : null, [adjacentMon?.[0]]);
     const nextUrl = useMemo(() => adjacentMon?.[1] ? "/mon/" + adjacentMon[1] : null, [adjacentMon?.[1]]);
 
-    if (!firstLoad || !selectedMon) {
+    if (!firstLoad || !selectedMon || !selectedSpecies) {
         return (
             <Spinner />
         )
@@ -197,8 +197,8 @@ export default function MonViewer(): ReactElement {
             {
                 prevUrl ?
                     <div className={"flex gap-2  md:hidden"}>
-                        <div ><MonPrevNextButton left={true} url={prevUrl}/></div>
-                        <div ><MonPrevNextButton left={false} url={nextUrl}/></div>
+                        <div ><MonPrevNextButton left={true} url={prevUrl || ""}/></div>
+                        <div ><MonPrevNextButton left={false} url={nextUrl || ""}/></div>
                     </div>
                     : null
             }

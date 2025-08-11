@@ -1,17 +1,13 @@
-import {type ReactNode, useContext, useEffect, useMemo, useState} from "react";
+import {type ReactNode, useContext, useMemo} from "react";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {
-    type APIPastTypes,
     getLocalGenus,
     getLocalName,
     getSpeciesFlavorText,
-    getTypes
 } from "../../utils/apiParsing.ts";
 import type {PokeAPI} from "pokeapi-types";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
 import {TypeLabel} from "../TypeLabel.tsx";
-import MonPrevNextButton from "./MonPrevNextButton.tsx";
-import dex from "../../utils/dex.tsx"
 
 export default function MonBio({mon, monSpecies, monTypes, variantForms}:
 { mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes: PokeAPI.PokemonType[], variantForms: PokeAPI.PokemonForm[] }) {
@@ -20,13 +16,13 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
     const flavorText = useMemo(() => {
         try {
             return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.language).flavor_text
-        } catch (e) {
+        } catch {
             try {
                 return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.language, true).flavor_text
-            } catch (e) {
+            } catch {
                 try {
                     return getSpeciesFlavorText(monSpecies.flavor_text_entries, versionContext.versionDetails.version, languageContext.fallbackLanguage, true).flavor_text
-                } catch (e) {
+                } catch {
                     return "..."
                 }
             }
@@ -86,7 +82,7 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
                 </div>
             <div className={"flex gap-2"}>
                 {monTypes.map((type): ReactNode => {
-                    return <TypeLabel pokeType={type.type.name} key={type.type.name}></TypeLabel>
+                    return <TypeLabel pokeType={type.type.name} key={type.type.name} size={"md"}></TypeLabel>
                 })}
             </div>
             <p className={"flex flex-col bg-white py-5 px-7 text-black max-w-lg text-center italic"}>

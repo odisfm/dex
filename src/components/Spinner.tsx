@@ -1,3 +1,4 @@
+// @ts-expect-error "path"
 import PokeballIcon from "../icon/pokeball.svg?react"
 import type {ReactElement} from "react";
 

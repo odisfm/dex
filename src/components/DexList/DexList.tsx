@@ -3,7 +3,6 @@ import {type ReactElement, useContext, useEffect, useState, useCallback, useRef,
 import dex from "../../utils/dex"
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {MonListItem} from "./MonListItem.tsx";
-import DexButton from "./DexButton.tsx";
 import {supportedVersionGroups} from "../../../versionData.tsx";
 import {generationIncrement} from "../../utils/util.ts";
 
@@ -90,7 +89,7 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
         } finally {
             setLoading(false);
         }
-    }, [page, pokedex, loading, hasMore]);
+    }, [page, pokedex, loading, hasMore, natVersionCount]);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -106,13 +105,15 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
             }
         );
 
+        const lastRef = lastItemRef.current;
+
         if (lastItemRef.current) {
             observer.observe(lastItemRef.current);
         }
 
         return () => {
-            if (lastItemRef.current) {
-                observer.unobserve(lastItemRef.current);
+            if (lastRef) {
+                observer.unobserve(lastRef);
             }
         };
     }, [fetchMoreMon, hasMore, loading]);
@@ -126,7 +127,7 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
     const nextGen: string | false = useMemo(() => {
         try {
             return generationIncrement(versionContext.versionDetails.generation, 1)
-        } catch (error) {
+        } catch {
             return false
         }
     }, [versionContext.versionDetails.generation]);
@@ -136,7 +137,7 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
             return
         }
         versionContext.setGeneration(nextGen)
-    }, [nextGen])
+    }, [nextGen, versionContext])
 
     return (
         <div className={"flex flex-col items-center justify-center w-full md:w-lg"}>

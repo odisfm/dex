@@ -3,7 +3,9 @@ import DexList from "./DexList.tsx";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import type {PokeAPI} from "pokeapi-types";
 import DexButton from "./DexButton.tsx";
+// @ts-expect-error "path"
 import DiceIcon from "../../icon/dice-5.svg?react"
+// @ts-expect-error "path"
 import SearchIcon from "../../icon/magnify.svg?react"
 
 export function DexView(): ReactElement | null {

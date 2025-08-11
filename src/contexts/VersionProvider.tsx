@@ -106,11 +106,11 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         const dexObjList: PokeAPI.Pokedex[] = [];
 
         for (const dexEntry of dexEntries) {
-            const dexObj = await dex.getPokedexByName(dexEntry.name);
+            const dexObj = await dex.getPokedexByName(dexEntry.name) as PokeAPI.Pokedex;
             dexObjList.push(dexObj);
         }
 
-        const natDex = await dex.getPokedexByName("national")
+        const natDex = await dex.getPokedexByName("national") as PokeAPI.Pokedex;
         setNationalDex(natDex)
 
         setPokedexes(dexObjList);

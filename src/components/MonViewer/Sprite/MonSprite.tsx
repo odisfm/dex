@@ -127,8 +127,8 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
 
     const postGen3 = compareGenerations(versionContext.versionDetails.generation, "generation-iii") >= 0;
 
-    let gradientStart = ""
-    let gradientEnd = ""
+    let gradientStart: string;
+    let gradientEnd: string;
     let borderClass;
     let borderHoverClass;
     let shadowClass
@@ -136,14 +136,14 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
     if (postGen3) {
         gradientStart = typesGradientStart[monTypes[0].type.name as keyof typeof typesGradientStart];
         if (monTypes.length > 1) {
-            gradientEnd = typesGradientEnd[monTypes[1].type.name]
+            gradientEnd = typesGradientEnd[monTypes[1].type.name as keyof typeof typesGradientEnd];
         } else {
-            gradientEnd = typesGradientDouble[monTypes[0].type.name]
+            gradientEnd = typesGradientDouble[monTypes[0].type.name as keyof typeof typesGradientEnd];
         }
 
-        borderClass = imgIsLoading? "border-stone-300" : typesBorder[monTypes[0].type.name]
-        borderHoverClass = typesBorderHover[monTypes[0].type.name]
-        shadowClass = typePalettesDark[monTypes[0].type.name]
+        borderClass = imgIsLoading? "border-stone-300" : typesBorder[monTypes[0].type.name  as keyof typeof typesBorder];
+        borderHoverClass = typesBorderHover[monTypes[0].type.name  as keyof typeof typesBorderHover];
+        shadowClass = typePalettesDark[monTypes[0].type.name  as keyof typeof typePalettesDark];
     } else {
         gradientStart = "from-white"
         gradientEnd = "to-white"

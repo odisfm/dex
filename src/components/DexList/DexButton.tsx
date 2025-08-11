@@ -1,5 +1,4 @@
 import {type Dispatch, type ReactElement, type SetStateAction, useContext, useEffect, useState} from "react";
-import dex from "../../utils/dex.tsx"
 import {getLocalName} from "../../utils/apiParsing.ts";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
 import type {PokeAPI} from "pokeapi-types";

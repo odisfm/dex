@@ -1,14 +1,14 @@
 import typeChart from "../../../utils/typeChart.json"
 import typesIntroduced from "../../../utils/typesIntroduced.json"
-import {type ReactElement, useContext, useMemo, useState} from "react";
+import {type ReactElement, useContext, useMemo} from "react";
 import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import {compareGenerations} from "../../../utils/util.ts";
 import TypeRelation from "./TypeRelation.tsx";
 import {TypeLabel} from "../../TypeLabel.tsx";
 
 export default function TypeChart({attackingTypes, defendingTypes}: {
-    attackingTypes: any[],
-    defendingTypes: any[]
+    attackingTypes: unknown[],
+    defendingTypes: unknown[]
 }):ReactElement {
     const versionContext = useContext(VersionContext);
 
@@ -23,13 +23,13 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
         return toUse;
     }, [versionContext.versionDetails.generation]);
 
-    const defenseRelations = useMemo((): any[] => {
+    const defenseRelations = useMemo((): unknown[] => {
         if (!defendingTypes.length) return [];
         const dualTyped = defendingTypes.length == 2
         const relations = []
         for (const typeName of typesToUse) {
-            const typeARel = typeChart[typeName as keyof typeof typeChart].attack[defendingTypes[0]]
-            const typeBRel = !dualTyped ? 1.0 : typeChart[typeName].attack[defendingTypes[1]]
+            const typeARel = typeChart[typeName as keyof typeof typeChart].attack[defendingTypes[0] as keyof typeof typeChart]
+            const typeBRel = !dualTyped ? 1.0 : typeChart[typeName as keyof typeof typeChart].attack[defendingTypes[1] as keyof typeof typeChart]
             const relation = typeARel * typeBRel;
             if (relation !== 1.0) {
                 relations.push({typeName, relation})
@@ -45,13 +45,13 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
 
     }, [defendingTypes, typesToUse]);
 
-    const attackRelations = useMemo((): any[] => {
+    const attackRelations = useMemo((): unknown[] => {
         if (!attackingTypes.length) return [];
         const relations = []
         for (const attackTypeName of attackingTypes) {
             const rels = [];
             for (const defendTypeName of typesToUse) {
-                const relation = typeChart[attackTypeName].attack[defendTypeName]
+                const relation = typeChart[attackTypeName as keyof typeof typeChart].attack[defendTypeName as keyof typeof typeChart]
                 if (relation !== 1.0) {
                     rels.push({typeName: defendTypeName, relation})
                 }
@@ -94,7 +94,7 @@ export default function TypeChart({attackingTypes, defendingTypes}: {
                         <div key={index} className={"flex flex-col gap-2 items-center "}>
                             <div className={"self-center"}><TypeLabel pokeType={typeRel.attackType} size={"sm"}/></div>
                             <div className={"grid grid-cols-3 lg:grid-cols-6 gap-1 bg-gray-100 p-2 rounded-md"}>
-                                {typeRel.relations.map((rel, index) => {
+                                {typeRel.relations.map((rel: {relation: number, typeName: string}, index: number) => {
                                     return <TypeRelation key={index} relation={rel.relation} mode={"attack"}
                                                          typeName={rel.typeName}/>
                                 })}

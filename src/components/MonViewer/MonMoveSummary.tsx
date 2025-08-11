@@ -1,8 +1,11 @@
 import {type ReactElement, useContext, useMemo} from "react";
 import type {CondensedMonMove, MoveLearnDef} from "../../utils/apiParsing.ts";
 import {TypeLabel} from "../TypeLabel.tsx";
+// @ts-expect-error "path"
 import PowerIcon from "../../icon/boxing-glove.svg?react"
+// @ts-expect-error "path"
 import AccuracyIcon from "../../icon/bullseye.svg?react"
+// @ts-expect-error "path"
 import PriorityIcon from "../../icon/run-fast.svg?react"
 import {DamageClassLabel} from "../DamageClassLabel.tsx";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
