@@ -423,6 +423,9 @@ export function getAbilityFlavorText(data: PokeAPI.AbilityFlavorText[], versionG
     if (mostRelevantEntry) {
         return mostRelevantEntry;
     }
-
-    throw new NoRelevantVersionError()
+    if (targetLanguage === "en") {
+        return ""
+    } else {
+        return getAbilityFlavorText(data, versionGroup, "en")
+    }
 }
