@@ -1,11 +1,11 @@
-import { VersionContext } from "./VersionContext";
+import {VersionContext} from "./VersionContext";
 import {supportedVersionGroups} from "../../versionData.tsx";
 import * as React from "react";
 import {useCallback, useEffect, useMemo} from "react";
 import type {PokeAPI} from "pokeapi-types";
 import dex from "../utils/dex.tsx";
 
-export default function VersionProvider({ children }: React.PropsWithChildren): React.ReactElement | null {
+export default function VersionProvider({children}: React.PropsWithChildren): React.ReactElement | null {
     const [generation, setGeneration] = React.useState<string>();
     const [versionGroup, setVersionGroup] = React.useState<string>();
     const [version, setVersion] = React.useState<string>();
@@ -142,7 +142,7 @@ export default function VersionProvider({ children }: React.PropsWithChildren): 
         if (storedVersionGroup) {
             setGame(storedVersionGroup);
         } else {
-            const defaultGroup = supportedVersionGroups[supportedVersionGroups.length -1];
+            const defaultGroup = supportedVersionGroups[supportedVersionGroups.length - 1];
             setGame(defaultGroup.api_path);
         }
 

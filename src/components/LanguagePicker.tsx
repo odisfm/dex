@@ -4,7 +4,7 @@ import languageJSON from "../data/langauges.json"
 // @ts-expect-error "path"
 import TranslateIcon from "../icon/translate.svg?react"
 
-interface LanguageDetail{
+interface LanguageDetail {
     code: string;
     displayName: string;
 }
@@ -50,7 +50,7 @@ export default function LanguagePicker() {
     if (!languages) return null;
 
     return <div className={"flex gap-2 min-w-3 ml-auto"}>
-        <TranslateIcon className={"size-6 fill-white shrink-1"} />
+        <TranslateIcon className={"size-6 fill-white shrink-1"}/>
         <select
             ref={selectRef}
             value={languageContext.language}

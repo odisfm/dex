@@ -3,7 +3,7 @@ import type {PokeAPI} from "pokeapi-types";
 
 interface VersionDetails {
     generation: string,
-    versionGroup:  string,
+    versionGroup: string,
     version: string,
     groupVersions: string[],
 }
@@ -26,11 +26,15 @@ export const VersionContext = createContext<VersionContext>({
         version: "emerald",
         groupVersions: ["emerald"],
     },
-    setGeneration: () => {},
-    setVersionGroup: () => {},
-    setVersion: () => {},
+    setGeneration: () => {
+    },
+    setVersionGroup: () => {
+    },
+    setVersion: () => {
+    },
     restrictGeneration: null,
-    setRestrictGeneration: () => {},
+    setRestrictGeneration: () => {
+    },
     pokedexes: [],
     nationalDex: null
 });

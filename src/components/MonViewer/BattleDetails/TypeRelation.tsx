@@ -49,11 +49,12 @@ export default function TypeRelation({typeName, mode, relation}: {
         return {
             bgColor
         }
-        }, [mode, relation])
+    }, [mode, relation])
 
     return (
         <div className={"flex flex-col p-2 gap-1 rounded-md"}>
-            <TypeLabel pokeType={typeName} size={"sm"} /> <span className={`${styles.bgColor} text-white font-bold px-3 self-stretch rounded-lg `}>X {relation}</span>
+            <TypeLabel pokeType={typeName} size={"sm"}/> <span
+            className={`${styles.bgColor} text-white font-bold px-3 self-stretch rounded-lg `}>X {relation}</span>
         </div>
     )
 }

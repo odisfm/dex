@@ -12,12 +12,12 @@ import _404 from "./components/_404.tsx";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App />,
+        element: <App/>,
         children: [
-            { index: true, element: <DexView />},
-            { path: `/mon/:monName`, element: <MonViewer />},
-            { path: `/mon/`, element: <DexView />},
-            { path: `*`, element: <_404 />}
+            {index: true, element: <DexView/>},
+            {path: `/mon/:monName`, element: <MonViewer/>},
+            {path: `/mon/`, element: <DexView/>},
+            {path: `*`, element: <_404/>}
         ]
     }
 ]);
@@ -27,9 +27,9 @@ const rootElement = document.getElementById("root") as HTMLElement;
 createRoot(rootElement).render(
     <StrictMode>
         <LanguageProvider>
-        <VersionProvider>
-            <RouterProvider router={router} />
-        </VersionProvider>
+            <VersionProvider>
+                <RouterProvider router={router}/>
+            </VersionProvider>
         </LanguageProvider>
     </StrictMode>,
 )

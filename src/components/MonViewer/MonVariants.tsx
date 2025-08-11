@@ -3,7 +3,11 @@ import {type ReactElement} from "react";
 import {Link} from "react-router-dom";
 
 export default function MonVariants({mon, monVariants}:
-{monSpecies: PokeAPI.PokemonSpecies, mon: PokeAPI.Pokemon, monVariants: PokeAPI.Pokemon[]}): ReactElement | null {
+                                    {
+                                        monSpecies: PokeAPI.PokemonSpecies,
+                                        mon: PokeAPI.Pokemon,
+                                        monVariants: PokeAPI.Pokemon[]
+                                    }): ReactElement | null {
 
     if (monVariants.length < 2) {
         return null;

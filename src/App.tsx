@@ -8,15 +8,18 @@ function App() {
 
     return (
         <>
-            <header className={"z-100 sticky top-0 p-1 text-white gap-2 md:gap-10 bg-slate-800 flex items-center max-w-screen"}>
-                <a href={"/#"} className={"p-2 md:px-3 lg:px-5 rounded-md hover:bg-slate-700"}><h1 className={"text-3xl font-black"}>Dex</h1></a>
+            <header
+                className={"z-100 sticky top-0 p-1 text-white gap-2 md:gap-10 bg-slate-800 flex items-center max-w-screen"}>
+                <a href={"/#"} className={"p-2 md:px-3 lg:px-5 rounded-md hover:bg-slate-700"}><h1
+                    className={"text-3xl font-black"}>Dex</h1></a>
                 <div className={"flex gap-3 w-full"}>
                     <VersionPicker/>
                     <LanguagePicker/>
                 </div>
             </header>
             <div className={"relative h-full w-full"}>
-                <main className={"bg-gray-100 flex flex-col gap-3 h-full w-full min-h-screen items-center py-5 px-3 md:px-10 text-black"}>
+                <main
+                    className={"bg-gray-100 flex flex-col gap-3 h-full w-full min-h-screen items-center py-5 px-3 md:px-10 text-black"}>
                     <Outlet></Outlet>
                 </main>
             </div>
@@ -27,7 +30,8 @@ function App() {
                     View source
                 </span>
                 </Link>
-                <span className={"ml-auto"}>Powered by <a className={"font-bold hover:underline"} href={"https://pokeapi.co"}>PokeApi</a></span>
+                <span className={"ml-auto"}>Powered by <a className={"font-bold hover:underline"}
+                                                          href={"https://pokeapi.co"}>PokeApi</a></span>
             </footer>
         </>
 

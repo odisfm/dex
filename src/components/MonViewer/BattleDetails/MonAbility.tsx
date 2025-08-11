@@ -22,7 +22,7 @@ export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility 
 
     const abilityName = useMemo(() => {
         if (!abilityObj) {
-            return ;
+            return;
         }
         return getLocalName(abilityObj.names, languageContext.language, languageContext.fallbackLanguage)
     }, [abilityObj, languageContext]);
@@ -35,7 +35,7 @@ export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility 
             abilityObj.flavor_text_entries,
             versionContext.versionDetails.versionGroup,
             languageContext.language,
-            )
+        )
     }, [abilityObj, versionContext.versionDetails.versionGroup, languageContext.language])
 
     if (abilityObj && compareGenerations(versionContext.versionDetails.generation, abilityObj.generation.name) < 0) {
@@ -47,11 +47,11 @@ export default function MonAbility({ability}: { ability: PokeAPI.PokemonAbility 
             <div className={`flex gap-2 items-center ${ability.is_hidden ? "opacity-55 " : " "}`}>
                 <h4 className={"font-bold"}>{abilityName}</h4>
                 {
-                ability.is_hidden ?
-                    <div className={"size-6 fill-gray-600"}>
-                        <HiddenIcon/>
-                    </div>
-                    : null
+                    ability.is_hidden ?
+                        <div className={"size-6 fill-gray-600"}>
+                            <HiddenIcon/>
+                        </div>
+                        : null
                 }
             </div>
             <p>{abilityEffect}</p>

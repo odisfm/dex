@@ -27,7 +27,7 @@ export const getVersionGroupGeneration = (versionGroup: string) => {
     throw new Error("Invalid version group");
 }
 
-export const generationIncrement = (generation: string, increment=1) => {
+export const generationIncrement = (generation: string, increment = 1) => {
     const thisGen = supportedGenerations.indexOf(generation);
     return supportedGenerations[thisGen + increment]
 }

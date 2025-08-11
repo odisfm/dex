@@ -1,5 +1,5 @@
-import type { PokeAPI} from "pokeapi-types";
-import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState, useRef} from "react";
+import type {PokeAPI} from "pokeapi-types";
+import {type ReactElement, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {condenseMoveData, getAllVersionMoves, getLocalName, LegacyMoveError} from "../../utils/apiParsing.ts";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
@@ -9,7 +9,7 @@ import MonMoveSummary, {type MoveSummaryData} from "./MonMoveSummary.tsx";
 const standardLearnMethods = ["level-up", "egg", "machine", "tutor"]
 type LearnMethodFilter = "level-up" | "egg" | "machine" | "tutor" | "other" | null
 
-export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement | null {
+export default function MovMoveList({mon}: { mon: PokeAPI.Pokemon }): ReactElement | null {
     const versionContext = useContext(VersionContext);
     const languageContext = useContext(LanguageContext);
     const [loading, setLoading] = useState(true);
@@ -218,9 +218,9 @@ export default function MovMoveList({mon}: {mon: PokeAPI.Pokemon}): ReactElement
             <div className={"flex flex-col gap-2 lg:max-w-4/5 xl:3/5"}>
                 {filteredMoves.length ?
                     filteredMoves.map((move, index) => {
-                    return <MonMoveSummary move={move} key={moveKeys[index]}/>
-                })
-                : <h1 className={"font-bold text-xl"}>No moves for this learn method!</h1>
+                        return <MonMoveSummary move={move} key={moveKeys[index]}/>
+                    })
+                    : <h1 className={"font-bold text-xl"}>No moves for this learn method!</h1>
                 }
             </div>
         </>

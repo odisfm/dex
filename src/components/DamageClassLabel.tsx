@@ -1,6 +1,6 @@
 import {type ReactElement, useMemo} from "react";
 
-export function DamageClassLabel({damageClass}: {damageClass: string}): ReactElement {
+export function DamageClassLabel({damageClass}: { damageClass: string }): ReactElement {
 
     const bgClass = useMemo(() => {
         switch (damageClass) {

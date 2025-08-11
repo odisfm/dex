@@ -1,5 +1,5 @@
 import type {PokeAPI} from "pokeapi-types";
-import {type ReactElement, useContext, useEffect, useState, useCallback, useRef, useMemo} from "react";
+import {type ReactElement, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import dex from "../../utils/dex"
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import {MonListItem} from "./MonListItem.tsx";
@@ -13,7 +13,7 @@ export type MonPlusSpecies = {
     species: PokeAPI.PokemonSpecies,
 }
 
-export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): ReactElement | null {
+export default function DexList({pokedex}: { pokedex: PokeAPI.Pokedex | null }): ReactElement | null {
     const versionContext = useContext(VersionContext);
     const [loadedMon, setLoadedMon] = useState<MonPlusSpecies[]>([]);
     const [page, setPage] = useState(0);
@@ -169,10 +169,14 @@ export default function DexList({pokedex}: {pokedex: PokeAPI.Pokedex | null}): R
                         <div className="flex flex-col gap-3 text-gray-500 items-center">
                             <span className={"m-2"}>You've seen all Pokémon in this Pokédex! </span>
                             <div className={"flex gap-4 "}>
-                                <a href={"#"} className={"font-bold hover:underline p-2 hover:bg-gray-200 rounded-md cursor-pointer"}>back to top</a>
-                                { (pokedex?.name==="national" && nextGen) ?
-                                    <button className={"font-bold hover:underline p-2 hover:bg-gray-200 rounded-md cursor-pointer"} onClick={setNextGen}>next generation</button>
-                                : null
+                                <a href={"#"}
+                                   className={"font-bold hover:underline p-2 hover:bg-gray-200 rounded-md cursor-pointer"}>back
+                                    to top</a>
+                                {(pokedex?.name === "national" && nextGen) ?
+                                    <button
+                                        className={"font-bold hover:underline p-2 hover:bg-gray-200 rounded-md cursor-pointer"}
+                                        onClick={setNextGen}>next generation</button>
+                                    : null
                                 }
                             </div>
                         </div>

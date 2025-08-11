@@ -75,7 +75,8 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
 
                 <Card extraStyles={null} id={"stats"}>
                     <h3>Base stats</h3>
-                    <table className={"text-right [&_td]:font-bold [&_td]:px-3 [&_td]:bg-gray-100 [&_td]:rounded-lg border-separate border-spacing-2"}>
+                    <table
+                        className={"text-right [&_td]:font-bold [&_td]:px-3 [&_td]:bg-gray-100 [&_td]:rounded-lg border-separate border-spacing-2"}>
                         <tbody>
                         <tr>
                             <th>HP</th>
@@ -104,19 +105,19 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                         </tbody>
                     </table>
                 </Card>
-                { hasAbilities ?
+                {hasAbilities ?
                     <Card extraStyles={null} id={"abilities"}>
-                    <h3>Abilities</h3>
-                    <div className={"flex flex-col gap-2"}>
-                        {mon.abilities.map((ab, index) => {
-                        return (
-                            <MonAbility ability={ab} key={index}>
+                        <h3>Abilities</h3>
+                        <div className={"flex flex-col gap-2"}>
+                            {mon.abilities.map((ab, index) => {
+                                return (
+                                    <MonAbility ability={ab} key={index}>
 
-                            </MonAbility>)
+                                    </MonAbility>)
 
-                    })}</div>
-                </Card>
-                : null
+                            })}</div>
+                    </Card>
+                    : null
                 }
                 <Card extraStyles={"lg:w-2/3"} id={"typing"}>
                     <h3>Typing</h3>
@@ -124,7 +125,7 @@ export default function MonBattleDetails({mon}: { mon: PokeAPI.Pokemon }): React
                         attackingTypes=
                             {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]}
                         defendingTypes=
-                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]} />
+                            {mon.types.length === 1 ? [mon.types[0].type.name] : [mon.types[0].type.name, mon.types[1].type.name]}/>
                 </Card>
 
             </div>

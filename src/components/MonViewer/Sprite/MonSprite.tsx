@@ -4,7 +4,8 @@ import {VersionContext} from "../../../contexts/VersionContext.tsx";
 import {getSprites} from "../../../utils/apiParsing.ts";
 import {
     typePalettesDark,
-    typePalettesMid, typesBorder,
+    typePalettesMid,
+    typesBorder,
     typesBorderHover,
     typesGradientDouble,
     typesGradientEnd,
@@ -14,7 +15,11 @@ import {compareGenerations} from "../../../utils/util.ts";
 import ShinyButton from "./ShinyButton.tsx";
 import GenderSpriteButton from "./GenderSpriteButton.tsx";
 
-export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes:PokeAPI.PokemonType[]}): ReactElement {
+export default function MonSprite({mon, monSpecies, monTypes}: {
+    mon: PokeAPI.Pokemon,
+    monSpecies: PokeAPI.PokemonSpecies,
+    monTypes: PokeAPI.PokemonType[]
+}): ReactElement {
     const [activeSprite, setActiveSprite] = useState<string | undefined>(undefined);
     const versionContext = useContext(VersionContext)
     const imageRef = useRef<HTMLImageElement | null>(null);
@@ -121,7 +126,8 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                 setActiveSprite(undefined);
             }
         };
-        load().then(() => {});
+        load().then(() => {
+        });
 
     }, [mon, monSpecies.has_gender_differences, versionContext, shiny, gender, hasGenderSprite]);
 
@@ -141,9 +147,9 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
             gradientEnd = typesGradientDouble[monTypes[0].type.name as keyof typeof typesGradientEnd];
         }
 
-        borderClass = imgIsLoading? "border-stone-300" : typesBorder[monTypes[0].type.name  as keyof typeof typesBorder];
-        borderHoverClass = typesBorderHover[monTypes[0].type.name  as keyof typeof typesBorderHover];
-        shadowClass = typePalettesDark[monTypes[0].type.name  as keyof typeof typePalettesDark];
+        borderClass = imgIsLoading ? "border-stone-300" : typesBorder[monTypes[0].type.name as keyof typeof typesBorder];
+        borderHoverClass = typesBorderHover[monTypes[0].type.name as keyof typeof typesBorderHover];
+        shadowClass = typePalettesDark[monTypes[0].type.name as keyof typeof typePalettesDark];
     } else {
         gradientStart = "from-white"
         gradientEnd = "to-white"
@@ -167,11 +173,11 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
             <div className={"flex justify-center items-center relative"}>
                 <div
                     className={`group relative overflow-hidden rounded-full h-60 w-60 flex items-center border-5 ${borderClass} ${borderHoverClass} animate-all duration-1000`}>
-                        <img
-                            className={`z-30 absolute left-3 pixel-image object-contain size-50 hover:saturate-120 ${imgIsLoading ? " opacity-0 " : " "}`}
-                            src={activeSprite ? activeSprite : undefined}
-                            ref={imageRef}
-                        />
+                    <img
+                        className={`z-30 absolute left-3 pixel-image object-contain size-50 hover:saturate-120 ${imgIsLoading ? " opacity-0 " : " "}`}
+                        src={activeSprite ? activeSprite : undefined}
+                        ref={imageRef}
+                    />
 
                     <div className={`z-9 absolute top-15 inset-0 h-80 w-100 ${shadowClass} opacity-10 rounded-full `}>
 
@@ -193,6 +199,6 @@ export default function MonSprite({mon, monSpecies, monTypes}: {mon:PokeAPI.Poke
                     }
                 </div>
             </div>
-            </>
+        </>
     )
 }

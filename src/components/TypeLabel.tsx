@@ -4,7 +4,7 @@ import {LanguageContext} from "../contexts/LanguageContext.tsx";
 import dex from "../utils/dex.tsx";
 import {getLocalName} from "../utils/apiParsing.ts";
 
-export function TypeLabel({pokeType, size="md"}: { pokeType: string, size: "sm" | "md" | "lg"  }): ReactElement {
+export function TypeLabel({pokeType, size = "md"}: { pokeType: string, size: "sm" | "md" | "lg" }): ReactElement {
     const languageContext = useContext(LanguageContext);
     const [labelText, setLabelText] = useState<string>('');
 
@@ -44,10 +44,11 @@ export function TypeLabel({pokeType, size="md"}: { pokeType: string, size: "sm" 
             });
     }, [pokeType, languageContext.language, languageContext.fallbackLanguage]);
 
-        const bgColor: string = typePalettesMid[pokeType as keyof typeof typePalettesMid];
+    const bgColor: string = typePalettesMid[pokeType as keyof typeof typePalettesMid];
 
     return (
-        <div className={`${bgColor} ${style.px} ${style.py} empty:hidden text-white text-center min-w-15 font-bold rounded-md ${style.textSize}`}>
+        <div
+            className={`${bgColor} ${style.px} ${style.py} empty:hidden text-white text-center min-w-15 font-bold rounded-md ${style.textSize}`}>
             {labelText.toUpperCase()}
         </div>
     )

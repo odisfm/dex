@@ -7,7 +7,10 @@ import type {MonPlusSpecies} from "./DexList.tsx";
 import {type PokemonTypeName, typesBorderHover} from "../../utils/typePalettes.tsx";
 import {Link} from "react-router-dom";
 
-export function MonListItem({monPlusSpecies, dexNum}: { monPlusSpecies: MonPlusSpecies, dexNum: number }): ReactElement | null{
+export function MonListItem({monPlusSpecies, dexNum}: {
+    monPlusSpecies: MonPlusSpecies,
+    dexNum: number
+}): ReactElement | null {
     const languageContext = useContext(LanguageContext);
     const versionContext = useContext(VersionContext);
     const imageRef = useRef<HTMLImageElement | null>(null);

@@ -1,16 +1,17 @@
 import {type ReactNode, useContext, useMemo} from "react";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
-import {
-    getLocalGenus,
-    getLocalName,
-    getSpeciesFlavorText,
-} from "../../utils/apiParsing.ts";
+import {getLocalGenus, getLocalName, getSpeciesFlavorText,} from "../../utils/apiParsing.ts";
 import type {PokeAPI} from "pokeapi-types";
 import {LanguageContext} from "../../contexts/LanguageContext.tsx";
 import {TypeLabel} from "../TypeLabel.tsx";
 
 export default function MonBio({mon, monSpecies, monTypes, variantForms}:
-{ mon: PokeAPI.Pokemon, monSpecies: PokeAPI.PokemonSpecies, monTypes: PokeAPI.PokemonType[], variantForms: PokeAPI.PokemonForm[] }) {
+                               {
+                                   mon: PokeAPI.Pokemon,
+                                   monSpecies: PokeAPI.PokemonSpecies,
+                                   monTypes: PokeAPI.PokemonType[],
+                                   variantForms: PokeAPI.PokemonForm[]
+                               }) {
     const versionContext = useContext(VersionContext)
     const languageContext = useContext(LanguageContext)
     const flavorText = useMemo(() => {
@@ -66,20 +67,20 @@ export default function MonBio({mon, monSpecies, monTypes, variantForms}:
 
         <div className={"flex flex-col gap-5 items-center text-black "}>
 
-                <div className={"flex flex-col py-1 px-10 bg-white items-center text-2xl"}>
+            <div className={"flex flex-col py-1 px-10 bg-white items-center text-2xl"}>
                     <span className={"absolute self-end font-bold opacity-65"}>
                     #{monSpecies.id}
                     </span>
 
-                    <h1 className={"md:text-6xl text-3xl mt-6 font-bold ml-3 mr-3 text-center max-w-lg"}>
-                        {displayName}
-                    </h1>
-                    {genus ?
-                        <span className={"italic opacity-50 text-lg"}>{genus}</span>
-                        : null
-                    }
+                <h1 className={"md:text-6xl text-3xl mt-6 font-bold ml-3 mr-3 text-center max-w-lg"}>
+                    {displayName}
+                </h1>
+                {genus ?
+                    <span className={"italic opacity-50 text-lg"}>{genus}</span>
+                    : null
+                }
 
-                </div>
+            </div>
             <div className={"flex gap-2"}>
                 {monTypes.map((type): ReactNode => {
                     return <TypeLabel pokeType={type.type.name} key={type.type.name} size={"md"}></TypeLabel>

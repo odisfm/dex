@@ -1,11 +1,13 @@
-import {supportedVersionGroups, supportedGenerations, supportedVersions} from "../../versionData.tsx";
+import {supportedGenerations, supportedVersionGroups, supportedVersions} from "../../versionData.tsx";
 import type {PokeAPI} from "pokeapi-types";
 
 const versionPriorityList = supportedVersionGroups.map(versionGroup => versionGroup.api_path);
 
-class NoRelevantVersionError extends Error {}
+class NoRelevantVersionError extends Error {
+}
 
-export class LegacyMoveError extends Error {}
+export class LegacyMoveError extends Error {
+}
 
 
 export function getMoveLearnDetails(data: PokeAPI.PokemonMove, targetVersionGroup: string): PokeAPI.PokemonMoveVersion {
@@ -30,7 +32,7 @@ export function getMoveLearnDetails(data: PokeAPI.PokemonMove, targetVersionGrou
     return mostRelevantEntry;
 }
 
-export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: string, targetLanguage="en", getAnyOfLanguage=false): PokeAPI.FlavorText {
+export function getSpeciesFlavorText(data: PokeAPI.FlavorText[], targetVersion: string, targetLanguage = "en", getAnyOfLanguage = false): PokeAPI.FlavorText {
     let mostRelevantEntry = null;
     let mostRelevantVersionPriority = -1;
     const targetVersionIndex = supportedVersions.indexOf(targetVersion);
@@ -124,7 +126,7 @@ export function getTypes(currentTypes: PokeAPI.PokemonType[], pastTypes: APIPast
             mostRelevantVersionPriority = thisGenPriority;
         }
     }
-    return mostRelevantEntry ? mostRelevantEntry.types: currentTypes;
+    return mostRelevantEntry ? mostRelevantEntry.types : currentTypes;
 }
 
 export type MoveLearnDef = {
@@ -182,7 +184,7 @@ export function getAbilities(currentAbilities: PokeAPI.Ability[], pastAbilities:
     return currentAbilities;
 }
 
-export function getLocalName(data: PokeAPI.Name[], targetLanguage: string, fallbackLanguage="en"): string {
+export function getLocalName(data: PokeAPI.Name[], targetLanguage: string, fallbackLanguage = "en"): string {
     let fallbackResult = null;
     for (const nameDef of data) {
         if (nameDef.language.name === targetLanguage) {
@@ -197,13 +199,12 @@ export function getLocalName(data: PokeAPI.Name[], targetLanguage: string, fallb
     throw new NoRelevantVersionError(`no name entry matching targetLanguage "${targetLanguage} or fallbackLanguage ${fallbackLanguage}`)
 }
 
-export function getLocalGenus(data: PokeAPI.Genus[], targetLanguage: string, fallBackLanguage="en"): string {
+export function getLocalGenus(data: PokeAPI.Genus[], targetLanguage: string, fallBackLanguage = "en"): string {
     let fallbackResult = null;
     for (const genus of data) {
         if (genus.language.name === targetLanguage) {
             return genus.genus
-        }
-        else if (genus.language.name == fallBackLanguage) {
+        } else if (genus.language.name == fallBackLanguage) {
             fallbackResult = genus.genus;
         }
     }
@@ -254,8 +255,10 @@ export function getSprites(
             const versionGroupDef = genDef[versionGroup];
             if (versionGroupDef) {
                 if (versionGroupDef.front_default === null) {
-                    return _versionGroupNoSpritesFallback(genDef as unknown as {string: VersionGroupSprites}) as PokeAPI.PokemonSprites;
-                }else {
+                    return _versionGroupNoSpritesFallback(genDef as unknown as {
+                        string: VersionGroupSprites
+                    }) as PokeAPI.PokemonSprites;
+                } else {
                     return versionGroupDef as unknown as PokeAPI.PokemonSprites;
                 }
             }
@@ -322,7 +325,7 @@ export type CondensedMonMove = {
 
 }
 
-function getMoveEffectEntry(data: PokeAPI.Effect[], targetLanguage: string, fallbackLanguage="en"): {
+function getMoveEffectEntry(data: PokeAPI.Effect[], targetLanguage: string, fallbackLanguage = "en"): {
     description: string, short_desc?: string,
 } {
     let fallbackValue: {
@@ -338,8 +341,7 @@ function getMoveEffectEntry(data: PokeAPI.Effect[], targetLanguage: string, fall
                 description: effect.effect,
                 short_desc: short_desc
             }
-        }
-        else if (effect.language.name === fallbackLanguage) {
+        } else if (effect.language.name === fallbackLanguage) {
             const short_desc = (effect as never)['short_effect'] as string;
             fallbackValue = {
                 description: effect.effect,
@@ -350,7 +352,7 @@ function getMoveEffectEntry(data: PokeAPI.Effect[], targetLanguage: string, fall
     return fallbackValue;
 }
 
-export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string, targetLanguage: string, fallbackLanguage: string): CondensedMonMove  {
+export function condenseMoveData(move: PokeAPI.Move, targetVersionGroup: string, targetLanguage: string, fallbackLanguage: string): CondensedMonMove {
     const flavorText = getMoveFlavorText(move.flavor_text_entries, targetVersionGroup, targetLanguage, fallbackLanguage);
     if (flavorText.startsWith("This move can’t be used")) {
         throw new LegacyMoveError(`Move ${move.name} is not available in ${targetVersionGroup}`)
@@ -414,10 +416,10 @@ export function getAbilityFlavorText(data: PokeAPI.AbilityFlavorText[], versionG
             return flavorEntry.flavor_text
         }
         const thisVersionPriority = versionPriorityList.indexOf(flavorEntry.version_group.name)
-            if (thisVersionPriority > mostRelevantVersionPriority && thisVersionPriority < targetVersionPriority) {
-                mostRelevantEntry = flavorEntry.flavor_text
-            }
+        if (thisVersionPriority > mostRelevantVersionPriority && thisVersionPriority < targetVersionPriority) {
+            mostRelevantEntry = flavorEntry.flavor_text
         }
+    }
     if (mostRelevantEntry) {
         return mostRelevantEntry;
     }

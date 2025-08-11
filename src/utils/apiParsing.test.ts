@@ -1,4 +1,4 @@
-import {expect, test, beforeAll} from "vitest";
+import {beforeAll, expect, test} from "vitest";
 import * as apiParsing from './apiParsing';
 import type {PokeAPI} from "pokeapi-types";
 import {Pokedex} from "pokeapi-js-wrapper";

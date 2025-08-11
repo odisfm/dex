@@ -1,6 +1,6 @@
-import {type ReactElement, useCallback, useContext, useEffect, useMemo, useState, useRef} from "react";
+import {type ReactElement, useCallback, useContext, useEffect, useMemo, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
-import type { PokeAPI} from "pokeapi-types";
+import type {PokeAPI} from "pokeapi-types";
 import {VersionContext} from "../../contexts/VersionContext.tsx";
 import MonSprite from "./Sprite/MonSprite.tsx";
 import MonBio from "./MonBio.tsx";
@@ -79,14 +79,15 @@ export default function MonViewer(): ReactElement {
 
     useEffect(() => {
         if (monName !== currentMonNameRef.current) {
-            fetchPokemon().then(() => {});
+            fetchPokemon().then(() => {
+            });
         }
     }, [fetchPokemon, monName]);
 
     useEffect(() => {
         let isCancelled = false;
 
-        (async ()=>  {
+        (async () => {
             if (!selectedMon || !selectedSpecies) {
                 return;
             }
@@ -169,7 +170,7 @@ export default function MonViewer(): ReactElement {
         if (!selectedMon) return [];
         return getTypes(
             selectedMon.types,
-            (selectedMon as unknown as {past_types: APIPastTypes[]}).past_types,
+            (selectedMon as unknown as { past_types: APIPastTypes[] }).past_types,
             versionContext.versionDetails.generation
         );
     }, [selectedMon, versionContext.versionDetails.generation]);
@@ -179,7 +180,7 @@ export default function MonViewer(): ReactElement {
 
     if (!firstLoad || !selectedMon || !selectedSpecies) {
         return (
-            <Spinner />
+            <Spinner/>
         )
     }
 
@@ -188,26 +189,29 @@ export default function MonViewer(): ReactElement {
             <div className={"flex flex-wrap items-center justify-center gap-10"}>
                 <div className={"hidden md:block min-w-14"}>
                     {prevUrl ?
-                    <div className={"hidden md:block"}><MonPrevNextButton left={true} url={prevUrl}/></div> : null}</div>
+                        <div className={"hidden md:block"}><MonPrevNextButton left={true} url={prevUrl}/>
+                        </div> : null}</div>
                 <MonSprite mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}></MonSprite>
                 <div className={"hidden md:block min-w-14"}>
-                {nextUrl ? <div className={"hidden md:block"}><MonPrevNextButton left={false} url={nextUrl}/></div> : null}
+                    {nextUrl ?
+                        <div className={"hidden md:block"}><MonPrevNextButton left={false} url={nextUrl}/></div> : null}
                 </div>
             </div>
             {
                 prevUrl ?
                     <div className={"flex gap-2  md:hidden"}>
-                        <div ><MonPrevNextButton left={true} url={prevUrl || ""}/></div>
-                        <div ><MonPrevNextButton left={false} url={nextUrl || ""}/></div>
+                        <div><MonPrevNextButton left={true} url={prevUrl || ""}/></div>
+                        <div><MonPrevNextButton left={false} url={nextUrl || ""}/></div>
                     </div>
                     : null
             }
             <MonVariants monSpecies={selectedSpecies} mon={selectedMon} monVariants={monVariants}/>
             <div className={"flex gap-2"}>
-                <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes} variantForms={monVariantForms}></MonBio>
+                <MonBio mon={selectedMon} monSpecies={selectedSpecies} monTypes={monTypes}
+                        variantForms={monVariantForms}></MonBio>
             </div>
-            <MonBattleDetails mon={selectedMon} />
-            <MovMoveList mon={selectedMon} />
+            <MonBattleDetails mon={selectedMon}/>
+            <MovMoveList mon={selectedMon}/>
         </div>
     )
 }

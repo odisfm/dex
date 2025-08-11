@@ -4,7 +4,10 @@ import MaleIcon from "../../../icon/gender-male.svg?react"
 import FemaleIcon from "../../../icon/gender-female.svg?react"
 import type {ReactElement} from "react";
 
-export default function GenderSpriteButton({gender, toggleGender}: {gender: "male" | "female", toggleGender: () => void}): ReactElement {
+export default function GenderSpriteButton({gender, toggleGender}: {
+    gender: "male" | "female",
+    toggleGender: () => void
+}): ReactElement {
     return (
         <button
             onClick={toggleGender}
@@ -14,7 +17,7 @@ export default function GenderSpriteButton({gender, toggleGender}: {gender: "mal
             z-9 cursor-pointer self-center justify-self-end [&>svg]:size-7`
             }
         >
-            { gender === "male" ? <MaleIcon className={"fill-sky-300"}/> : <FemaleIcon className={"fill-pink-300"}/> }
+            {gender === "male" ? <MaleIcon className={"fill-sky-300"}/> : <FemaleIcon className={"fill-pink-300"}/>}
         </button>
     )
 }
