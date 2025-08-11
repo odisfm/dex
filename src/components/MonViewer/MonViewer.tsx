@@ -67,7 +67,17 @@ export default function MonViewer(): ReactElement {
         setSelectedMon(newMon);
         const species = await dex.getPokemonSpeciesByName(newMon.species.name) as PokeAPI.PokemonSpecies;
         setSelectedSpecies(species);
-        const thisForm = await dex.getPokemonFormByName(newMon.name)
+        let thisForm: PokeAPI.PokemonForm;
+        try {
+            thisForm = await dex.getPokemonFormByName(newMon.name) as PokeAPI.PokemonForm;
+        } catch  {
+            try {
+                thisForm = await dex.getPokemonFormByName(newMon.name + "-normal") as PokeAPI.PokemonForm;
+            } catch {
+                return window.location.href = "/404"
+            }
+        }
+
         const compare = compareVersionGroupToGen(thisForm.version_group.name, versionContext.versionDetails.generation);
         versionContext.setRestrictGeneration(getVersionGroupGeneration(thisForm.version_group.name));
 
